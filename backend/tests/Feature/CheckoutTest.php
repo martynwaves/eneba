@@ -1,0 +1,261 @@
+<?php
+
+use App\Models\CartItem;
+use App\Models\DiscountCode;
+use App\Models\Order;
+use App\Models\ProductKey;
+use App\Models\User;
+
+function addToCart(int $offerId, int $quantity = 1): void
+{
+    test()->postJson('/api/cart/items', ['offer_id' => $offerId, 'quantity' => $quantity])->assertOk();
+}
+
+it('prices a guest cart from server data', function () {
+    $product = product('Guest Game', ['PixelVault' => [1999, 1]]);
+    $offerId = $product->offers()->first()->id;
+
+    $this->postJson('/api/cart/preview', ['items' => [['offer_id' => $offerId, 'quantity' => 3]]])
+        ->assertOk()
+        ->assertJsonPath('data.lines.0.problem', 'insufficient_stock')
+        ->assertJsonPath('data.summary.has_problems', true);
+});
+
+it('runs the full purchase: reserve, pay, deliver keys', function () {
+    $user = signIn();
+    $product = product('Bought Game', ['PixelVault' => [1999, 3]]);
+    $offer = $product->offers()->first();
+    addToCart($offer->id, 2);
+
+    $checkout = $this->postJson('/api/checkout')->assertCreated();
+    $number = $checkout->json('order.number');
+
+    expect($checkout->json('order.total'))->toBe(2 * 1999 + config('shop.service_fee_cents'))
+        ->and(ProductKey::where('status', 'reserved')->count())->toBe(2)
+        ->and($offer->fresh()->stock)->toBe(1);
+
+    $order = $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])
+        ->assertOk()
+        ->assertJsonPath('order.status', 'paid')
+        ->json('order');
+
+    expect($order['items'][0]['keys'])->toHaveCount(2)
+        ->and(ProductKey::where('status', 'sold')->count())->toBe(2)
+        ->and($user->cartItems()->count())->toBe(0)
+        ->and($product->fresh()->stock)->toBe(1);
+
+    $keyId = $order['items'][0]['keys'][0]['id'];
+    $code = $this->postJson("/api/orders/{$number}/keys/{$keyId}/reveal")->assertOk()->json('data.code');
+    expect($code)->toMatch('/^[A-Z0-9]{5}(-[A-Z0-9]{5}){2}$/');
+
+    // Coming back to the order later still shows the revealed key.
+    $this->getJson("/api/orders/{$number}")->assertJsonPath('data.items.0.keys.0.code', $code);
+});
+
+it('credits seller cashback to the buyer once the order is paid', function () {
+    $user = signIn();
+    $offer = product('Cashback Game', ['PixelVault' => [2000, 2]])->offers()->first();
+    $offer->update(['cashback_percent' => 10]);
+    addToCart($offer->id, 2);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    expect($user->fresh()->cashback_balance_cents)->toBe(0);
+
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk();
+    // Confirming twice (browser + webhook) must not pay cashback twice.
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk();
+
+    expect($user->fresh()->cashback_balance_cents)->toBe(400);
+    signIn($user->fresh());
+    $this->getJson('/api/auth/me')->assertJsonPath('data.cashback_balance', 400);
+});
+
+it('lists bought keys in the keys library and exposes profile stats', function () {
+    $user = signIn();
+    $offer = product('Library Game', ['PixelVault' => [1500, 2]])->offers()->first();
+    addToCart($offer->id, 2);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk();
+
+    $this->getJson('/api/keys')
+        ->assertOk()
+        ->assertJsonCount(2, 'data')
+        ->assertJsonPath('data.0.order_number', $number)
+        ->assertJsonPath('data.0.revealed', false)
+        ->assertJsonPath('data.0.code', null);
+
+    signIn($user->fresh());
+    $this->getJson('/api/auth/me')->assertJsonPath('data.enebium', 30)->assertJsonPath('data.wishlist_count', 0);
+});
+
+it('prices a discount code into the cart and explains why one does not apply', function () {
+    $offerId = product('Coupon Game', ['PixelVault' => [3000, 5]])->offers()->first()->id;
+    DiscountCode::factory()->create(['code' => 'TENOFF', 'max_discount_cents' => 200]);
+    DiscountCode::factory()->fixed(500)->create(['code' => 'BIGSPEND', 'min_subtotal_cents' => 5000]);
+    DiscountCode::factory()->expired()->create(['code' => 'OLD']);
+    $preview = fn (string $code) => $this->postJson('/api/cart/preview', [
+        'items' => [['offer_id' => $offerId, 'quantity' => 1]],
+        'code' => $code,
+    ])->assertOk();
+
+    $preview('tenoff')
+        ->assertJsonPath('data.summary.discount_code', 'TENOFF')
+        ->assertJsonPath('data.summary.discount', 200)
+        ->assertJsonPath('data.summary.total', 2800 + config('shop.service_fee_cents'));
+    $preview('BIGSPEND')
+        ->assertJsonPath('data.summary.discount', 0)
+        ->assertJsonPath('data.summary.discount_error', 'This code needs an order of at least €50.00.');
+    $preview('OLD')->assertJsonPath('data.summary.discount_error', 'This discount code is not valid.');
+});
+
+it('lists only working discount codes for testers', function () {
+    DiscountCode::factory()->create(['code' => 'GAMER15', 'value' => 15, 'min_subtotal_cents' => 5000, 'max_discount_cents' => 3000]);
+    DiscountCode::factory()->expired()->create(['code' => 'OLD']);
+
+    $this->getJson('/api/config')
+        ->assertOk()
+        ->assertJsonCount(1, 'data.demo_discount_codes')
+        ->assertJsonPath('data.demo_discount_codes.0', ['code' => 'GAMER15', 'summary' => '15% off orders of €50+, up to €30']);
+});
+
+it('charges the discounted total at checkout and rejects an invalid code', function () {
+    signIn();
+    addToCart(product('Coupon Game', ['PixelVault' => [3000, 5]])->offers()->first()->id);
+    DiscountCode::factory()->fixed(500)->create(['code' => 'FIVEOFF']);
+
+    $this->postJson('/api/checkout', ['code' => 'NOPE'])->assertUnprocessable()->assertJsonValidationErrors('discount');
+
+    $order = $this->postJson('/api/checkout', ['code' => 'fiveoff'])->assertCreated()->json('order');
+    expect($order['discount'])->toBe(500)
+        ->and($order['discount_code'])->toBe('FIVEOFF')
+        ->and($order['total'])->toBe(2500 + config('shop.service_fee_cents'));
+});
+
+it('pays from the Eneba Wallet only when the balance covers the order', function () {
+    $user = signIn();
+    $offer = product('Wallet Game', ['PixelVault' => [1500, 2]])->offers()->first();
+    addToCart($offer->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    $this->postJson("/api/orders/{$number}/pay-with-wallet")->assertUnprocessable()->assertJsonValidationErrors('wallet');
+
+    $user->forceFill(['cashback_balance_cents' => 2000])->save();
+    $this->postJson("/api/orders/{$number}/pay-with-wallet")
+        ->assertOk()
+        ->assertJsonPath('order.status', 'paid')
+        ->assertJsonPath('order.payment_provider', 'wallet');
+
+    expect($user->fresh()->cashback_balance_cents)->toBe(2000 - 1500);
+});
+
+it('splits an order between the wallet and the card, taking the balance only once the card pays', function () {
+    $user = signIn();
+    $user->forceFill(['cashback_balance_cents' => 400])->save();
+    addToCart(product('Split Game', ['PixelVault' => [1500, 2]])->offers()->first()->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    $this->postJson("/api/orders/{$number}/wallet", ['use' => true])
+        ->assertOk()
+        ->assertJsonPath('order.wallet_amount', 400)
+        ->assertJsonPath('order.card_amount', 1100);
+    expect($user->fresh()->cashback_balance_cents)->toBe(400);
+
+    // A declined card leaves the balance alone.
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'decline'])->assertStatus(402);
+    expect($user->fresh()->cashback_balance_cents)->toBe(400);
+
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk()->assertJsonPath('order.status', 'paid');
+    expect($user->fresh()->cashback_balance_cents)->toBe(0);
+
+    $this->postJson("/api/orders/{$number}/wallet", ['use' => false])->assertUnprocessable();
+});
+
+it('can take the wallet back off an order and refuses an empty balance', function () {
+    signIn();
+    addToCart(product('Split Game', ['PixelVault' => [1500, 2]])->offers()->first()->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    $this->postJson("/api/orders/{$number}/wallet", ['use' => true])->assertUnprocessable()->assertJsonValidationErrors('wallet');
+    $this->postJson("/api/orders/{$number}/wallet", ['use' => false])->assertOk()->assertJsonPath('order.card_amount', 1500);
+});
+
+it('picks up the open order on a return visit instead of restarting the reservation', function () {
+    signIn();
+    $offerId = product('Return Game', ['PixelVault' => [1500, 5]])->offers()->first()->id;
+    addToCart($offerId);
+
+    $first = $this->postJson('/api/checkout')->assertCreated()->json('order');
+    $this->travel(5)->minutes();
+    $again = $this->postJson('/api/checkout')->assertCreated()->json('order');
+
+    expect($again['number'])->toBe($first['number'])
+        ->and($again['expires_at'])->toBe($first['expires_at'])
+        ->and(ProductKey::where('status', 'reserved')->count())->toBe(1);
+
+    // A changed cart gets a fresh order and the old reservation is released.
+    addToCart($offerId);
+    $changed = $this->postJson('/api/checkout')->assertCreated()->json('order');
+    expect($changed['number'])->not->toBe($first['number'])
+        ->and(Order::where('number', $first['number'])->value('status'))->toBe(Order::CANCELLED)
+        ->and(ProductKey::where('status', 'reserved')->count())->toBe(2);
+});
+
+it('keeps the order payable after a declined card', function () {
+    signIn();
+    $offer = product('Declined Game')->offers()->first();
+    addToCart($offer->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'decline'])->assertStatus(402);
+    expect(Order::where('number', $number)->value('status'))->toBe('pending');
+
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk()->assertJsonPath('order.status', 'paid');
+});
+
+it('never sells the same key twice', function () {
+    $offer = product('Last Copy', ['PixelVault' => [999, 1]])->offers()->first();
+
+    signIn();
+    addToCart($offer->id);
+    $this->postJson('/api/checkout')->assertCreated();
+
+    // A second buyer finds it reserved.
+    signIn(User::factory()->create());
+    CartItem::create(['user_id' => auth()->id(), 'offer_id' => $offer->id, 'quantity' => 1]);
+    $this->postJson('/api/checkout')->assertUnprocessable()->assertJsonValidationErrors('cart');
+});
+
+it('returns reserved keys to stock when a checkout expires', function () {
+    signIn();
+    $offer = product('Abandoned Game', ['PixelVault' => [999, 2]])->offers()->first();
+    addToCart($offer->id, 2);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+    expect($offer->fresh()->stock)->toBe(0);
+
+    $this->travel(config('shop.reservation_minutes') + 1)->minutes();
+    $this->artisan('shop:sweep')->assertSuccessful();
+
+    expect(Order::where('number', $number)->value('status'))->toBe('expired')
+        ->and($offer->fresh()->stock)->toBe(2);
+});
+
+it('does not let users see other people\'s orders', function () {
+    signIn();
+    $offer = product('Private Game')->offers()->first();
+    addToCart($offer->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    signIn(User::factory()->create());
+    $this->getJson("/api/orders/{$number}")->assertNotFound();
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertNotFound();
+});
+
+it('rejects an empty cart at checkout', function () {
+    signIn();
+    $this->postJson('/api/checkout')->assertUnprocessable()->assertJsonValidationErrors('cart');
+});
+
+it('rejects Stripe webhooks with a bad signature', function () {
+    $this->postJson('/api/webhooks/stripe', ['type' => 'payment_intent.succeeded'], ['Stripe-Signature' => 't=1,v1=bad'])
+        ->assertStatus(400);
+});

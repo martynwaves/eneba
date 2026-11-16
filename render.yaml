@@ -1,0 +1,44 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> pick this repo.
+# The database lives on Neon (free, does not expire), so only the API runs on Render.
+services:
+  - type: web
+    name: eneba-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
+    autoDeploy: true
+    envVars:
+      - key: APP_NAME
+        value: Eneba
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY                  # php artisan key:generate --show
+        sync: false
+      - key: APP_URL                  # https://eneba-api.onrender.com
+        sync: false
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL                   # Neon connection string (direct, not pooled), ends with ?sslmode=require
+        sync: false
+      - key: FRONTEND_URL             # https://your-app.vercel.app (comma separated if several)
+        sync: false
+      - key: FRONTEND_URL_PATTERN     # optional, e.g. #^https://eneba-[a-z0-9-]+\.vercel\.app$#
+        sync: false
+      - key: STRIPE_KEY               # pk_test_...
+        sync: false
+      - key: STRIPE_SECRET            # sk_test_...
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET    # whsec_...
+        sync: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: CACHE_STORE
+        value: file
+      - key: SESSION_DRIVER
+        value: array
+      - key: QUEUE_CONNECTION
+        value: sync

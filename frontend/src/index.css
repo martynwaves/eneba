@@ -1,0 +1,87 @@
+@import '@fontsource/metropolis/400.css';
+@import '@fontsource/metropolis/600.css';
+@import '@fontsource/metropolis/700.css';
+@import '@fontsource/metropolis/800.css';
+@import 'tailwindcss';
+
+/*
+ * Design tokens taken from eneba.com: deep violet surfaces, yellow call-to-action,
+ * mint/green accents, Metropolis type and square corners.
+ */
+@theme {
+  --font-sans: 'Metropolis', Arial, Helvetica, sans-serif;
+
+  --color-brand: #4618ac;        /* page background */
+  --color-brand-deep: #1f0a4d;   /* product card body */
+  --color-brand-ink: #351183;    /* notices, offer rows */
+  --color-brand-panel: #5825cc;  /* filter panels, buy box */
+  --color-brand-raised: #6234d6; /* hover on panels */
+  --color-nav: #3b1491;          /* category bar */
+
+  --color-cta: #fad318;
+  --color-cta-hover: #ffe04d;
+  --color-mint: #63e3c2;
+  --color-green: #23c299;
+  --color-lime: #8be24d;         /* cashback amounts and discounts */
+  --color-danger: #ff5c7a;
+
+  --color-muted: #b3aac9;
+  --color-muted-2: #9385b2;
+  --color-soft: #dcd8e6;
+
+  --container-page: 1256px;
+}
+
+@layer base {
+  :root {
+    --hero-narrow: 64px; /* collapsed hero promo width */
+  }
+  @media (min-width: 768px) {
+    :root {
+      --hero-narrow: 142px;
+    }
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-brand font-sans text-white antialiased;
+    min-height: 100vh;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cta);
+    outline-offset: 2px;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .page-container {
+    @apply mx-auto w-full max-w-(--container-page) px-4 md:px-5;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-white/10;
+  }
+}
