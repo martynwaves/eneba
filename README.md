@@ -125,7 +125,9 @@ GitHub Actions (`.github/workflows/ci.yml`) runs both suites on every push.
    - `FRONTEND_URL`: your Vercel URL (fill in after step 3).
    - `STRIPE_KEY` / `STRIPE_SECRET`: from https://dashboard.stripe.com/test/apikeys.
 
-   On first boot the container migrates and seeds the demo catalog. Later deploys only migrate.
+   The service runs in Frankfurt (`region` in `render.yaml`), so create the Neon project in AWS eu-central-1 (Frankfurt) too: the API makes many small queries, and a database on another continent makes it slow.
+
+   The web server starts straight away. Migrations run alongside it on every boot, and on the very first boot the demo catalog is seeded in the background (about a minute, during which the store is empty). The seed is all-or-nothing, and an interrupted first seed is detected and redone on the next boot.
 3. **Vercel**: Add New → Project → this repo, with **Root Directory** `frontend`. Add the env var `VITE_API_URL=https://eneba-api.onrender.com/api` and deploy. Then put the Vercel URL into Render's `FRONTEND_URL`.
 4. **Stripe webhook** (optional but recommended): Developers → Webhooks → Add endpoint.
    - URL: `https://eneba-api.onrender.com/api/webhooks/stripe`

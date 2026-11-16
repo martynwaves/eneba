@@ -5,6 +5,9 @@ services:
     name: eneba-api
     runtime: docker
     plan: free
+    # Keep the API next to the Neon database (AWS eu-central-1, Frankfurt): the seed and every
+    # request make many small queries, so a cross-ocean hop makes it crawl.
+    region: frankfurt
     rootDir: backend
     dockerfilePath: ./Dockerfile
     healthCheckPath: /up
