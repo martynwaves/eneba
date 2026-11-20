@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { useHomepageBlock } from '../../api/queries'
 import type { BrandTile, GenreTile, HomepageBlockMeta, ProductCard as Product } from '../../lib/types'
 import { ProductCard, ProductCardSkeleton } from '../product/ProductCard'
+import { ProductRow } from '../product/ProductRow'
 import { Carousel } from '../ui/Carousel'
 import { BlockError } from './BlockError'
 import { Section, SectionButton, SectionTitle } from './Section'
@@ -47,11 +48,7 @@ export function ProductCarouselBlock({ meta, tone }: BlockProps) {
 
   return (
     <Shell meta={meta} tone={tone}>
-      <Carousel>
-        {isLoading
-          ? Array.from({ length: 6 }, (_, i) => <ProductCardSkeleton key={i} />)
-          : data!.content.products.map((p) => <ProductCard key={p.id} product={p} />)}
-      </Carousel>
+      <ProductRow products={data?.content.products} loading={isLoading} />
     </Shell>
   )
 }
@@ -82,17 +79,16 @@ export function BrandCarouselBlock({ meta, tone }: BlockProps) {
   )
 }
 
-/** Game categories with live product counts; "Load more" reveals the extra rows. */
+/** Game categories with live product counts; each "Load more" reveals `more_rows` more rows. */
 export function GenreGridBlock({ meta, tone }: BlockProps) {
   const { data, isLoading, isError, refetch } = useHomepageBlock<{ genres: GenreTile[]; columns: number; initial_rows: number; more_rows: number }>(meta)
-  const [expanded, setExpanded] = useState(false)
+  const [loads, setLoads] = useState(0)
   if (isError) return <BlockErrorSection meta={meta} tone={tone} onRetry={refetch} />
   if (!isLoading && !data?.content.genres.length) return null
 
   const content = data?.content
-  const columns = content?.columns ?? 7
-  const initial = columns * (content?.initial_rows ?? 1)
-  const visible = expanded ? columns * ((content?.initial_rows ?? 1) + (content?.more_rows ?? 2)) : initial
+  const rows = (content?.initial_rows ?? 1) + loads * (content?.more_rows ?? 2)
+  const visible = (content?.columns ?? 7) * rows
   const genres = content?.genres.slice(0, visible) ?? []
   const hasMore = (content?.genres.length ?? 0) > visible
 
@@ -113,7 +109,7 @@ export function GenreGridBlock({ meta, tone }: BlockProps) {
               </Link>
             ))}
       </div>
-      {hasMore && <SectionButton onClick={() => setExpanded(true)}>Load more</SectionButton>}
+      {hasMore && <SectionButton onClick={() => setLoads((n) => n + 1)}>Load more</SectionButton>}
     </Shell>
   )
 }

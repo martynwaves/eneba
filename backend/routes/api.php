@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 // Site-wide content
 Route::get('/navigation', [StorefrontController::class, 'navigation']);
 Route::get('/settings', [StorefrontController::class, 'settings']);
-Route::post('/newsletter', [StorefrontController::class, 'subscribe'])->middleware('throttle:auth');
 
 // Public catalog
 Route::get('/config', [CatalogController::class, 'config']);
@@ -52,7 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/cart/items', [CartController::class, 'add']);
     Route::patch('/cart/items/{offer}', [CartController::class, 'update']);
     Route::delete('/cart/items/{offer}', [CartController::class, 'remove']);
-    Route::delete('/cart', [CartController::class, 'clear']);
 
     Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:checkout');
     Route::post('/orders/{order}/confirm', [CheckoutController::class, 'confirm']);
@@ -64,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/keys', [OrderController::class, 'keys']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
     Route::post('/orders/{order}/keys/{key}/reveal', [OrderController::class, 'reveal']);
+    Route::post('/orders/{order}/keys/{key}/refund', [OrderController::class, 'refund']);
 
     Route::get('/wishlist', [WishlistController::class, 'index']);
     Route::post('/wishlist/{product}', [WishlistController::class, 'store']);

@@ -3,6 +3,7 @@
 namespace App\Services\Catalog;
 
 use App\Models\Product;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -21,14 +22,23 @@ class ProductWatchers
         $visitor = hash('sha256', $request->ip().'|'.$request->userAgent());
         $now = now()->getTimestamp();
 
-        return Cache::lock("{$key}:lock", 3)->block(2, function () use ($key, $visitor, $now) {
-            /** @var array<string, int> $seen */
-            $seen = Cache::get($key, []);
-            $seen = array_filter($seen, fn (int $at) => $at > $now - self::WINDOW_SECONDS);
-            $seen[$visitor] = $now;
-            Cache::put($key, $seen, self::WINDOW_SECONDS);
+        try {
+            return Cache::lock("{$key}:lock", 3)->block(2, function () use ($key, $visitor, $now) {
+                $seen = $this->recent($key, $now);
+                $seen[$visitor] = $now;
+                Cache::put($key, $seen, self::WINDOW_SECONDS);
 
-            return count($seen);
-        });
+                return count($seen);
+            });
+        } catch (LockTimeoutException) {
+            // A busy moment must never break the product page: show the count without this visit.
+            return max(1, count($this->recent($key, $now)));
+        }
+    }
+
+    /** @return array<string, int> visitor hash => last seen timestamp, within the window */
+    private function recent(string $key, int $now): array
+    {
+        return array_filter(Cache::get($key, []), fn (int $at) => $at > $now - self::WINDOW_SECONDS);
     }
 }

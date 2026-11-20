@@ -5,11 +5,9 @@ use App\Models\DiscountCode;
 use App\Models\Order;
 use App\Models\ProductKey;
 use App\Models\User;
-
-function addToCart(int $offerId, int $quantity = 1): void
-{
-    test()->postJson('/api/cart/items', ['offer_id' => $offerId, 'quantity' => $quantity])->assertOk();
-}
+use App\Services\Payments\PaymentGateway;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Exceptions;
 
 it('prices a guest cart from server data', function () {
     $product = product('Guest Game', ['PixelVault' => [1999, 1]]);
@@ -19,6 +17,18 @@ it('prices a guest cart from server data', function () {
         ->assertOk()
         ->assertJsonPath('data.lines.0.problem', 'insufficient_stock')
         ->assertJsonPath('data.summary.has_problems', true);
+});
+
+it('adds to an existing cart line, up to 10 per offer', function () {
+    signIn();
+    $offerId = product('Stacked Game', ['PixelVault' => [999, 12]])->offers()->first()->id;
+
+    addToCart($offerId, 4);
+    addToCart($offerId, 3);
+    expect(CartItem::sole()->quantity)->toBe(7);
+
+    addToCart($offerId, 9);
+    expect(CartItem::sole()->quantity)->toBe(10);
 });
 
 it('runs the full purchase: reserve, pay, deliver keys', function () {
@@ -85,7 +95,7 @@ it('lists bought keys in the keys library and exposes profile stats', function (
         ->assertJsonPath('data.0.code', null);
 
     signIn($user->fresh());
-    $this->getJson('/api/auth/me')->assertJsonPath('data.enebium', 30)->assertJsonPath('data.wishlist_count', 0);
+    $this->getJson('/api/auth/me')->assertJsonPath('data.wishlist_count', 0);
 });
 
 it('prices a discount code into the cart and explains why one does not apply', function () {
@@ -106,6 +116,17 @@ it('prices a discount code into the cart and explains why one does not apply', f
         ->assertJsonPath('data.summary.discount', 0)
         ->assertJsonPath('data.summary.discount_error', 'This code needs an order of at least €50.00.');
     $preview('OLD')->assertJsonPath('data.summary.discount_error', 'This discount code is not valid.');
+});
+
+it('keeps a code applied, without blaming its minimum, while nothing in the cart can be bought', function () {
+    $offerId = product('Sold Out Coupon Game', ['PixelVault' => [3000, 0]])->offers()->first()->id;
+    DiscountCode::factory()->create(['code' => 'TENOFF']);
+
+    $this->postJson('/api/cart/preview', ['items' => [['offer_id' => $offerId, 'quantity' => 1]], 'code' => 'TENOFF'])
+        ->assertOk()
+        ->assertJsonPath('data.summary.discount_code', 'TENOFF')
+        ->assertJsonPath('data.summary.discount', 0)
+        ->assertJsonPath('data.summary.discount_error', null);
 });
 
 it('lists only working discount codes for testers', function () {
@@ -146,6 +167,18 @@ it('pays from the Eneba Wallet only when the balance covers the order', function
         ->assertJsonPath('order.payment_provider', 'wallet');
 
     expect($user->fresh()->cashback_balance_cents)->toBe(2000 - 1500);
+});
+
+it('refuses wallet payment once the card payment has gone through', function () {
+    $user = signIn();
+    $user->forceFill(['cashback_balance_cents' => 2000])->save();
+    addToCart(product('Double Pay Game', ['PixelVault' => [1500, 2]])->offers()->first()->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+    app(PaymentGateway::class)->simulate(Order::where('number', $number)->first(), 'success');
+
+    $this->postJson("/api/orders/{$number}/pay-with-wallet")->assertUnprocessable()->assertJsonValidationErrors('wallet');
+
+    expect($user->fresh()->cashback_balance_cents)->toBe(2000);
 });
 
 it('splits an order between the wallet and the card, taking the balance only once the card pays', function () {
@@ -212,6 +245,47 @@ it('keeps the order payable after a declined card', function () {
     $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk()->assertJsonPath('order.status', 'paid');
 });
 
+it('refunds a late payment whose keys sold out after the reservation lapsed', function () {
+    $buyer = signIn();
+    $offer = product('Late Game', ['PixelVault' => [999, 1]])->offers()->first();
+    addToCart($offer->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+    $this->travel(config('shop.reservation_minutes') + 1)->minutes();
+    $this->artisan('shop:sweep')->assertSuccessful();
+
+    signIn(User::factory()->create());
+    addToCart($offer->id);
+    $otherNumber = $this->postJson('/api/checkout')->json('order.number');
+    $this->postJson("/api/orders/{$otherNumber}/confirm", ['simulate' => 'success'])->assertOk();
+
+    signIn($buyer);
+    app(PaymentGateway::class)->simulate(Order::where('number', $number)->first(), 'success');
+    $this->postJson("/api/orders/{$number}/confirm")->assertOk()->assertJsonPath('order.status', 'refunded');
+
+    expect(ProductKey::where('status', 'sold')->sole()->orderItem->order->number)->toBe($otherNumber);
+});
+
+it('leaves a paid order to be retried, not refunded, when the database fails during delivery', function () {
+    Exceptions::fake();
+    signIn();
+    addToCart(product('Flaky Game')->offers()->first()->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    $failing = true;
+    Order::updating(function (Order $order) use (&$failing) {
+        if ($failing && $order->status === Order::PAID) {
+            throw new QueryException('pgsql', 'update "orders"', [], new RuntimeException('could not write to disk'));
+        }
+    });
+
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertServerError();
+    expect(Order::where('number', $number)->value('status'))->toBe('pending');
+    Exceptions::assertReported(QueryException::class);
+
+    $failing = false;
+    $this->postJson("/api/orders/{$number}/confirm", ['simulate' => 'success'])->assertOk()->assertJsonPath('order.status', 'paid');
+});
+
 it('never sells the same key twice', function () {
     $offer = product('Last Copy', ['PixelVault' => [999, 1]])->offers()->first();
 
@@ -239,6 +313,19 @@ it('returns reserved keys to stock when a checkout expires', function () {
         ->and($offer->fresh()->stock)->toBe(2);
 });
 
+it('closes a lapsed checkout when the buyer opens it, without a scheduler', function () {
+    signIn();
+    $offer = product('Forgotten Game', ['PixelVault' => [999, 1]])->offers()->first();
+    addToCart($offer->id);
+    $number = $this->postJson('/api/checkout')->json('order.number');
+
+    $this->travel(config('shop.reservation_minutes') + 1)->minutes();
+
+    $this->getJson("/api/orders/{$number}")->assertOk()->assertJsonPath('data.status', 'expired');
+    $this->getJson('/api/orders')->assertOk()->assertJsonCount(0, 'data');
+    expect($offer->fresh()->stock)->toBe(1);
+});
+
 it('does not let users see other people\'s orders', function () {
     signIn();
     $offer = product('Private Game')->offers()->first();
@@ -258,4 +345,19 @@ it('rejects an empty cart at checkout', function () {
 it('rejects Stripe webhooks with a bad signature', function () {
     $this->postJson('/api/webhooks/stripe', ['type' => 'payment_intent.succeeded'], ['Stripe-Signature' => 't=1,v1=bad'])
         ->assertStatus(400);
+});
+
+it('refuses an order below the smallest amount a card can be charged', function () {
+    signIn();
+    addToCart(product('Tiny Game', ['PixelVault' => [40, 1]])->offers()->first()->id);
+
+    $this->postJson('/api/checkout')->assertUnprocessable()->assertJsonValidationErrors('cart');
+    expect(Order::count())->toBe(0);
+});
+
+it('won\'t add an offer of a hidden product to the cart', function () {
+    signIn();
+    $offer = product('Hidden Game', ['PixelVault' => [1500, 2]], ['is_active' => false])->offers()->first();
+
+    $this->postJson('/api/cart/items', ['offer_id' => $offer->id])->assertUnprocessable();
 });

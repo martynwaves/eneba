@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { Info } from 'lucide-react'
-import { useId, useState, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Link } from 'react-router'
+import { InfoTooltip } from '../ui/Tooltip'
 
 /**
  * Full-width homepage band. Sections alternate between the base purple and a darker band,
@@ -21,35 +21,6 @@ export function SectionTitle({ title, tooltip }: { title: string | null; tooltip
       {title}
       {tooltip && <InfoTooltip text={tooltip} />}
     </h2>
-  )
-}
-
-export function InfoTooltip({ text, className }: { text: string; className?: string }) {
-  const [open, setOpen] = useState(false)
-  const id = useId()
-  return (
-    <span className={clsx('relative inline-flex', className)} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-      <button
-        type="button"
-        aria-describedby={open ? id : undefined}
-        aria-label="More information"
-        onFocus={() => setOpen(true)}
-        onBlur={() => setOpen(false)}
-        onClick={() => setOpen((o) => !o)}
-        className="grid place-items-center text-white/70 transition-colors hover:text-white"
-      >
-        <Info className="size-4" strokeWidth={2.2} />
-      </button>
-      {open && (
-        <span
-          id={id}
-          role="tooltip"
-          className="absolute bottom-full left-1/2 z-50 mb-3 w-[min(480px,85vw)] -translate-x-1/2 bg-[#221f2e] px-4 py-3.5 text-[15px] leading-8 font-normal tracking-normal text-white shadow-xl shadow-black/40 after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-x-[10px] after:border-t-[10px] after:border-x-transparent after:border-t-[#221f2e]"
-        >
-          {text}
-        </span>
-      )}
-    </span>
   )
 }
 

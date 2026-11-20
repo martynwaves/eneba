@@ -36,24 +36,22 @@ class ProductController extends Controller
             'meta' => [
                 'current_page' => $paginator->currentPage(),
                 'last_page' => $paginator->lastPage(),
-                'per_page' => $paginator->perPage(),
                 'total' => $paginator->total(),
             ],
             'facets' => $query->facets(),
-            'applied' => $query->filters,
-            'search' => $query->match ? [
-                'query' => $query->filters['q'],
-                'corrected_to' => $this->correction($query, $paginator->items()),
-            ] : null,
+            'search' => $query->match ? ['corrected_to' => $query->correctedTo($paginator->items()[0] ?? null)] : null,
         ]);
     }
 
     public function show(Request $request, string $slug, ProductWatchers $watchers): JsonResponse
     {
+        // Wishes from everyone but the viewer: the page adds the viewer's own wish (account or
+        // browser) on top, so the count stays right as they toggle it.
+        $viewerId = $request->user('sanctum')?->id;
         $product = Product::active()
             ->where('slug', $slug)
             ->with(['platform', 'region', 'genres', 'offers.seller'])
-            ->withCount('wishlistedBy as wishlist_count')
+            ->withCount(['wishlistedBy as wishlist_count' => fn ($query) => $query->when($viewerId, fn ($q) => $q->where('users.id', '!=', $viewerId))])
             ->firstOrFail();
 
         $variants = Product::active()
@@ -65,6 +63,7 @@ class ProductController extends Controller
             ->join('regions', 'regions.id', '=', 'products.region_id')
             ->orderBy('platforms.sort')
             ->orderBy('regions.sort')
+            ->orderBy('products.id')
             ->select('products.*')
             ->get();
 
@@ -78,6 +77,7 @@ class ProductController extends Controller
             ->where('base_title', '!=', $product->base_title)
             ->when($genreIds->isNotEmpty(), fn ($q) => $q->whereHas('genres', fn ($g) => $g->whereIn('genres.id', $genreIds)))
             ->orderByDesc('sales_count')
+            ->orderBy('products.id')
             ->limit(60)
             ->get()
             ->unique('base_title')
@@ -85,24 +85,5 @@ class ProductController extends Controller
             ->values();
 
         return response()->json(['data' => new ProductDetailResource($product, $variants, $similar, $watchers->record($product, $request))]);
-    }
-
-    /**
-     * When nothing contains the literal query but fuzzy matches exist, tell the visitor
-     * what we searched for instead ("Showing results for ...").
-     *
-     * @param  array<int, Product>  $items
-     */
-    private function correction(ProductQuery $query, array $items): ?string
-    {
-        if (! $items || $query->match->isEmpty()) {
-            return null;
-        }
-
-        $literalExists = Product::active()
-            ->where(fn ($q) => $query->match->allTokens($q))
-            ->exists();
-
-        return $literalExists ? null : $items[0]->base_title;
     }
 }

@@ -29,7 +29,7 @@ it('filters by brand, pre-orders and explicit ids', function () {
     $netflix = product('Netflix Gift Card 25 EUR', ['PixelVault' => [2500, 3]], ['type' => 'egift_card', 'brand' => 'netflix']);
     product('Coming Game', attributes: ['coming_soon' => true]);
 
-    $this->getJson('/api/products?brand=netflix')->assertJsonPath('meta.total', 1)->assertJsonPath('data.0.brand', 'netflix');
+    $this->getJson('/api/products?brand=netflix')->assertJsonPath('meta.total', 1)->assertJsonPath('data.0.id', $netflix->id);
     $this->getJson('/api/products?preorder=1')->assertJsonPath('meta.total', 1)->assertJsonPath('data.0.base_title', 'Coming Game');
     $this->getJson("/api/products?ids={$netflix->id}")->assertJsonPath('meta.total', 1);
 });
@@ -90,6 +90,49 @@ it('averages the optional aspect scores of reviews', function () {
         ->assertUnprocessable();
 });
 
+it('imports Steam details onto every edition, but PC system requirements only onto PC ones', function () {
+    // Half-Life 2 (app 220) is in the committed steam-extras.json.
+    $pc = product('Half-Life 2', attributes: ['steam_app_id' => 220]);
+    $console = product('Half-Life 2', attributes: ['steam_app_id' => 220, 'platform' => 'psn']);
+
+    $this->artisan('catalog:import-steam-extras')->assertSuccessful();
+
+    $this->getJson("/api/products/{$pc->slug}")
+        ->assertJsonPath('data.platform_requirements.windows.minimum', fn ($text) => filled($text))
+        ->assertJsonPath('data.languages', fn ($languages) => in_array('English', $languages, true));
+    $this->getJson("/api/products/{$console->slug}")
+        ->assertJsonPath('data.platform_requirements', [])
+        ->assertJsonPath('data.languages', fn ($languages) => in_array('English', $languages, true));
+});
+
 it('returns 404 for unknown products', function () {
     $this->getJson('/api/products/does-not-exist')->assertNotFound();
+});
+
+it('serves the sidebar filter options as lists, also from the cache', function () {
+    $fresh = $this->getJson('/api/catalog/filters')->assertOk()->json('data');
+    $cached = $this->getJson('/api/catalog/filters')->assertOk()->json('data');
+
+    expect($cached)->toBe($fresh)
+        ->and(array_column($cached['platforms'], 'slug'))->toContain('steam', 'psn')
+        ->and(array_column($cached['types'], 'slug'))->toContain('game', 'gift_card');
+});
+
+it('leaves the signed-in viewer\'s own wish out of the count, so the page can add it live', function () {
+    $product = product('Wished Game', ['Seller A' => [1500, 3]]);
+    User::factory()->create()->wishlist()->attach($product->id);
+    signIn()->wishlist()->attach($product->id);
+
+    $this->getJson("/api/products/{$product->slug}")->assertJsonPath('data.wishlist_count', 1);
+});
+
+it('gives wishlist products their cheapest offer, so "Add to cart" works on the wishlist page', function () {
+    signIn();
+    $product = product('Wishlist Game', ['PixelVault' => [1999, 1], 'KeyHub' => [1799, 2]]);
+    $this->postJson("/api/wishlist/{$product->id}")->assertOk();
+
+    $this->getJson('/api/wishlist')
+        ->assertOk()
+        ->assertJsonPath('ids', [$product->id])
+        ->assertJsonPath('data.0.best_offer_id', $product->offers()->where('price_cents', 1799)->value('id'));
 });

@@ -3,11 +3,11 @@ import { CirclePlus, Heart, Info } from 'lucide-react'
 import { Link } from 'react-router'
 import { useCart } from '../../hooks/useCart'
 import { useWishlistToggle } from '../../hooks/useWishlistToggle'
-import { WishRibbon } from './WishRibbon'
-import { formatPrice } from '../../lib/format'
+import { cashbackCents, formatPrice } from '../../lib/format'
 import type { ProductCard as Product } from '../../lib/types'
 import { PlatformIcon } from '../ui/BrandIcon'
 import { ProductArt } from './ProductArt'
+import { WishRibbon } from './WishRibbon'
 
 /**
  * Eneba product card. Cover with a cashback badge and platform strip; below it the title,
@@ -48,7 +48,6 @@ export function ProductCard({ product, eager }: { product: Product; eager?: bool
           <WishRibbon saved={wishlist.saved} />
           <Heart className={clsx('relative size-6', wishlist.saved ? 'fill-white text-white' : 'drop-shadow')} />
         </button>
-
       </div>
 
       <div className="relative z-10 flex flex-1 flex-col bg-brand-deep transition-transform duration-300 ease-out md:group-hover:-translate-y-[106px] md:group-has-[:focus-visible]:-translate-y-[106px]">
@@ -98,7 +97,7 @@ export function ProductCard({ product, eager }: { product: Product; eager?: bool
           <button
             type="button"
             disabled={!canBuy || add.isPending}
-            onClick={() => canBuy && add.mutate({ offerId: product.best_offer_id!, title: product.base_title })}
+            onClick={() => canBuy && add.mutate({ offerId: product.best_offer_id! })}
             className="h-10 bg-cta text-[15px] font-extrabold text-black transition-colors hover:bg-cta-hover disabled:opacity-50"
             aria-label={`Add to cart - ${product.title}`}
           >
@@ -117,7 +116,7 @@ export function ProductCard({ product, eager }: { product: Product; eager?: bool
 }
 
 function CashbackLine({ price, percent }: { price: number; percent: number }) {
-  const amount = Math.floor((price * percent) / 100)
+  const amount = cashbackCents(price, percent)
   return (
     <div className="mt-2 text-xs leading-3 font-extrabold text-lime">
       {amount >= 100 ? `Cashback: ${formatPrice(amount)}` : `${percent}% Cashback`}

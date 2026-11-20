@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { BlockRenderer } from '../components/home/BlockRenderer'
+import { HomepageBlocks } from '../components/home/BlockRenderer'
 import { ProductCard } from '../components/product/ProductCard'
 import type { ProductCard as Product } from '../lib/types'
 import { useGuestWishlist } from '../stores/guestWishlist'
@@ -15,21 +15,18 @@ const product: Product = {
   type: 'game',
   platform: { slug: 'steam', name: 'Steam', family: 'pc' },
   region: { slug: 'global', name: 'GLOBAL', color: '#23c299' },
-  brand: null,
   cover_url: null,
   header_url: null,
   art: null,
   min_price: 2999,
   msrp: 5999,
   discount_percent: 50,
-  offers_count: 3,
   best_offer_id: 10,
   cashback_percent: 5,
   in_stock: true,
   rating_avg: 4.6,
   rating_count: 12,
   release_date: '2022-02-24',
-  release_label: null,
   is_preorder: false,
 }
 
@@ -80,10 +77,10 @@ describe('ProductCard', () => {
   })
 })
 
-describe('BlockRenderer', () => {
+describe('HomepageBlocks', () => {
   it('ignores block types the frontend does not know', () => {
     const { container } = renderWithProviders(
-      <BlockRenderer meta={{ key: 'x', type: 'future_widget', title: null, subtitle: null, link_url: null, link_label: 'Show all', endpoint: '/x' }} />,
+      <HomepageBlocks blocks={[{ key: 'x', type: 'future_widget', title: null, subtitle: null, link_url: null, link_label: 'Show all', endpoint: '/x' }]} />,
     )
     expect(container).toBeEmptyDOMElement()
   })

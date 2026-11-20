@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\NewsletterSubscriber;
 use App\Models\User;
 
 it('registers a user and returns a token', function () {
@@ -25,11 +24,9 @@ it('validates registration input', function () {
 });
 
 it('registers with just an email and password, naming the account after the email', function () {
-    $this->postJson('/api/auth/register', ['email' => 'martynwaves@example.com', 'password' => 'secret123', 'newsletter' => true])
+    $this->postJson('/api/auth/register', ['email' => 'martynwaves@example.com', 'password' => 'secret123'])
         ->assertCreated()
         ->assertJsonPath('user.name', 'martynwaves');
-
-    expect(NewsletterSubscriber::where('email', 'martynwaves@example.com')->exists())->toBeTrue();
 });
 
 it('logs in with valid credentials only', function () {
@@ -85,4 +82,16 @@ it('revokes the token on logout', function () {
     $this->withToken($token)->postJson('/api/auth/logout')->assertOk();
     $this->app['auth']->forgetGuards();
     $this->withToken($token)->getJson('/api/auth/me')->assertUnauthorized();
+});
+
+it('expires sign-in tokens after 30 days and clears them at the next sign-in', function () {
+    $user = User::factory()->create(['email' => 'old@example.com', 'password' => 'secret123']);
+    $token = $this->postJson('/api/auth/login', ['email' => 'old@example.com', 'password' => 'secret123'])->json('token');
+
+    $this->travel(31)->days();
+    $this->withToken($token)->getJson('/api/auth/me')->assertUnauthorized();
+
+    $this->app['auth']->forgetGuards();
+    $this->postJson('/api/auth/login', ['email' => 'old@example.com', 'password' => 'secret123'])->assertOk();
+    expect($user->tokens()->count())->toBe(1);
 });

@@ -6,10 +6,12 @@ import { useForm } from 'react-hook-form'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router'
 import { siApple, siDiscord, siFacebook, siSteam, siTwitch, siX } from 'simple-icons'
 import { z } from 'zod'
+import { PathIcon } from '../components/ui/BrandIcon'
 import { Spinner } from '../components/ui/Spinner'
 import { useAuthActions } from '../hooks/useAuthActions'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { ApiError } from '../lib/api'
+import { ENEBA_URL } from '../lib/links'
 import { useAuth } from '../stores/auth'
 import { toast } from '../stores/toast'
 
@@ -22,8 +24,6 @@ const REASONS: Record<string, string> = {
   auth: 'Please log in to continue.',
   checkout: 'Log in or create an account to complete your purchase. Your cart is kept.',
 }
-
-const ENEBA = 'https://www.eneba.com'
 
 /* ------------------------------------------------------------------ building blocks */
 
@@ -44,7 +44,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle: ReactNod
   )
 }
 
-const notConnected = (provider: string) => () => toast.info(`Signing in with ${provider} isn't connected in this demo. Please use your email instead.`)
+const notConnected = (provider: string) => () => toast.info(`Signing in with ${provider} isn't available right now. Please use your email instead.`)
 
 function GoogleLogo({ className = 'size-5' }: { className?: string }) {
   return (
@@ -57,18 +57,10 @@ function GoogleLogo({ className = 'size-5' }: { className?: string }) {
   )
 }
 
-function SimpleIcon({ path, className = 'size-5' }: { path: string; className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
-      <path d={path} />
-    </svg>
-  )
-}
-
 const PROVIDERS = {
   google: { label: 'Google', className: 'bg-white text-black hover:bg-white/90', icon: <GoogleLogo /> },
-  facebook: { label: 'Facebook', className: 'bg-[#4b6bf6] text-white hover:bg-[#5d7af7]', icon: <SimpleIcon path={siFacebook.path} /> },
-  apple: { label: 'Apple', className: 'bg-black text-white hover:bg-black/80', icon: <SimpleIcon path={siApple.path} /> },
+  facebook: { label: 'Facebook', className: 'bg-[#4b6bf6] text-white hover:bg-[#5d7af7]', icon: <PathIcon path={siFacebook.path} /> },
+  apple: { label: 'Apple', className: 'bg-black text-white hover:bg-black/80', icon: <PathIcon path={siApple.path} /> },
 }
 
 /** Full-width "Continue with …" buttons (login card). */
@@ -117,7 +109,7 @@ function GamingProviders() {
     <div className="mt-3 grid h-[34px] grid-cols-4 border border-white/25">
       {items.map((item) => (
         <button key={item.label} type="button" onClick={notConnected(item.label)} aria-label={`Continue with ${item.label}`} className="grid place-items-center transition-colors hover:bg-white/10">
-          <SimpleIcon path={item.path} className="size-5" />
+          <PathIcon path={item.path} className="size-5" />
         </button>
       ))}
     </div>
@@ -256,7 +248,6 @@ const registerSchema = z.object({
     .min(8, 'Use at least 8 characters')
     .regex(/[A-Za-z]/, 'Include at least one letter')
     .regex(/\d/, 'Include at least one number'),
-  newsletter: z.boolean(),
 })
 type RegisterValues = z.infer<typeof registerSchema>
 
@@ -267,7 +258,7 @@ export function RegisterPage() {
   const signedIn = useAuth((s) => s.token !== null)
   const { register } = useAuthActions()
   const redirect = safeRedirect(params.get('redirect'))
-  const form = useForm<RegisterValues>({ resolver: zodResolver(registerSchema), defaultValues: { email: '', password: '', newsletter: false } })
+  const form = useForm<RegisterValues>({ resolver: zodResolver(registerSchema), defaultValues: { email: '', password: '' } })
 
   if (signedIn && !register.isSuccess) return <Navigate to={redirect} replace />
 
@@ -278,13 +269,18 @@ export function RegisterPage() {
         navigate(redirect, { replace: true })
       },
       onError: (e) => {
+        let shown = false
         if (e instanceof ApiError) {
           for (const field of ['email', 'password'] as const) {
             const message = e.field(field)
-            if (message) form.setError(field, { message })
+            if (message) {
+              form.setError(field, { message })
+              shown = true
+            }
           }
-          if (!Object.keys(e.errors).length) toast.error(e.message)
         }
+        // Anything without an input to sit under (network, server, guest cart data) gets a toast.
+        if (!shown) toast.error(e.message)
       },
     }),
   )
@@ -310,15 +306,6 @@ export function RegisterPage() {
           <AuthInput label="Password" type="password" autoComplete="new-password" error={errors.password?.message} {...form.register('password')} />
         </div>
         <p className="mt-3 text-[13px] leading-5">Use at least 8 characters with letters and numbers.</p>
-        <label className="mt-4 flex cursor-pointer items-start gap-3 text-[13px] leading-4">
-          <input type="checkbox" className="peer sr-only" {...form.register('newsletter')} />
-          <span className="mt-px grid size-[18px] shrink-0 place-items-center bg-black/25 peer-checked:bg-cta peer-focus-visible:outline-2 peer-focus-visible:outline-cta [&>svg]:hidden peer-checked:[&>svg]:block">
-            <svg viewBox="0 0 24 24" className="size-3.5 text-black" fill="none" stroke="currentColor" strokeWidth="4" aria-hidden="true">
-              <path d="M5 12l5 5L20 7" />
-            </svg>
-          </span>
-          I want to receive custom personalized offers for the very best game deals
-        </label>
         <div className="mt-4">
           <SubmitButton loading={register.isPending}>Continue with email</SubmitButton>
         </div>
@@ -328,11 +315,11 @@ export function RegisterPage() {
       <GamingProviders />
       <p className="mt-6 text-[13px] leading-5 font-extrabold">
         By creating account I confirm I am at least 16 and agree to Eneba{' '}
-        <a href={`${ENEBA}/terms-and-conditions`} target="_blank" rel="noreferrer" className="font-semibold text-[#8fa6ff] hover:underline">
+        <a href={`${ENEBA_URL}/terms-and-conditions`} target="_blank" rel="noreferrer" className="font-semibold text-[#8fa6ff] hover:underline">
           Terms and Conditions
         </a>{' '}
         and{' '}
-        <a href={`${ENEBA}/privacy-policy`} target="_blank" rel="noreferrer" className="font-semibold text-[#8fa6ff] hover:underline">
+        <a href={`${ENEBA_URL}/privacy-policy`} target="_blank" rel="noreferrer" className="font-semibold text-[#8fa6ff] hover:underline">
           Privacy Notice.
         </a>
       </p>

@@ -22,7 +22,7 @@ class BestsellersProvider extends ProductListProvider
             ->where('orders.status', Order::PAID)
             ->where('orders.paid_at', '>=', now()->subDays(30))
             ->groupBy('order_items.product_id')
-            ->selectRaw('order_items.product_id, sum(order_items.quantity) as units');
+            ->selectRaw('order_items.product_id, sum(order_items.quantity - order_items.refunded_quantity) as units');
 
         return $this->applyConfigFilters($this->base(), $block)
             ->leftJoinSub($recent, 'recent_sales', 'recent_sales.product_id', '=', 'products.id')

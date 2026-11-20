@@ -29,15 +29,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Italian",
-   "Korean",
-   "Spanish - Spain",
-   "Russian"
-  ],
   "trailer": {
    "name": "Half-Life 2 Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257074217/2a5d40f3f7cd4a644849a7dae7ee9f9d7fb2074d/movie_600x337.jpg",
@@ -118,14 +109,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Russian",
-   "Spanish - Spain",
-   "Traditional Chinese"
-  ],
   "trailer": {
    "name": "Portal Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/922/movie.jpg",
@@ -187,16 +170,9 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Russian",
-   "Spanish - Spain"
-  ],
   "trailer": {
    "name": "Left 4 Dead - The Sacrifice Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/5952/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/5952/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/550/4183/7fdfab73a52d6b4e69a693f77c66620c53086cbd/1749861554/hls_264_master.m3u8?t=1682697457"
   },
   "requirements": {
@@ -290,16 +266,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Russian"
-  ],
   "trailer": {
    "name": "Portal 2 E3 Demo (Excursion Funnels)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/5787/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/5787/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/620/3746/0f4bee66d490b637707ac4fca3e850f2cc2d3b2a/1750108721/hls_264_master.m3u8?t=1682715616"
   },
   "requirements": {
@@ -393,9 +362,6 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": null,
   "requirements": {
    "windows": {
@@ -450,7 +416,6 @@
    "Italian",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Fallout New Vegas E3 2010 trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257221243/dc315a6da1c8b69b254344c0c92379161e1b9888/movie_600x337.jpg",
@@ -520,7 +485,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Terraria: Bigger & Boulder Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257274214/3400c546ddc61c713c2a2da4df7032f0f264a2a4/movie_600x337.jpg",
@@ -595,9 +559,6 @@
    "Traditional Chinese",
    "Turkish",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "12 Years Anniversary ",
@@ -680,7 +641,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Build 42 Zomboid Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257387571/7413640d5700fc7020002682b958233c04463d0e/movie_600x337.jpg",
@@ -818,9 +778,6 @@
    "Spanish - Latin America",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "PAYDAY 2: Legacy Collection Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256766497/d9b1e924dc4ecf3dd561c8cd5dfc4f32ac31315a/movie_600x337.jpg",
@@ -899,10 +856,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Cinematic Trailer (Multi)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256721665/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256721665/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/220200/171271/78c61bd83ebdcf9bfd985dc8dd77db6c4e272a9d/1750481505/hls_264_master.m3u8?t=1530546317"
   },
   "requirements": {
@@ -993,12 +949,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "The Forest- Trailer 4",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256715589/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256715589/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/242760/160666/bbafdb4d869f0c66696af5542e6bd7470a214051/1750486422/hls_264_master.m3u8?t=1525039057"
   },
   "requirements": {
@@ -1053,10 +1006,9 @@
    "Simplified Chinese",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Assetto Corsa Bonus Pack",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256704206/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256704206/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/244210/138815/a371766cd8ea993e8a1046624d56227f427d6a3d/1750487015/hls_264_master.m3u8?t=1513780792"
   },
   "requirements": {
@@ -1325,10 +1277,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Gameplay Trailer 1.0",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257032424/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257032424/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/251570/716092/d75e4c32543a286465ed22b50b4b3285097323e0/1750497144/hls_264_master.m3u8?t=1718836140"
   },
   "requirements": {
@@ -1448,24 +1399,9 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Russian",
-   "Simplified Chinese",
-   "Ukrainian",
-   "Polish",
-   "Portuguese - Portugal",
-   "Turkish"
-  ],
   "trailer": {
    "name": "Official Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256684736/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256684736/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/252490/102019/c573f5b01317174c7ae20a0abbcc3a39ccad32c2/1750487766/hls_264_master.m3u8?t=1699598112"
   },
   "requirements": {
@@ -1598,10 +1534,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Trailer 2020",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256785384/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256785384/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/255710/285736/c6d0fd84c7635300ea7ce0ca9222840f47fe228d/1750489550/hls_264_master.m3u8?t=1589550020"
   },
   "requirements": {
@@ -1695,12 +1630,9 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Subnautica Gameplay Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256706800/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256706800/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/264710/143519/33594902d34e588ce90d9905c30aa902198fea59/1750490623/hls_264_master.m3u8?t=1516828564"
   },
   "requirements": {
@@ -1815,10 +1747,9 @@
    "Spanish - Latin America",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Cuphead: The Delicious Last Course - Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256894191/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256894191/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/268910/476013/2be829e20a796ed2e0e707fb1c747e1d15f6fb25/1750499396/hls_264_master.m3u8?t=1656595223"
   },
   "requirements": {
@@ -1857,9 +1788,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "GTA Online: Oscar Guzman Flies Again EN NR",
@@ -1916,10 +1844,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Anniversary Trailer 2024",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257021701/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257021701/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/281990/697519/ffaae49b5a49dfc92b227718ab057d321e644404/1750489080/hls_264_master.m3u8?t=1715273904"
   },
   "requirements": {
@@ -2039,10 +1966,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Showcase Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257056227/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257056227/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/284160/757638/a00637fca41f0def6f8ed03b142736fd4d4dacfb/1750489692/hls_264_master.m3u8?t=1726679700"
   },
   "requirements": {
@@ -2121,22 +2047,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Russian",
-   "Simplified Chinese",
-   "Traditional Chinese"
-  ],
   "trailer": {
    "name": "Civilization VI Launch Trailer - PEGI",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256672695/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256672695/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/289070/76617/1f43ec5aa4bd687389eb29886a2539cc984530e9/1750500626/hls_264_master.m3u8?t=1476737061"
   },
   "requirements": {
@@ -2221,17 +2134,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "The Witcher 3: Wild Hunt — Remastered | Official Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257439641/32f72964eceaa2ea37c3ab03dff903a45414a89b/movie_600x337.jpg",
@@ -2272,10 +2174,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Launch trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256731486/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256731486/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/294100/189193/b88a55b0c4df1e292fa85455c5157a31ad1da17c/1750502942/hls_264_master.m3u8?t=1539788136"
   },
   "requirements": {
@@ -2427,32 +2328,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Russian",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Czech",
-   "Danish",
-   "Dutch",
-   "Hungarian",
-   "Polish",
-   "Swedish",
-   "Thai",
-   "Traditional Chinese",
-   "Turkish",
-   "Ukrainian",
-   "Finnish",
-   "Japanese",
-   "Korean"
-  ],
   "trailer": {
    "name": "ARK: Ultimate Survivor Edition Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256836250/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256836250/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/346110/372586/b23204cd58f68c42a07248e8472b9296c1c875c5/1750513376/hls_264_master.m3u8?t=1622089232"
   },
   "requirements": {
@@ -2538,22 +2416,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Korean",
-   "Simplified Chinese",
-   "Italian",
-   "Portuguese - Brazil",
-   "Russian",
-   "Japanese",
-   "Traditional Chinese"
-  ],
   "trailer": {
    "name": "Release Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256679401/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256679401/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/367520/89922/b71b6a50e9aa2334fddca8fa2197cb26a3640832/1750517691/hls_264_master.m3u8?t=1497589417"
   },
   "requirements": {
@@ -2692,12 +2557,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "DS3_Kingdom Fall (EN-USK)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256663135/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256663135/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/374320/56809/b993aca08385817f8567680844c10b97398c6e19/1750520320/hls_264_master.m3u8?t=1700587311"
   },
   "requirements": {
@@ -2741,14 +2603,6 @@
    "Russian",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese"
   ],
   "trailer": {
    "name": "Creations Bundle Trailer",
@@ -2817,16 +2671,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Czech",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Kingdom Come: Deliverance – Rex, Familia et Ultio",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256686725/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256686725/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/379430/106515/7ebae3c59dd8f446e0baefcdf61ecc9278223ca1/1750521127/hls_264_master.m3u8?t=1592317466"
   },
   "requirements": {
@@ -2912,11 +2759,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Dead by Daylight: 10th Anniversary Edition",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257336144/a6b5c1f58b14644a0952432bcb64fee417cd73de/movie_600x337.jpg",
@@ -2995,12 +2837,9 @@
   "languages": [
    "English"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Judas Reveal Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256919153/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256919153/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/388860/518899/17e29d962ba8ae34209ccdd1dc7d755c1cf3bfdb/1751274430/hls_264_master.m3u8?t=1670549502"
   },
   "requirements": {
@@ -3029,10 +2868,9 @@
    "English",
    "Japanese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "UNDERTALE Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256655616/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256655616/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/391540/41087/3b1b45530651299a05801d7b2bdb0cae8f077bb0/1750524170/hls_264_master.m3u8?t=1447377566"
   },
   "requirements": {
@@ -3125,10 +2963,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Hearts of Iron IV - Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257012977/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257012977/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/394360/682731/bd7bbea629ccbef568dd3c4d8552ba6e05b3c0ed/1750525316/hls_264_master.m3u8?t=1712235668"
   },
   "requirements": {
@@ -3195,10 +3032,9 @@
    "Spanish - Spain",
    "Turkish"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Stardew Valley Trailer 1080p",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256815967/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256815967/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/413150/336433/0058de516bf7c46986ba1e81172ffd3c2ca6cad7/1750527541/hls_264_master.m3u8?t=1754692862"
   },
   "requirements": {
@@ -3300,17 +3136,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese"
-  ],
   "trailer": {
    "name": "09_Resident Evil 7 biohazard: TAPE-4 “Biohazard\"_NON_DE",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256674129/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256674129/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/418370/79447/874ce5317f3d1de5916a61248ddac91fad066512/1750528031/hls_264_master.m3u8?t=1485771832"
   },
   "requirements": {
@@ -3363,7 +3191,6 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Trailer 2026",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256796273/a7033dc583fc1099d19cdb672f1f988988daad0a/movie_600x337.jpg",
@@ -3426,19 +3253,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Polish",
-   "Russian",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Skyrim Special Edition Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256672927/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256672927/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/489830/77128/20c56f14e492b05846f7262a246b4e4f0d455f7f/1750536877/hls_264_master.m3u8?t=1476991615"
   },
   "requirements": {
@@ -3470,10 +3287,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Planet Coaster Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256674785/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256674785/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/493340/80631/c66d6f3a355be52f5a53510645429a2b6f58276f/1750537204/hls_264_master.m3u8?t=1709820232"
   },
   "requirements": {
@@ -3541,10 +3357,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Launch",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256706951/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256706951/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/504230/143846/608cb7d60c10278f3107baf57a528e483a7cbc7b/1750539057/hls_264_master.m3u8?t=1516898311"
   },
   "requirements": {
@@ -3608,13 +3423,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "PEGI EN Nier GOTY",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256743980/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256743980/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/524220/210970/c48ee5a58bfbf6400e8c7dcc779653ccd7360723/1750543587/hls_264_master.m3u8?t=1551200563"
   },
   "requirements": {
@@ -3677,9 +3488,6 @@
    "Spanish - Spain",
    "Traditional Chinese",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "1.2 Update",
@@ -3778,12 +3586,9 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Half-Life: Alyx Announce Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256767815/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256767815/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/546560/253732/6dc0a5b4a9f2bb0ea9e74ea2bdd4647eb09e1f4d/1749861541/hls_264_master.m3u8?t=1762986581"
   },
   "requirements": {
@@ -3853,16 +3658,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian"
-  ],
   "trailer": {
    "name": "Anniversary Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257471480/ebda77abd939c2194dc66c7723bd30acd506ef58/movie_600x337.jpg",
@@ -3929,17 +3724,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Spanish - Latin America",
-   "Simplified Chinese"
   ],
   "trailer": {
    "name": "Devoid of Liberty",
@@ -4056,12 +3840,9 @@
    "Russian",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256682361/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256682361/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/569860/96536/3a7fc44386e60598bb315c1f9ae2a556b18cb5ad/1750551897/hls_264_master.m3u8?t=1490925626"
   },
   "requirements": {
@@ -4184,12 +3965,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "LAUNCH TRAILER UNRATED",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256717685/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256717685/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/570940/164454/5553fe8364a89c3437a7c6b03a36cf3acae2cb61/1750551881/hls_264_master.m3u8?t=1605604943"
   },
   "requirements": {
@@ -4250,17 +4028,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese"
-  ],
   "trailer": {
    "name": "191203_防衛隊派生武器_German_STEAM版",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256769114/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256769114/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/582010/256095/eeee77d8f3df806f7b5e5be620043d74ea7c3492/1750555373/hls_264_master.m3u8?t=1578590962"
   },
   "requirements": {
@@ -4405,19 +4175,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian"
-  ],
   "trailer": {
    "name": "Announcement trailer - DE",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256686983/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256686983/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/582160/106999/189ac608bdd0d2ffde40b613b9a3e0b1aa8be137/1750555512/hls_264_master.m3u8?t=1497283680"
   },
   "requirements": {
@@ -4471,26 +4231,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Simplified Chinese",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Portugal",
-   "Russian",
-   "Turkish",
-   "Korean",
-   "Traditional Chinese",
-   "Portuguese - Brazil",
-   "Spanish - Latin America",
-   "Polish"
-  ],
   "trailer": {
    "name": "Dead Cells - Accolade Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256755089/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256755089/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/588650/231061/8fe407db503493211097e9898f58ae600559a2a3/1750557235/hls_264_master.m3u8?t=1581426951"
   },
   "requirements": {
@@ -4539,15 +4282,6 @@
    "Korean",
    "Spanish - Latin America",
    "Spanish - Spain"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Spanish - Latin America"
   ],
   "trailer": {
    "name": "Gameplay Short New",
@@ -4663,12 +4397,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Disco Elysium - The Final Cut - Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256827872/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256827872/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/632470/357391/40d4d0a212158209daf4efe0c8d98f90c1322e1b/1750564395/hls_264_master.m3u8?t=1617123094"
   },
   "requirements": {
@@ -4736,10 +4467,9 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256740869/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256740869/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/646570/205320/640196deb3169b2a1667340ab45f229af73caba7/1750566635/hls_264_master.m3u8?t=1548258737"
   },
   "requirements": {
@@ -4826,12 +4556,9 @@
    "Spanish - Spain",
    "Swedish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Raft - The Final Chapter Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256892239/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256892239/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/648800/472596/2b044f3af0177b0711f90c375be5a4b346c125e0/1750567254/hls_264_master.m3u8?t=1655744106"
   },
   "requirements": {
@@ -4952,22 +4679,9 @@
    "Swedish",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Italian",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Planet_Zoo_Launch_Trailer_PEGI",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256766382/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256766382/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/703080/251197/ba50a4233aa7faf37cbbafce4c1045b08b1868fa/1750573046/hls_264_master.m3u8?t=1686057962"
   },
   "requirements": {
@@ -5029,9 +4743,6 @@
    "Traditional Chinese",
    "Turkish",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "Willow Rework Launch Trailer",
@@ -5107,12 +4818,9 @@
    "Spanish - Spain",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Outer Wilds | Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256778920/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256778920/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/753640/273682/2f2fdd9086d95ee6dde3cd4dc7d70975d6c6bc81/1750579139/hls_264_master.m3u8?t=1585255228"
   },
   "requirements": {
@@ -5176,17 +4884,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Korean",
-   "Russian",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "3K_Accolades_Press_USK_GER",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256751451/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256751451/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/779340/224662/8504e1720aded77398c5346805f7b6d3bde4ee0b/1750582672/hls_264_master.m3u8?t=1558620917"
   },
   "requirements": {
@@ -5288,9 +4988,6 @@
    "Simplified Chinese",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "Assetto Corsa Competizione - Livery 2025 Update",
@@ -5408,19 +5105,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian"
-  ],
   "trailer": {
    "name": "E3 Trailer UK",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256730989/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256730989/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/812140/188292/a8c55a69aa88fdeafbbeeff69b4c525d6d2bd091/1750586000/hls_264_master.m3u8?t=1538496199"
   },
   "requirements": {
@@ -5476,21 +5163,9 @@
    "Turkish",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Korean",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America",
-   "Traditional Chinese",
-   "Spanish - Spain"
-  ],
   "trailer": {
    "name": "Age of Empires II: Definitive Edition",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256753456/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256753456/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/813780/228198/a6de3656546a02339a9a89290068c2ac4d51fd68/1750586036/hls_264_master.m3u8?t=1573774043"
   },
   "requirements": {
@@ -5534,17 +5209,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Sekiro™: Shadows Die Twice - Game of the Year Edition",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256806899/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256806899/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/814380/322401/63cf1fdf9c16536f04b08a5b1939909f7a99a340/1750586450/hls_264_master.m3u8?t=1603837979"
   },
   "requirements": {
@@ -5630,12 +5297,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256830049/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256830049/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/848450/361258/82151770fcaf7d6667a364a76c0f16b836513514/1750588821/hls_264_master.m3u8?t=1618322274"
   },
   "requirements": {
@@ -5745,18 +5409,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Simplified Chinese",
-   "Japanese"
-  ],
   "trailer": {
    "name": "06-RE2_LaunchTrailer_Steam_USK(German)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256741831/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256741831/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/883710/207150/4658d3c4ff8647435a43ecefbcb302bd8b48934d/1750593087/hls_264_master.m3u8?t=1548921057"
   },
   "requirements": {
@@ -5821,7 +5476,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "1.0 Out Now",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257420513/3f5dcfbddfe4cca65abe94a03a46b3b5546c46ab/movie_600x337.jpg",
@@ -5889,18 +5543,9 @@
    "Turkish",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Portuguese - Brazil",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "GamesCom_Preorder_Announce",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256798809/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256798809/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/933110/308445/e83c069f741c8102f7a921fcb4df18a10ac8190a/1750597582/hls_264_master.m3u8?t=1598557667"
   },
   "requirements": {
@@ -5983,7 +5628,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Release Trailer 2026",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257297826/ecc455362a26e2c0d09da9016409a5634c7640a3/movie_600x337.jpg",
@@ -6064,18 +5708,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Simplified Chinese",
-   "Japanese"
-  ],
   "trailer": {
    "name": "PV1_Multi_PEGI_DE_1080p",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256770312/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256770312/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/952060/257985/08b9631d9f6a1772cb0dab02f28ccf59512b27fd/1750600158/hls_264_master.m3u8?t=1576626931"
   },
   "requirements": {
@@ -6110,16 +5745,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain"
-  ],
   "trailer": {
    "name": "Accolades",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256819673/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256819673/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/976730/343221/c4201ae2b2ab5907068af2bb2c909610f7a173bb/1750603089/hls_264_master.m3u8?t=1611767856"
   },
   "requirements": {
@@ -6192,16 +5820,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Hogwarts Legacy Launch Trailer WW",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256930504/744bf8424a8f5135b0bb5b310ff9682565760f3e/movie_600x337.jpg",
@@ -6259,12 +5877,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Sniper Elite 5 - Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256890097/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256890097/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1029690/469276/7410b8f1cf96367108250e73f3df2dd034daaa0b/1750608294/hls_264_master.m3u8?t=1654528992"
   },
   "requirements": {
@@ -6344,19 +5959,6 @@
    "Russian",
    "Simplified Chinese",
    "Spanish - Spain",
-   "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
    "Traditional Chinese"
   ],
   "trailer": {
@@ -6447,7 +6049,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Timberborn 1.0 Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257300985/3b2d15cc938dfad2ba465222f4b6a5ae9db901c5/movie_600x337.jpg",
@@ -6560,12 +6161,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Baldur's Gate 3 - Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987424/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987424/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1086940/637951/59ca25b847b0e471638d1e2474acf71b068d57f0/1750615003/hls_264_master.m3u8?t=1702007645"
   },
   "requirements": {
@@ -6655,19 +6253,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "Cyberpunk 2077 | Broken Dreams | Edgerunners 2 Update Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257474177/d3648c90317ee936369fd886a02a0f54c0a86395/movie_600x337.jpg",
@@ -6700,10 +6285,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Inscryption - Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256795106/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256795106/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1092790/302287/ab0d21c6b888e99deba7fb8ca48e0f34ebba0332/1750618102/hls_264_master.m3u8?t=1597161792"
   },
   "requirements": {
@@ -6755,13 +6339,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "PEGI EN Launch NierRep",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256831759/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256831759/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1113560/364040/c021bfbb3b85d2d369253123ace4b56e59b4f6aa/1750621689/hls_264_master.m3u8?t=1619195275"
   },
   "requirements": {
@@ -6849,12 +6429,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Immortal Empires",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256930877/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256930877/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1142710/539677/e598079c9bc92ad089825060102465987d361027/1750627141/hls_264_master.m3u8?t=1740719934"
   },
   "requirements": {
@@ -6917,12 +6494,9 @@
    "Spanish - Spain",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Are you Ready?",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987629/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987629/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1144200/638244/12f8bb50a5d59521ffec9607bd2b6df0ae6b16a5/1750627363/hls_264_master.m3u8?t=1702510541"
   },
   "requirements": {
@@ -7036,9 +6610,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Hades II – v1.0 Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257204779/2f6767807df172946f5d638093dcc1c933eb24bb/movie_600x337.jpg",
@@ -7123,12 +6694,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Hades - v1.0 Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256801252/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256801252/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1145360/312686/b0312c49135823cc34946e98148abfb8da71f0fb/1750627549/hls_264_master.m3u8?t=1600353465"
   },
   "requirements": {
@@ -7203,10 +6771,9 @@
    "Korean",
    "Simplified Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "OMORI 2020 TRAILER",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256811753/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256811753/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1150690/330495/67408cdf6287b5eecdca623b4d7a521ab9fb72ee/1750628823/hls_264_master.m3u8?t=1618373243"
   },
   "requirements": {
@@ -7249,22 +6816,9 @@
    "Swedish",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Polish",
-   "Portuguese - Portugal",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "2nd Anniversary Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256899640/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256899640/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1151640/485458/b72c7c802a69651c05bdeeb5e847600319226b41/1750629501/hls_264_master.m3u8?t=1659711061"
   },
   "requirements": {
@@ -7344,12 +6898,9 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Crusader Kings III - Gameplay Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257057629/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257057629/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1158310/759975/7cc72dfe9418c56944f7b91f1030374be3a971ea/1750630363/hls_264_master.m3u8?t=1727193628"
   },
   "requirements": {
@@ -7437,21 +6988,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "STAR WARS Jedi: Fallen Order 1",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256765709/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256765709/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1172380/249996/8362305f708199ea634720555ed29a7e5b8422f8/1750631873/hls_264_master.m3u8?t=1572357561"
   },
   "requirements": {
@@ -7507,12 +7046,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "RDR2 Launch Trailer (DE)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256768271/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256768271/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1174180/254598/21d07c59fad9b1e8c55bbdc4f27ee62be2ebd7f6/1750634152/hls_264_master.m3u8?t=1574881520"
   },
   "requirements": {
@@ -7554,21 +7090,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Village_PV3_Multi_08_NoRating-DE_FullHD.mp4",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256825279/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256825279/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1196590/353102/31c367e5c905d5d63ea268fd30ad104863e45a22/1750637490/hls_264_master.m3u8?t=1615523854"
   },
   "requirements": {
@@ -7614,7 +7138,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Enshrouded 1.0 - Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257461228/0bfd7fa6f9987b5523f4d0bf8e279d83803402c9/movie_600x337.jpg",
@@ -7720,23 +7243,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Japanese",
-   "Polish",
-   "Portuguese - Portugal",
-   "Portuguese - Brazil",
-   "Spanish - Latin America",
-   "Russian"
-  ],
   "trailer": {
    "name": "Detroit: Become Human - Steam Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256784014/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256784014/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1222140/282775/c86acba0a15a3378984a05920f3513b23bba9147/1750644428/hls_264_master.m3u8?t=1590429401"
   },
   "requirements": {
@@ -7816,19 +7325,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Russian"
-  ],
   "trailer": {
    "name": "GamePlay Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256823664/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256823664/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1222680/350097/52436a04d54fe16910f5bf8530e26b203f8b53f8/1750644723/hls_264_master.m3u8?t=1614187437"
   },
   "requirements": {
@@ -7892,15 +7391,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain"
-  ],
   "trailer": {
    "name": "Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256804642/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256804642/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1222730/318775/655e45c20f357bc1bc10767b1d3396c9cf650f80/1750644824/hls_264_master.m3u8?t=1602596098"
   },
   "requirements": {
@@ -7953,21 +7446,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Polish",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America",
-   "Traditional Chinese"
-  ],
   "trailer": {
    "name": "Ultimate Edition Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256789141/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256789141/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1237970/292237/0984f8bd2d62e190c763cef85a909e030afd1b88/1750647686/hls_264_master.m3u8?t=1592506505"
   },
   "requirements": {
@@ -8024,20 +7505,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Battlefield V Definitive E",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256806061/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256806061/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1238810/321074/ced8eed0ae8f8f0056d4f40cb35a8056f9777f2d/1750647963/hls_264_master.m3u8?t=1603387370"
   },
   "requirements": {
@@ -8101,20 +7571,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "EA Play Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256795873/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256795873/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1238840/303583/a81d74a5289ae78f6e410c785363ddb176f7ccb3/1750647980/hls_264_master.m3u8?t=1597019302"
   },
   "requirements": {
@@ -8186,21 +7645,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256859644/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256859644/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1244460/415611/bf6669c7d1f2a41152f9889740beae9849d63c65/1750649154/hls_264_master.m3u8?t=1686217856"
   },
   "requirements": {
@@ -8250,12 +7697,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "ELDEN RING Launch Trailer - DE USK",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256875595/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256875595/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1245620/443029/eeb27ee27beb23ff82f1360dcecc78923314ef40/1750650443/hls_264_master.m3u8?t=1646770156"
   },
   "requirements": {
@@ -8352,22 +7796,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Portuguese - Portugal",
-   "Portuguese - Brazil",
-   "Polish",
-   "Russian",
-   "Spanish - Latin America",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Launch ASIA EN",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256835018/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256835018/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1259420/370230/5b1fe09e304facee450db63b2649ce484638ae9a/1750655647/hls_264_master.m3u8?t=1621341084"
   },
   "requirements": {
@@ -8448,9 +7879,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "How to Rob a Bank",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257290401/fecdfb9a45971ad63d98ccb3e34f94ea09c39109/movie_600x337.jpg",
@@ -8505,16 +7933,6 @@
    "Spanish - Spain",
    "Thai",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Simplified Chinese"
   ],
   "trailer": {
    "name": "Release Date (Launch) - EN - PEGI",
@@ -8577,16 +7995,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Forza Horizon 4 Steam Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256820720/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256820720/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1293830/345096/720e54455d8e24d790d2c43ac2225c08dfb6e0ac/1751216324/hls_264_master.m3u8?t=1612810706"
   },
   "requirements": {
@@ -8647,19 +8058,6 @@
    "Russian",
    "Simplified Chinese",
    "Spanish - Spain",
-   "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Russian",
-   "Simplified Chinese",
    "Traditional Chinese"
   ],
   "trailer": {
@@ -8763,12 +8161,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Sons Of The Forest Multiplayer Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256932123/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256932123/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1326470/541725/76f298f949c4ae5b4257fa2056112f8d34285799/1750672622/hls_264_master.m3u8?t=1677175226"
   },
   "requirements": {
@@ -8839,15 +8234,9 @@
    "Russian",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German"
-  ],
   "trailer": {
    "name": "Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256836016/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256836016/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1328670/372173/1cc8c9e70e2125b86e6aea9c216ac6a6fb4e14fb/1750672745/hls_264_master.m3u8?t=1621958368"
   },
   "requirements": {
@@ -8949,9 +8338,6 @@
    "Russian",
    "Simplified Chinese",
    "Spanish - Latin America"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "Xbox 2026 Showcase Trailer",
@@ -9058,9 +8444,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Sister Novitiate Reveal Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257503974/babf0c4329b5dbdaf8700ea762904699eacad6a2/movie_600x337.jpg",
@@ -9123,10 +8506,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "Japanese"
   ],
   "trailer": {
    "name": "SF6_Outfit4_Viper_EN_ESRB_HD_Steam",
@@ -9201,13 +8580,6 @@
    "German",
    "Japanese",
    "Simplified Chinese"
-  ],
-  "full_audio": [
-   "Simplified Chinese",
-   "English",
-   "French",
-   "German",
-   "Japanese"
   ],
   "trailer": {
    "name": "Rise of the Dark Fog Open Movie.DE",
@@ -9358,16 +8730,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Official Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256827093/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256827093/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1426210/356092/0165ad2494097e40af29c015e8948175c3fb97a8/1750688156/hls_264_master.m3u8?t=1616514535"
   },
   "requirements": {
@@ -9440,13 +8805,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "SnowPC_PV1_58_GE_Steamストア用_RE.mp4",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256850917/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256850917/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1446780/400077/781ec4fda6ce52b61be5af74192452dc9cbe7fb6/1750688575/hls_264_master.m3u8?t=1633009779"
   },
   "requirements": {
@@ -9556,15 +8917,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Japanese"
-  ],
   "trailer": {
    "name": "PEGI_EN",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256878899/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256878899/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1462040/448855/82b84b5807bfd8021e06a6fa410c4bd30e57c94a/1750691772/hls_264_master.m3u8?t=1655416823"
   },
   "requirements": {
@@ -9713,20 +9068,9 @@
    "Turkish",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Korean",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Age IV Anniversary Launch Trailer (10/2022)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256913281/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256913281/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1466860/508877/3b34a780bf9c93550bcbdb69b2c251f2445497b0/1750692421/hls_264_master.m3u8?t=1666907093"
   },
   "requirements": {
@@ -9791,23 +9135,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Battlefield 2042 | Launch Accolade Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257000580/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257000580/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1517290/661728/e0387a57c721bb94d593c329292abcf228b5e6c6/1750697296/hls_264_master.m3u8?t=1707836479"
   },
   "requirements": {
@@ -9858,22 +9188,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America",
-   "Traditional Chinese"
-  ],
   "trailer": {
    "name": "Forza Horizon 5 Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256875134/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256875134/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1551360/442268/66eddb8cdf196bf7c8d9bb8e8895bd7f60133cc1/1750700745/hls_264_master.m3u8?t=1647525311"
   },
   "requirements": {
@@ -9962,22 +9279,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Portugal",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Features Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256864004/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256864004/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1593500/423179/503f509cd6c9964f790867e6cda8542789136b85/1750704708/hls_264_master.m3u8?t=1639001817"
   },
   "requirements": {
@@ -10077,7 +9381,6 @@
    "Turkish",
    "Vietnamese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Palworld 1.0 Official Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257373728/7e13113e161160ac94f46ef35ac809e374f7ab7e/movie_600x337.jpg",
@@ -10211,12 +9514,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Accolates Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256973335/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256973335/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1627720/614254/a2464aab03521fe2627046afc34a74067cca84fc/1750713680/hls_264_master.m3u8?t=1696396705"
   },
   "requirements": {
@@ -10288,9 +9588,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "The Host Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257475247/265334a0871fde030c0c2bfb68f55fb36fdf6893/movie_600x337.jpg",
@@ -10346,9 +9643,6 @@
    "Traditional Chinese",
    "Turkish",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "Company of Heroes 3: 3.0 Update Launch Trailer",
@@ -10432,13 +9726,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Launch Trailer (DE)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256912694/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256912694/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1687950/507902/ae6d849845c2c600d1e9be972e6c6534ecd29cd3/1750725832/hls_264_master.m3u8?t=1666695390"
   },
   "requirements": {
@@ -10489,13 +9779,6 @@
    "Portuguese - Brazil",
    "Simplified Chinese",
    "Spanish - Spain"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Japanese"
   ],
   "trailer": {
    "name": "Free Lanes Update",
@@ -10577,14 +9860,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Czech",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Kingdom Come: Deliverance II - Royal Edition Launch Trailer unrated",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257229487/ae4e58530a3c69ec0fbff0dc759f8f32e3dcb554/movie_600x337.jpg",
@@ -10613,20 +9888,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256957450/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256957450/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1774580/586184/f723655828cd2d57318ebe145cc974c851241494/1750734365/hls_264_master.m3u8?t=1689016714"
   },
   "requirements": {
@@ -10660,12 +9924,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "BNEU_TK8_GamescomTrailer_GER",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256969832/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256969832/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1778820/608119/6c87145fe25184d5447aa532b270fad61c7db6e5/1750735079/hls_264_master.m3u8?t=1695192939"
   },
   "requirements": {
@@ -10710,10 +9971,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Refreshed Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256964120/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256964120/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1794680/598026/b3a9771de005c30237b53d84932fd2e792f298c0/1750736849/hls_264_master.m3u8?t=1692280956"
   },
   "requirements": {
@@ -10805,22 +10065,9 @@
    "Swedish",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Portugal",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Launch Trailer (US-EN)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256900369/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256900369/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1817070/486856/c8923f57eef7c9e2b21688918ebe0054e76030f9/1750737947/hls_264_master.m3u8?t=1672791651"
   },
   "requirements": {
@@ -10949,22 +10196,9 @@
    "Swedish",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Launch Trailer (US-EN)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256915117/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256915117/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1817190/511935/1557888f7cb7bf7f56fb3b43c00daf9537f374ca/1750737979/hls_264_master.m3u8?t=1672784168"
   },
   "requirements": {
@@ -11069,17 +10303,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Spanish - Latin America",
-   "Portuguese - Brazil",
-   "Polish",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Hi-Fi RUSH | Accolades Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257228999/6f17ed80a4a0505208b6e3ef68a20be024718416/movie_600x337.jpg",
@@ -11132,16 +10355,6 @@
    "Simplified Chinese",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Simplified Chinese"
   ],
   "trailer": {
    "name": "Need for Speed Vol 9 Gameplay Trailer",
@@ -11214,7 +10427,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Witchbrook - Release Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257481350/0add1d9aad49ac5d85c2d668e165405575eb4552/movie_600x337.jpg",
@@ -11284,23 +10496,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Greek",
-   "Japanese",
-   "Polish",
-   "Portuguese - Portugal",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "DEATH STRANDING DIRECTOR'S CUT Launch Trailer DE",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256878924/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256878924/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1850570/448937/02f99b8478b8dce2cbf8bd49ee32c51f5ef782bc/1750738559/hls_264_master.m3u8?t=1683196635"
   },
   "requirements": {
@@ -11384,9 +10582,6 @@
    "Spanish - Spain",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Arma Reforger 1.7.0 update",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257344117/58c57812452dfc521bb1c216992f9123fd328597/movie_600x337.jpg",
@@ -11445,7 +10640,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Mina the Hollower - Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257346434/93e3b7b81eb24666883b66d73f3adb475beeec9c/movie_600x337.jpg",
@@ -11532,13 +10726,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "ARMORED CORE™ VI FIRES OF RUBICON™ - Launch Trailer - DE",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256968255/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256968255/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1888160/605250/0ca2e9096aeccedf560f67f7dd1dc05166509d48/1750739997/hls_264_master.m3u8?t=1694077378"
   },
   "requirements": {
@@ -11606,24 +10796,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "Italian",
-   "Spanish - Spain",
-   "Greek",
-   "French",
-   "German",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America",
-   "Turkish"
-  ],
   "trailer": {
    "name": "Launch Trailer (EN-US)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256936971/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256936971/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1888930/550396/09468ce88d62c431fbbbbbc89c3a0c1b84e50ca8/1750740074/hls_264_master.m3u8?t=1680015399"
   },
   "requirements": {
@@ -11714,10 +10889,6 @@
    "Ukrainian",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English",
-   "French"
-  ],
   "trailer": {
    "name": "Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257129803/a409d62da478b6b9fdceeb05a1281805fe7a0dae/movie_600x337.jpg",
@@ -11773,9 +10944,6 @@
    "Simplified Chinese",
    "Spanish - Latin America",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "Subnautica 2 - Early Access Cinematic Trailer ",
@@ -11847,12 +11015,9 @@
   "languages": [
    "English"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Lethal Company - Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256961309/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256961309/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/1966720/593018/d94ebe61f51f602028df99031bafd2ae075b1132/1750743020/hls_264_master.m3u8?t=1690909590"
   },
   "requirements": {
@@ -11891,15 +11056,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
   ],
   "trailer": {
    "name": "Gameplay Reveal Trailer WW",
@@ -11961,15 +11117,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "Split Fiction | Official Accolades Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257116893/b4bbd6dc66f4d060be19939f12fa52593c01b5b8/movie_600x337.jpg",
@@ -12013,21 +11160,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "12【RE4】_GELaunchPV_Multi_DE_FullHD_好評発売中.mp4",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256998123/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256998123/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2050650/657544/0c5b0e2fd909bba1274c3b9e52ce55fc6bc855c9/1750745200/hls_264_master.m3u8?t=1707455785"
   },
   "requirements": {
@@ -12088,13 +11223,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "11_DD2_MainTrailer_Multi_2K_DE_after",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257009940/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257009940/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2054970/677548/ddc87d7fd685d8e3e67afd13eaeba69481c8d72d/1750745450/hls_264_master.m3u8?t=1711065664"
   },
   "requirements": {
@@ -12196,10 +11327,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "German"
-  ],
   "trailer": {
    "name": "Star Wars Zero Company | Accolades Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257425592/dd9c6ad25c4201dbb50e35e09a16bf2d1143e34f/movie_600x337.jpg",
@@ -12255,9 +11382,6 @@
    "Spanish - Spain",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Gameplay Overview",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257490046/123b9559fb3dc4eb428b943b698dbc20cdd53511/movie_600x337.jpg",
@@ -12308,10 +11432,6 @@
    "Spanish - Spain",
    "Traditional Chinese",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English",
-   "Japanese"
   ],
   "trailer": {
    "name": "SH2_Launch",
@@ -12417,21 +11537,9 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Portuguese - Brazil",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "92_CP77_Mashup_ad_60s_EN_PEGI 18_16x9_NoDate_CTA_NoPlatforms",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987084/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987084/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2138330/637364/46963925ee98b5f30273b209b9e0cf363ec7c117/1750747651/hls_264_master.m3u8?t=1701866020"
   },
   "requirements": {
@@ -12462,13 +11570,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Launch Trailer (DE)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256997697/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256997697/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2161700/656833/c8879184de764d4a912f5192f4bf238a2e7c124a/1750777748/hls_264_master.m3u8?t=1706853519"
   },
   "requirements": {
@@ -12572,15 +11676,6 @@
    "Turkish",
    "Ukrainian"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Russian",
-   "Japanese",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "Warhammer 40,000: Space Marine 2 - Anniversary Update II Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257440872/9569786b7628acdc9d5561f445d804bd584b883d/movie_600x337.jpg",
@@ -12639,24 +11734,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America",
-   "Arabic",
-   "Dutch",
-   "Russian"
-  ],
   "trailer": {
    "name": "EA SPORTS FC™ 24 | UEFA EURO 2024 Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257035339/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257035339/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2195250/721460/f80f97e636ab0983141f5ef4a09eafc1212e97f5/1751088441/hls_264_master.m3u8?t=1719935439"
   },
   "requirements": {
@@ -12693,19 +11773,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian"
-  ],
   "trailer": {
    "name": "Accolade trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256917310/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256917310/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2208920/515678/08b6d5b1267d155673daea051094ee1046ddfff7/1750809553/hls_264_master.m3u8?t=1693577111"
   },
   "requirements": {
@@ -12778,22 +11848,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Launch Trailer (EN-US)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257022043/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257022043/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2215430/698141/03040bb2f64897340d437089399b9815d399e2e2/1750809557/hls_264_master.m3u8?t=1716411558"
   },
   "requirements": {
@@ -12878,18 +11935,6 @@
    "Spanish - Spain",
    "Thai",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Spanish - Latin America",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Japanese"
   ],
   "trailer": {
    "name": "15_MHWilds_TU4.5_Multi_GE_NoRating_1080p",
@@ -12985,10 +12030,9 @@
    "Swedish",
    "Turkish"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Launch (German)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256982274/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256982274/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2252570/629175/4c220bbdb533bba14e331b18e4caaa33b3b18aab/1750809772/hls_264_master.m3u8?t=1699889194"
   },
   "requirements": {
@@ -13129,24 +12173,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Greek",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Launch Trailer (US-EN)",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257054534/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257054534/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2322010/754785/cd4512509a851f1f5e98b3ddffdda87de8bac9f1/1750811709/hls_264_master.m3u8?t=1726759092"
   },
   "requirements": {
@@ -13339,21 +12368,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America",
-   "Traditional Chinese",
-   "Simplified Chinese"
-  ],
   "trailer": {
    "name": "Story Trailer (enUS)",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257315389/45b8069c158e45deaaa823f4cf96daed3f7d92d9/movie_600x337.jpg",
@@ -13437,10 +12451,6 @@
    "Thai",
    "Traditional Chinese",
    "Turkish"
-  ],
-  "full_audio": [
-   "English",
-   "Simplified Chinese"
   ],
   "trailer": {
    "name": "Black Myth: Wukong - Launch Trailer",
@@ -13557,18 +12567,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Japanese",
-   "Portuguese - Brazil",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Launch Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256941289/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256941289/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2369390/558152/da00d4e9e79ee661f34445143abef84c227696c9/1750813151/hls_264_master.m3u8?t=1682096985"
   },
   "requirements": {
@@ -13631,7 +12632,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Accolades Gameplay Video",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257198110/8a0ee295b28d9650b4176336600ef70c204209a0/movie_600x337.jpg",
@@ -13733,9 +12733,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "ARK: Lost Colony Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257255264/93555d172e64904b9e1037bbf481f2813ffa9967/movie_600x337.jpg",
@@ -13818,23 +12815,9 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "full launch trailer EN_US",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257007287/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257007287/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2420110/673729/da330af842f0deee5a8b1b84a79c0f1cd24f68df/1750814445/hls_264_master.m3u8?t=1711032973"
   },
   "requirements": {
@@ -13892,9 +12875,6 @@
  },
  "2439280": {
   "languages": [
-   "English"
-  ],
-  "full_audio": [
    "English"
   ],
   "trailer": {
@@ -13983,14 +12963,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Forza Motorsport 20th Anniversary",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257137398/d337796842a262498c1216f5267933fb57445f9f/movie_600x337.jpg",
@@ -14051,21 +13023,9 @@
    "Spanish - Latin America",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Dutch",
-   "Japanese",
-   "Simplified Chinese",
-   "Spanish - Latin America",
-   "Portuguese - Brazil"
-  ],
   "trailer": {
    "name": "F1® 24 Features",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257027461/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257027461/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2488620/707813/e5c92df07ab91bcc370815887312efaf9371a407/1750924284/hls_264_master.m3u8?t=1717208070"
   },
   "requirements": {
@@ -14102,17 +13062,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Latin America",
-   "Japanese"
-  ],
   "trailer": {
    "name": "PEGI EN",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257046857/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257046857/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2515020/741490/93de12947124472b3783d5807698142b57d62189/1750816165/hls_264_master.m3u8?t=1724082993"
   },
   "requirements": {
@@ -14190,21 +13142,6 @@
    "Swedish",
    "Thai",
    "Traditional Chinese",
-   "Turkish"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Greek",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America",
    "Turkish"
   ],
   "trailer": {
@@ -14392,10 +13329,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "Accolades",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257227255/09c6ae9330d04ff8a819d952dc4dfce190785ffc/movie_600x337.jpg",
@@ -14458,17 +13391,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Japanese"
   ],
   "trailer": {
    "name": "14_PV7_Multi_GE_None_FullHD",
@@ -14580,20 +13502,6 @@
    "Thai",
    "Traditional Chinese",
    "Vietnamese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Portuguese - Portugal",
-   "Russian",
-   "Spanish - Latin America"
   ],
   "trailer": {
    "name": "Launch Trailer (EN-US)",
@@ -14773,22 +13681,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Arabic",
-   "Dutch",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "EA SPORTS FC 25 | Official Launch trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257059675/8472924f1c5341b306e5e4c031293699c6ce16db/movie_600x337.jpg",
@@ -14830,9 +13722,6 @@
    "Russian",
    "Spanish - Spain",
    "Thai"
-  ],
-  "full_audio": [
-   "English"
   ],
   "trailer": {
    "name": "Path of Exile 2: A Return to Oriath | Act 5 & 6 Trailer",
@@ -14947,12 +13836,9 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Light No Fire Announce Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987545/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256987545/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2719590/638113/b903ce00335979c0f603dca735f39df10aac0d56/1750893914/hls_264_master.m3u8?t=1717149384"
   },
   "requirements": {
@@ -15012,12 +13898,6 @@
    "Simplified Chinese",
    "Spanish - Latin America",
    "Spanish - Spain"
-  ],
-  "full_audio": [
-   "English",
-   "German",
-   "Portuguese - Brazil",
-   "Spanish - Latin America"
   ],
   "trailer": {
    "name": "Fable - XBOX Games Showcase 2026",
@@ -15094,12 +13974,9 @@
    "Thai",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "ELDEN RING Shadow of the Erdtree - Accolades Trailer",
-   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257037121/movie_600x337.jpg",
+   "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257037121/movie.293x165.jpg",
    "hls": "https://video.akamai.steamstatic.com/store_trailers/2778580/724763/5e5f1cd6245876183e54ce0597b720f52a981726/1750819884/hls_264_master.m3u8?t=1720701284"
   },
   "requirements": {
@@ -15175,19 +14052,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Polish",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America"
-  ],
   "trailer": {
    "name": "Battlefield 6 Season 5 Las Vegas Gameplay Trailer WW",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257500770/6ef087c5618702114738bd16a13dbac0ea49cf99/movie_600x337.jpg",
@@ -15251,7 +14115,6 @@
    "Thai",
    "Turkish"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Slay the Spire 2 - Early Access Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257289785/62628f64e43881b4262ff931831322cc7e691881/movie_600x337.jpg",
@@ -15360,12 +14223,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Japanese"
-  ],
   "trailer": {
    "name": "EN PEGI - launch",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257091399/97c439908c967cf8cc09e0c25c8528b14dfaa78d/movie_600x337.jpg",
@@ -15455,10 +14312,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "Japanese"
   ],
   "trailer": {
    "name": "SILENT HILL f_Accolade Trailer",
@@ -15561,17 +14414,6 @@
    "Spanish - Spain",
    "Traditional Chinese",
    "Turkish"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Simplified Chinese",
-   "Japanese",
-   "Polish",
-   "Portuguese - Brazil",
-   "Russian"
   ],
   "trailer": {
    "name": "accolades_trailer 1",
@@ -15683,19 +14525,6 @@
    "Swedish",
    "Traditional Chinese",
    "Turkish"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America",
-   "Traditional Chinese"
   ],
   "trailer": {
    "name": "Accolades Trailer",
@@ -15862,9 +14691,6 @@
    "Traditional Chinese",
    "Vietnamese"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "Hell Let Loose: Vietnam - Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257395659/e2690f83d954fbb50899cb24320c6fd5e5cf4a88/movie_600x337.jpg",
@@ -15987,15 +14813,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Portuguese - Brazil"
-  ],
   "trailer": {
    "name": "Gameplay Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257202269/46444c2b050a667a699bd4e6234090dbab0c6caa/movie_600x337.jpg",
@@ -16080,10 +14897,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "Japanese"
-  ],
   "trailer": {
    "name": "English PEGI - first trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257405265/73fe753c8f94185d2d3f2feb8b07fc5183cb7c93/movie_600x337.jpg",
@@ -16127,9 +14940,6 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "EXODUS | Release Date Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257405437/e7c830f2ae9266199796695ed1607df209aa21ea/movie_600x337.jpg",
@@ -16160,16 +14970,6 @@
    "Spanish - Spain",
    "Traditional Chinese",
    "Turkish"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Japanese",
-   "Korean",
-   "Simplified Chinese",
-   "Portuguese - Brazil"
   ],
   "trailer": {
    "name": "Crimson Desert Enhanced - Official Announcement Trailer",
@@ -16266,19 +15066,6 @@
    "Spanish - Spain",
    "Traditional Chinese"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Spanish - Latin America",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Japanese",
-   "Korean"
-  ],
   "trailer": {
    "name": "11_PRAGMATA_PV5_Multi+Geforce_2K_DE_(Demo Available Now)",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257327141/4c93ef8625da617e767c7da27461f8dbca8a6af0/movie_600x337.jpg",
@@ -16355,14 +15142,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Polish"
-  ],
   "trailer": {
    "name": "The Blood of the Dawnwalker - Launch Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257408398/0841007acecd61e00b43e0fb0b496a99a0ef71a6/movie_600x337.jpg",
@@ -16425,18 +15204,6 @@
    "Spanish - Latin America",
    "Spanish - Spain",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Spanish - Latin America",
-   "Portuguese - Brazil",
-   "Russian",
-   "Simplified Chinese",
-   "Japanese"
   ],
   "trailer": {
    "name": "13_RE9_LaunchPV_Multi_DE_FullHD.mp4",
@@ -16521,9 +15288,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English"
-  ],
   "trailer": {
    "name": "007 First Light  - Accolades Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257347862/710709bed4d1b286d891918f9fe26f97cf1e82c5/movie_600x337.jpg",
@@ -16564,18 +15328,6 @@
    "Spanish - Spain",
    "Thai",
    "Traditional Chinese"
-  ],
-  "full_audio": [
-   "English",
-   "Japanese",
-   "French",
-   "Italian",
-   "German",
-   "Spanish - Spain",
-   "Korean",
-   "Portuguese - Brazil",
-   "Simplified Chinese",
-   "Spanish - Latin America"
   ],
   "trailer": {
    "name": "Launch Trailer",
@@ -16676,16 +15428,6 @@
    "Traditional Chinese",
    "Turkish"
   ],
-  "full_audio": [
-   "English",
-   "French",
-   "German",
-   "Spanish - Spain",
-   "Portuguese - Brazil",
-   "Spanish - Latin America",
-   "Simplified Chinese",
-   "Russian"
-  ],
   "trailer": {
    "name": "Announcement Trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257152580/b560e0ee3b37eac498ebdd35891d1613c75e4df4/movie_600x337.jpg",
@@ -16745,10 +15487,6 @@
    "Thai",
    "Traditional Chinese",
    "Vietnamese"
-  ],
-  "full_audio": [
-   "English",
-   "Simplified Chinese"
   ],
   "trailer": {
    "name": "Phantom Blade Zero - Launch Trailer",
@@ -16839,7 +15577,6 @@
    "Simplified Chinese",
    "Spanish - Spain"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Launch trailer",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257480740/b183111f9da804a069d69d8da96563b0203c5e52/movie_600x337.jpg",
@@ -16953,7 +15690,6 @@
    "Swedish",
    "Turkish"
   ],
-  "full_audio": [],
   "trailer": {
    "name": "Gameplay Preview: New Features & Upgrades in Action (EN)",
    "thumb": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257499199/16dd7049c7b5b48721326cdac043420ba203f6cd/movie_600x337.jpg",
@@ -17055,10 +15791,6 @@
    "Spanish - Spain",
    "Traditional Chinese",
    "Ukrainian"
-  ],
-  "full_audio": [
-   "English",
-   "Simplified Chinese"
   ],
   "trailer": {
    "name": "Lords of the Fallen II - Announcement Trailer",

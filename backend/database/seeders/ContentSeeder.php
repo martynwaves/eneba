@@ -12,7 +12,11 @@ use App\Models\Product;
 use App\Models\Shortcut;
 use Illuminate\Database\Seeder;
 
-/** Navigation, hero promos, quick links, brand tiles, currencies and the homepage layout. */
+/**
+ * Navigation, hero promos, quick links, brand tiles, currencies, the homepage layout and demo
+ * discount codes. Every row is keyed by its natural key, so running the seeder again updates
+ * the content instead of duplicating it.
+ */
 class ContentSeeder extends Seeder
 {
     private const GTA_VI_STORE = '/store?q=grand%20theft%20auto%20vi';
@@ -31,7 +35,7 @@ class ContentSeeder extends Seeder
     }
 
     /** Demo coupons for the cart's "Got discount code?" box (listed in the README). */
-    public function seedDiscountCodes(): void
+    private function seedDiscountCodes(): void
     {
         foreach ([
             ['ENEBA10', 'percent', 10, 0, 2000],
@@ -61,7 +65,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($links as $i => [$label, $url, $style]) {
-            NavLink::create(['label' => $label, 'link_url' => $url, 'style' => $style, 'sort' => $i]);
+            NavLink::updateOrCreate(['label' => $label], ['link_url' => $url, 'style' => $style, 'sort' => $i]);
         }
     }
 
@@ -94,9 +98,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($promos as $i => [$title, $subtitle, $link, $wide, $narrow]) {
-            Banner::create([
-                'placement' => 'hero',
-                'title' => $title,
+            Banner::updateOrCreate(['placement' => 'hero', 'title' => $title], [
                 'subtitle' => $subtitle,
                 'image_url' => $img($wide),
                 'image_narrow_url' => $img($narrow),
@@ -111,31 +113,29 @@ class ContentSeeder extends Seeder
         $icons = json_decode(file_get_contents(database_path('data/shortcut-icons.json')), true);
 
         $items = [
-            ['Games', 'gamepad', '/store?type=game'],
-            ['Gaming eCards', 'gaming-card', '/store?type=gift_card'],
-            ['eGift Cards', 'gift', '/store?type=egift_card'],
-            ['E-money', 'coins', '/store?type=e_money'],
-            ['Steam', 'steam', '/store?platform=steam&type=game'],
-            ['Steam Gift Cards', 'steam', '/store?brand=steam'],
-            ['PSN', 'playstation', '/store?platform=psn'],
-            ['Xbox', 'xbox', '/store?platform=xbox-live'],
-            ['FIFA', 'gamepad', '/store?brand=ea-sports-fc'],
-            ['Fortnite', 'gamepad', '/store?brand=fortnite'],
-            ['Amazon', 'gift', '/store?brand=amazon'],
-            ['Apple', 'gift', '/store?brand=apple'],
-            ['Mobile games', 'gamepad', '/store?brand=mobile-games'],
-            ['Spotify', 'gift', '/store?brand=spotify'],
-            ['Netflix', 'gift', '/store?brand=netflix'],
-            ['Nintendo', 'nintendo', '/store?platform=nintendo-eshop'],
-            ['DLCs', 'puzzle', '/store?type=dlc'],
-            ['Pre-orders', 'calendar', '/store?preorder=1'],
-            ['Cheap games', 'percent', '/store?type=game&price_max=10'],
+            ['Games', '/store?type=game'],
+            ['Gaming eCards', '/store?type=gift_card'],
+            ['eGift Cards', '/store?type=egift_card'],
+            ['E-money', '/store?type=e_money'],
+            ['Steam', '/store?platform=steam&type=game'],
+            ['Steam Gift Cards', '/store?brand=steam'],
+            ['PSN', '/store?platform=psn'],
+            ['Xbox', '/store?platform=xbox-live'],
+            ['FIFA', '/store?brand=ea-sports-fc'],
+            ['Fortnite', '/store?brand=fortnite'],
+            ['Amazon', '/store?brand=amazon'],
+            ['Apple', '/store?brand=apple'],
+            ['Mobile games', '/store?brand=mobile-games'],
+            ['Spotify', '/store?brand=spotify'],
+            ['Netflix', '/store?brand=netflix'],
+            ['Nintendo', '/store?platform=nintendo-eshop'],
+            ['DLCs', '/store?type=dlc'],
+            ['Pre-orders', '/store?preorder=1'],
+            ['Cheap games', '/store?type=game&price_max=10'],
         ];
 
-        foreach ($items as $i => [$label, $icon, $link]) {
-            Shortcut::create([
-                'label' => $label,
-                'icon' => $icon,
+        foreach ($items as $i => [$label, $link]) {
+            Shortcut::updateOrCreate(['label' => $label], [
                 'icon_svg' => $icons[$label] ?? null,
                 'link_url' => $link,
                 'sort' => $i,
@@ -147,8 +147,7 @@ class ContentSeeder extends Seeder
     private function seedBrands(array $brands): void
     {
         foreach ($brands as $i => $brand) {
-            Brand::create([
-                'slug' => $brand['slug'],
+            Brand::updateOrCreate(['slug' => $brand['slug']], [
                 'name' => $brand['name'],
                 'image_url' => "https://static.eneba.games/{$brand['image']}",
                 'link_url' => "/store?brand={$brand['slug']}",
@@ -162,7 +161,7 @@ class ContentSeeder extends Seeder
     private function seedCurrencies(array $currencies): void
     {
         foreach ($currencies as $i => $currency) {
-            Currency::create($currency + ['sort' => $i]);
+            Currency::updateOrCreate(['code' => $currency['code']], $currency + ['sort' => $i]);
         }
     }
 
@@ -174,7 +173,7 @@ class ContentSeeder extends Seeder
             ['recommended', 'product_row', 'recommended', 'Recommended for you',
                 'Picked for you based on what you buy and save. Sign in to make it more personal.', '/store', ['limit' => 5, 'link_label' => 'See all']],
             ['top-games', 'product_carousel', 'bestsellers', 'Top games',
-                'The games other players are buying the most right now.', '/store?type=game&sort=bestselling', ['limit' => 15, 'type' => ['game', 'dlc']]],
+                'The games other players are buying the most right now.', '/store?type=game&sort=popular', ['limit' => 15, 'type' => ['game', 'dlc']]],
             ['egift-cards', 'brand_carousel', 'brands', 'Best selling eGift Cards',
                 'Gift cards for shopping, streaming, food and travel brands.', '/store?type=egift_card', []],
             ['gift-cards', 'product_carousel', 'bestsellers', 'Best selling gift cards',
@@ -185,8 +184,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($blocks as $i => [$key, $type, $source, $title, $subtitle, $link, $config]) {
-            HomepageBlock::create([
-                'key' => $key,
+            HomepageBlock::updateOrCreate(['key' => $key], [
                 'type' => $type,
                 'source' => $source,
                 'title' => $title,

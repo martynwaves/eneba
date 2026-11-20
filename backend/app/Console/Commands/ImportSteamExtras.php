@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Platform;
 use App\Models\Product;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
@@ -21,13 +22,19 @@ class ImportSteamExtras extends Command
         }
 
         $extras = json_decode(file_get_contents($path), true);
+        // Steam's system requirements describe the PC version; console editions of a game get none.
+        $pcPlatformIds = Platform::where('family', 'pc')->pluck('id');
         $updated = 0;
 
         foreach ($extras as $appId => $extra) {
-            $updated += Product::where('steam_app_id', (int) $appId)->update([
+            $products = Product::where('steam_app_id', (int) $appId);
+            $updated += (clone $products)->update([
                 'languages' => json_encode($extra['languages'] ?? []),
                 'trailer' => isset($extra['trailer']['hls']) ? json_encode($extra['trailer']) : null,
                 'about' => json_encode($extra['about'] ?? []),
+                'platform_requirements' => null,
+            ]);
+            $products->whereIn('platform_id', $pcPlatformIds)->update([
                 'platform_requirements' => json_encode($extra['requirements'] ?? (object) []),
             ]);
         }

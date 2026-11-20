@@ -38,10 +38,9 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: 'store', element: <StorePage /> },
-      { path: 'search', element: <StorePage /> },
       { path: 'wishlist', ...lazyPage(() => import('./pages/WishlistPage').then((m) => ({ Component: m.WishlistPage }))) },
       {
-        // Checkout and order history are for signed-in users only.
+        // Account pages and order history are for signed-in users only.
         element: <RequireAuth />,
         children: [
           { path: 'account', ...lazyPage(() => import('./pages/AccountPage').then((m) => ({ Component: m.AccountPage }))) },

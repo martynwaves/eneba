@@ -14,21 +14,18 @@ export interface ProductCard {
   type: ProductType
   platform: { slug: string; name: string; family: string }
   region: { slug: string; name: string; color: string }
-  brand: string | null
   cover_url: string | null
   header_url: string | null
   art: ProductArt | null
   min_price: number | null
   msrp: number | null
   discount_percent: number | null
-  offers_count: number
   best_offer_id: number | null
   cashback_percent: number
   in_stock: boolean
   rating_avg: number
   rating_count: number
   release_date: string | null
-  release_label: string | null
   is_preorder: boolean
 }
 
@@ -39,10 +36,8 @@ export interface Seller {
   rating: number
   rating_label: string
   rating_count: number
-  sales_count: number
   is_verified: boolean
   avatar_color: string
-  country_code: string | null
 }
 
 export interface Offer {
@@ -51,7 +46,6 @@ export interface Offer {
   stock: number
   in_stock: boolean
   is_lowest: boolean
-  is_best_rated: boolean
   is_best_cashback: boolean
   cashback_percent: number
   seller: Seller
@@ -60,8 +54,6 @@ export interface Offer {
 export interface ProductVariant {
   slug: string
   platform: string
-  platform_family: string
-  device: string
   region: string
   min_price: number | null
   in_stock: boolean
@@ -73,12 +65,10 @@ export type OperatingSystem = 'windows' | 'mac' | 'linux'
 export type ReviewAspect = 'gameplay' | 'story' | 'graphics' | 'soundtrack'
 
 export interface ProductDetail extends ProductCard {
-  short_description: string | null
   description: string | null
   developer: string | null
   publisher: string | null
   screenshots: { thumb: string; full: string }[]
-  requirements: { minimum?: string; recommended?: string } | null
   platform_requirements: Partial<Record<OperatingSystem, { minimum?: string | null; recommended?: string | null }>>
   languages: string[]
   trailer: { name: string; thumb: string | null; hls: string | null } | null
@@ -87,16 +77,11 @@ export interface ProductDetail extends ProductCard {
   wishlist_count: number
   watching: number
   operating_systems: string[]
-  features: string[]
-  metacritic: number | null
-  stock: number
   genres: { slug: string; name: string }[]
   activation: {
     platform: string
     key_label: string
-    device: string
     url: string | null
-    region_description: string | null
   }
   featured_offer_id: number | null
   offers: Offer[]
@@ -106,7 +91,7 @@ export interface ProductDetail extends ProductCard {
 
 export interface Paginated<T> {
   data: T[]
-  meta: { current_page: number; last_page: number; per_page?: number; total: number }
+  meta: { current_page: number; last_page: number; total: number }
 }
 
 export interface Facets {
@@ -119,7 +104,7 @@ export interface Facets {
 
 export interface ProductListResponse extends Paginated<ProductCard> {
   facets: Facets
-  search: { query: string; corrected_to: string | null } | null
+  search: { corrected_to: string | null } | null
 }
 
 export interface FilterOption {
@@ -138,9 +123,7 @@ export interface CatalogFilters {
 }
 
 export interface SearchSuggestions {
-  query: string
   products: ProductCard[]
-  titles: string[]
   total: number
   corrected_to: string | null
 }
@@ -152,12 +135,11 @@ export interface Review {
   aspects: Partial<Record<ReviewAspect, number>> | null
   body: string
   is_verified_purchase: boolean
-  is_mine: boolean
   created_at: string
 }
 
 export interface ReviewsResponse extends Paginated<Review> {
-  summary: { average: number; count: number; distribution: Record<string, number>; aspects: Record<ReviewAspect, number | null> }
+  summary: { count: number; aspects: Record<ReviewAspect, number | null> }
 }
 
 export interface HomepageBlockMeta {
@@ -183,7 +165,6 @@ export interface Banner {
 export interface Shortcut {
   id: number
   label: string
-  icon: string
   icon_svg: string | null
   link_url: string
 }
@@ -226,7 +207,6 @@ export interface Currency {
 }
 
 export interface SettingsOptions {
-  default_region: string
   regions: LocaleRegion[]
   languages: { code: string; name: string }[]
   currencies: Currency[]
@@ -241,9 +221,8 @@ export interface User {
   id: number
   name: string
   email: string
+  /** The Eneba Wallet balance: seller cashback and refunded keys land here; checkout can spend it. */
   cashback_balance: number
-  cashback_earned: number
-  enebium: number
   wishlist_count: number
   created_at: string
 }
@@ -260,6 +239,8 @@ export interface LibraryKey {
   art: ProductArt | null
   platform_name: string
   region_name: string
+  /** What refunding this key returns; null once it has been revealed. */
+  refund_amount: number | null
 }
 
 export interface CartLine {
@@ -283,7 +264,6 @@ export interface CartSummary {
   discount_code: string | null
   discount_error: string | null
   total: number
-  currency: string
   has_problems: boolean
 }
 
@@ -308,13 +288,20 @@ export interface OrderItem {
   cashback_percent: number
   unit_price: number
   quantity: number
-  keys: { id: number; revealed: boolean; revealed_at: string | null; code: string | null }[]
+  refunded_quantity: number
+  keys: { id: number; revealed: boolean; code: string | null; refund_amount: number | null }[]
+}
+
+/** Where a key refund went: the card share is refunded first, the rest goes back to the wallet. */
+export interface KeyRefund {
+  amount: number
+  to_card: number
+  to_wallet: number
 }
 
 export interface Order {
   number: string
   status: OrderStatus
-  currency: string
   subtotal: number
   service_fee: number
   discount: number
@@ -322,6 +309,7 @@ export interface Order {
   total: number
   wallet_amount: number
   card_amount: number
+  refunded: number
   payment_provider: 'stripe' | 'simulated' | 'wallet'
   created_at: string
   paid_at: string | null
@@ -331,8 +319,6 @@ export interface Order {
 }
 
 export interface AppConfig {
-  currency: string
-  service_fee: number
   payment: { driver: 'stripe' | 'simulated'; stripe_publishable_key: string | null }
   demo_discount_codes: { code: string; summary: string }[]
 }

@@ -16,12 +16,7 @@ class ReviewController extends Controller
     public function index(Request $request, string $slug): JsonResponse
     {
         $product = Product::active()->where('slug', $slug)->firstOrFail();
-        $reviews = $product->reviews()->latest()->paginate(8);
-
-        $distribution = $product->reviews()
-            ->selectRaw('rating, count(*) as total')
-            ->groupBy('rating')
-            ->pluck('total', 'rating');
+        $reviews = $product->reviews()->latest()->orderByDesc('id')->paginate(8);
 
         return response()->json([
             'data' => ReviewResource::collection($reviews->items()),
@@ -31,9 +26,7 @@ class ReviewController extends Controller
                 'total' => $reviews->total(),
             ],
             'summary' => [
-                'average' => $product->rating_avg,
                 'count' => $product->rating_count,
-                'distribution' => collect([5, 4, 3, 2, 1])->mapWithKeys(fn ($r) => [$r => (int) ($distribution[$r] ?? 0)]),
                 'aspects' => $this->aspectAverages($product),
             ],
         ]);

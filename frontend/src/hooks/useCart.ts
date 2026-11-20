@@ -9,7 +9,7 @@ import { useUi } from '../stores/ui'
 
 const EMPTY_CART: Cart = {
   lines: [],
-  summary: { items_count: 0, subtotal: 0, service_fee: 0, discount: 0, discount_code: null, discount_error: null, total: 0, currency: 'EUR', has_problems: false },
+  summary: { items_count: 0, subtotal: 0, service_fee: 0, discount: 0, discount_code: null, discount_error: null, total: 0, has_problems: false },
 }
 
 /**
@@ -19,7 +19,7 @@ const EMPTY_CART: Cart = {
 export function useCart() {
   const signedIn = useAuth((s) => s.token !== null)
   const guestItems = useGuestCart((s) => s.items)
-  const guest = useGuestCart()
+  const guest = useGuestCart.getState()
   const qc = useQueryClient()
   // A discount code is priced into every cart response, so mutations send it too.
   const code = useDiscount((s) => s.code)
@@ -37,9 +37,10 @@ export function useCart() {
   })
 
   const setServerCart = (cart: Cart) => qc.setQueryData(['cart', 'account', code], cart)
+  const failed = (fallback: string) => (e: Error) => toast.error(e instanceof ApiError ? e.message : fallback)
 
   const add = useMutation({
-    mutationFn: async ({ offerId, quantity = 1 }: { offerId: number; quantity?: number; title?: string; silent?: boolean }) => {
+    mutationFn: async ({ offerId, quantity = 1 }: { offerId: number; quantity?: number; silent?: boolean }) => {
       if (!signedIn) {
         guest.add(offerId, quantity)
         return
@@ -51,7 +52,7 @@ export function useCart() {
     onSuccess: (_d, vars) => {
       if (!vars.silent) useUi.getState().showAddedToCart()
     },
-    onError: (e) => toast.error(e instanceof ApiError ? e.message : 'Could not add to cart'),
+    onError: failed('Could not add to cart'),
   })
 
   const update = useMutation({
@@ -63,6 +64,7 @@ export function useCart() {
       const { data } = await api<{ data: Cart }>(`/cart/items/${offerId}`, { method: 'PATCH', body: { quantity }, query: codeQuery })
       setServerCart(data)
     },
+    onError: failed('Could not change the quantity'),
   })
 
   const remove = useMutation({
@@ -74,6 +76,7 @@ export function useCart() {
       const { data } = await api<{ data: Cart }>(`/cart/items/${offerId}`, { method: 'DELETE', query: codeQuery })
       setServerCart(data)
     },
+    onError: failed('Could not remove the item'),
   })
 
   const cart = query.data ?? EMPTY_CART

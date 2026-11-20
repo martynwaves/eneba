@@ -1,21 +1,21 @@
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Bot, CirclePlus, Gamepad2, Gem, Heart, LogOut, Menu, ShoppingCart, User as UserIcon, Wallet, X } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { Bot, Gamepad2, Heart, LogOut, Menu, ShoppingCart, User as UserIcon, Wallet, X } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router'
 import { useMe, useNavigation, useWishlist } from '../../api/queries'
 import { useAuthActions } from '../../hooks/useAuthActions'
 import { useCart } from '../../hooks/useCart'
+import { useMenuState } from '../../hooks/useMenuState'
 import { formatPrice } from '../../lib/format'
+import { LOGO_URL } from '../../lib/links'
 import type { NavLink, User } from '../../lib/types'
 import { useAuth } from '../../stores/auth'
 import { useUi } from '../../stores/ui'
-import { PlatformIcon } from '../ui/BrandIcon'
 import { CartDropdown } from '../cart/CartDropdown'
+import { PlatformIcon } from '../ui/BrandIcon'
 import { SearchBox } from './SearchBox'
 import { LocaleButton } from './SettingsModal'
-
-export const LOGO_URL = 'https://static.eneba.games/branding/v2/logoFull.svg'
 
 const CATEGORY_GROUPS = [
   {
@@ -64,11 +64,9 @@ export function Header() {
   const user = useAuth((s) => s.user)
   const openSettings = useUi((s) => s.openSettings)
   const { data: navLinks } = useNavigation()
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useMenuState()
   const location = useLocation()
   const qc = useQueryClient()
-
-  useEffect(() => setMenuOpen(false), [location.pathname, location.search])
 
   // On the homepage the logo refreshes it: back to the top with fresh block content.
   const onLogoClick = (e: React.MouseEvent) => {
@@ -229,17 +227,15 @@ function Avatar({ className }: { className?: string }) {
   )
 }
 
-/** Eneba's account dropdown: avatar button, profile header, favourites, wallet and account links. */
+/** Eneba's account dropdown: avatar button, profile header, wishlist, wallet balance and account links. */
 function UserMenu({ user }: { user: User }) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useMenuState()
   const ref = useRef<HTMLDivElement>(null)
   const { logout } = useAuthActions()
-  const location = useLocation()
   const { data: me } = useMe(open)
   const wishlistCount = useWishlist().data?.ids.length ?? me?.wishlist_count ?? 0
   const profile = me ?? user
 
-  useEffect(() => setOpen(false), [location.pathname])
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) setOpen(false)
@@ -251,7 +247,7 @@ function UserMenu({ user }: { user: User }) {
       document.removeEventListener('mousedown', onClick)
       document.removeEventListener('keydown', onKey)
     }
-  }, [])
+  }, [setOpen])
 
   return (
     <div ref={ref} className="relative">
@@ -280,7 +276,7 @@ function UserMenu({ user }: { user: User }) {
 
           <div className="border-b border-white/15 py-2">
             <MenuItem to="/wishlist" icon={<Heart />} value={<span>{wishlistCount}</span>}>
-              Favorites
+              Wishlist
             </MenuItem>
           </div>
 
@@ -288,23 +284,12 @@ function UserMenu({ user }: { user: User }) {
             <MenuItem to="/account" icon={<UserIcon />}>
               My account
             </MenuItem>
-            <MenuItem to="/account" icon={<Wallet />} value={<span className="font-extrabold text-green">{formatPrice(profile.cashback_balance ?? 0)}</span>}>
-              Balance
-            </MenuItem>
-            <MenuItem
-              to="/account"
-              icon={<Gem />}
-              value={
-                <span className="flex items-center gap-1 font-extrabold text-green">
-                  <Gem className="size-4" /> {profile.enebium ?? 0}
-                </span>
-              }
-            >
-              Enebium
-            </MenuItem>
-            <MenuItem to="/account" icon={<CirclePlus />} value={profile.cashback_earned ? <span className="font-extrabold text-green">{formatPrice(profile.cashback_earned)}</span> : undefined}>
-              Cashback
-            </MenuItem>
+            {/* Information, not a link: the wallet holds cashback and refunds, and is spent at checkout. */}
+            <div className="flex items-center gap-3 py-2.5 text-base [&>svg]:size-[22px] [&>svg]:stroke-[1.6]">
+              <Wallet />
+              <span className="flex-1">Eneba Wallet</span>
+              <span className="font-extrabold text-green">{formatPrice(profile.cashback_balance ?? 0)}</span>
+            </div>
             <MenuItem to="/account/orders" icon={<ShoppingCart />}>
               Orders
             </MenuItem>

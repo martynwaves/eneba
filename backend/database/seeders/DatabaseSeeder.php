@@ -7,9 +7,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /** Demo account for reviewers (also in the README). Created last, so it marks a finished seed. */
-    public const DEMO_EMAIL = 'demo@eneba.test';
-
     public function run(): void
     {
         $this->call([
@@ -18,8 +15,9 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
         ]);
 
+        // Demo account for reviewers (also shown on the login page and in the README).
         User::firstOrCreate(
-            ['email' => self::DEMO_EMAIL],
+            ['email' => 'demo@eneba.test'],
             ['name' => 'Demo Gamer', 'password' => 'demo12345'],
         );
     }

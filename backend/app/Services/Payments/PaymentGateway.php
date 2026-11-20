@@ -6,6 +6,9 @@ use App\Models\Order;
 
 interface PaymentGateway
 {
+    /** Stripe can't charge less than this (50 euro cents), so orders and card shares never go below it. */
+    public const MIN_CHARGE_CENTS = 50;
+
     public const SUCCEEDED = 'succeeded';
 
     public const PROCESSING = 'processing';
@@ -32,5 +35,9 @@ interface PaymentGateway
 
     public function cancel(Order $order): void;
 
-    public function refund(Order $order): void;
+    /**
+     * Refund the order's card payment: all of it, or `$amountCents` of it. A retry with the
+     * same `$idempotencyKey` never refunds twice.
+     */
+    public function refund(Order $order, ?int $amountCents = null, ?string $idempotencyKey = null): void;
 }

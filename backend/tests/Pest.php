@@ -82,3 +82,8 @@ function signIn(?User $user = null): User
 
     return $user;
 }
+
+function addToCart(int $offerId, int $quantity = 1): void
+{
+    test()->postJson('/api/cart/items', ['offer_id' => $offerId, 'quantity' => $quantity])->assertOk();
+}

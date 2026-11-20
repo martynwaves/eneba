@@ -18,10 +18,8 @@ class SellerResource extends JsonResource
             'rating' => $this->rating,
             'rating_label' => $this->ratingLabel(),
             'rating_count' => $this->rating_count,
-            'sales_count' => $this->sales_count,
             'is_verified' => $this->is_verified,
             'avatar_color' => $this->avatar_color,
-            'country_code' => $this->country_code,
         ];
     }
 }

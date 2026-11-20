@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useWishlist } from '../api/queries'
-import { api } from '../lib/api'
+import { ApiError, api } from '../lib/api'
 import type { ProductCard } from '../lib/types'
 import { useAuth } from '../stores/auth'
 import { useGuestWishlist } from '../stores/guestWishlist'
@@ -14,18 +14,21 @@ export function useWishlistToggle(productId: number) {
   const qc = useQueryClient()
   const saved = data?.ids.includes(productId) ?? false
 
+  // The request's own direction drives its message: by the time it succeeds, `saved` may already
+  // reflect a later render.
   const mutation = useMutation({
-    mutationFn: () =>
-      api<{ data: ProductCard[]; ids: number[] }>(`/wishlist/${productId}`, { method: saved ? 'DELETE' : 'POST' }),
-    onSuccess: (res) => {
+    mutationFn: (remove: boolean) => api<{ data: ProductCard[]; ids: number[] }>(`/wishlist/${productId}`, { method: remove ? 'DELETE' : 'POST' }),
+    onSuccess: (res, remove) => {
       qc.setQueryData(['wishlist'], res)
-      toast.success(saved ? 'Removed from wishlist' : 'Saved to wishlist', saved ? undefined : { label: 'View', href: '/wishlist' })
+      toast.success(remove ? 'Removed from wishlist' : 'Saved to wishlist', remove ? undefined : { label: 'View', href: '/wishlist' })
     },
+    onError: (e) => toast.error(e instanceof ApiError ? e.message : 'Could not update your wishlist'),
   })
 
   const toggle = () => {
     if (signedIn) {
-      mutation.mutate()
+      // A second click before the first answer would repeat the same request, not undo it.
+      if (!mutation.isPending) mutation.mutate(saved)
       return
     }
     const added = toggleGuest(productId)

@@ -105,7 +105,6 @@ for (const id of onlyIds ?? APP_IDS) {
     release_date: d.release_date?.date ?? null,
     coming_soon: Boolean(d.release_date?.coming_soon),
     genres: (d.genres ?? []).map((g) => g.description),
-    categories: (d.categories ?? []).map((c) => c.description),
     platforms: d.platforms ?? {},
     metacritic: d.metacritic?.score ?? null,
     price_cents: d.price_overview?.initial ?? null,
@@ -115,8 +114,6 @@ for (const id of onlyIds ?? APP_IDS) {
       thumb: s.path_thumbnail?.split('?')[0],
       full: s.path_full?.split('?')[0],
     })),
-    requirements_min: htmlToText(d.pc_requirements?.minimum),
-    requirements_rec: htmlToText(d.pc_requirements?.recommended),
   });
   console.log(`ok ${id} ${d.name}${hasPortrait ? '' : ' (no portrait)'}`);
 }

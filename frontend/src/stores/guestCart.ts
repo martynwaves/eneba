@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export interface GuestCartItem {
+interface GuestCartItem {
   offer_id: number
   quantity: number
 }

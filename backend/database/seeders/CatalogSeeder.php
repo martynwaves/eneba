@@ -23,12 +23,6 @@ use Illuminate\Support\Str;
  */
 class CatalogSeeder extends Seeder
 {
-    private const KEEP_FEATURES = [
-        'Single-player', 'Multi-player', 'Co-op', 'Online Co-op', 'PvP', 'Online PvP',
-        'Cross-Platform Multiplayer', 'Family Sharing', 'Steam Achievements', 'Full controller support',
-        'Steam Cloud', 'Remote Play Together', 'VR Only', 'In-App Purchases',
-    ];
-
     private const NAME_OVERRIDES = [
         'ELDEN RING' => 'Elden Ring',
         'ELDEN RING Shadow of the Erdtree' => 'Elden Ring: Shadow of the Erdtree',
@@ -106,7 +100,6 @@ class CatalogSeeder extends Seeder
                 'slug' => Str::slug($s['name']),
                 'is_verified' => $s['rating'] >= 9.0,
                 'rating_count' => mt_rand(800, 60000),
-                'sales_count' => mt_rand(5000, 400000),
             ]);
         }
 
@@ -178,23 +171,15 @@ class CatalogSeeder extends Seeder
                 'platform' => $platform,
                 'region' => $this->regions[$regionSlug],
                 'steam_app_id' => $appId,
-                'short_description' => $game['short_description'],
                 'description' => $this->longDescription($name, $game, $platform),
                 'developer' => $game['developers'][0] ?? null,
                 'publisher' => $publisher,
                 'release_date' => $game['coming_soon'] && ! $releaseDate?->isFuture() ? null : $releaseDate,
                 'coming_soon' => (bool) $game['coming_soon'],
-                'release_label' => $game['coming_soon'] ? $game['release_date'] : null,
                 'cover_url' => $game['cover_image'],
                 'header_url' => $game['header_image'],
                 'screenshots' => $game['screenshots'],
-                'requirements' => $isConsole ? null : array_filter([
-                    'minimum' => $game['requirements_min'] ?: null,
-                    'recommended' => $game['requirements_rec'] ?: null,
-                ]),
                 'operating_systems' => $isConsole ? [$platform->device_label] : array_keys(array_filter($game['platforms'] ?? ['windows' => true])),
-                'features' => array_values(array_intersect($game['categories'], self::KEEP_FEATURES)),
-                'metacritic' => $game['metacritic'],
                 'msrp_cents' => $isConsole ? (int) round($msrp * 1.15 / 100) * 100 - 1 : $msrp,
                 'sales_count' => (int) ($popularity
                     * ($regionSlug === 'global' ? 1 : 0.45)
@@ -221,14 +206,12 @@ class CatalogSeeder extends Seeder
                 'type' => 'game',
                 'platform' => $platform,
                 'region' => $this->regions[$regionSlug],
-                'short_description' => $game['description'],
                 'description' => $game['description']."\n\nActivate the key on {$platform->name} and start playing right away. Every key is sold by a verified seller and is covered by Eneba's buyer protection.",
                 'developer' => $game['developer'],
                 'publisher' => $game['publisher'],
                 'release_date' => $releaseDate,
                 'cover_url' => $cover,
                 'operating_systems' => [$platform->device_label],
-                'features' => [],
                 'msrp_cents' => $game['msrp'],
                 'sales_count' => 9000 + ($game['sales_boost'] ?? 0) + mt_rand(0, 4000),
                 'search_aliases' => $game['aliases'],
@@ -250,13 +233,11 @@ class CatalogSeeder extends Seeder
             'brand' => $item['brand'],
             'platform' => $platform,
             'region' => $region,
-            'short_description' => "{$item['name']} delivered as a digital code. Redeem it and use it straight away.",
             'description' => "Buy {$item['name']} at a lower price on Eneba. This {$typeLabel} product is delivered instantly as a digital code after payment. "
                 ."Make sure your account region matches {$region->name} before redeeming. Codes are sold by verified sellers and covered by Eneba's buyer protection.",
             'cover_url' => $item['cover'] ?? null,
             'art' => $item['art'] ?? null,
             'operating_systems' => [],
-            'features' => [],
             'msrp_cents' => $item['face'],
             'sales_count' => mt_rand(2000, 16000),
         ]);
@@ -308,7 +289,8 @@ class CatalogSeeder extends Seeder
 
         foreach ($sellers as $seller) {
             $spread = 1 + (mt_rand(-6, 14) / 100);
-            $price = max(49, (int) (round($reference * $market * $spread / 10) * 10) - 1);
+            // Never below 99 cents: Stripe can't charge less than 50 cents for an order.
+            $price = max(99, (int) (round($reference * $market * $spread / 10) * 10) - 1);
             $stock = $soldOut ? 0 : (mt_rand(1, 100) <= 12 ? 0 : mt_rand(1, 9));
 
             $offer = Offer::create([

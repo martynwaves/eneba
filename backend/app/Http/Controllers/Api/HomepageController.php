@@ -16,15 +16,7 @@ class HomepageController extends Controller
     {
         $blocks = HomepageBlock::where('is_active', true)->orderBy('sort')->get()
             ->filter(fn (HomepageBlock $b) => isset(config('homepage.providers')[$b->source]))
-            ->map(fn (HomepageBlock $b) => [
-                'key' => $b->key,
-                'type' => $b->type,
-                'title' => $b->title,
-                'subtitle' => $b->subtitle,
-                'link_url' => $b->link_url,
-                'link_label' => $b->config['link_label'] ?? 'Show all',
-                'endpoint' => "/homepage/blocks/{$b->key}",
-            ])
+            ->map(fn (HomepageBlock $b) => [...$this->heading($b), 'endpoint' => "/homepage/blocks/{$b->key}"])
             ->values();
 
         return response()->json(['data' => $blocks]);
@@ -47,15 +39,24 @@ class HomepageController extends Controller
                 fn () => $this->toPlainArray($provider->data($block, null)))
             : $provider->data($block, $user);
 
-        return response()->json(['data' => [
+        return response()->json(['data' => [...$this->heading($block), 'content' => $data]]);
+    }
+
+    /**
+     * What both the layout and the block itself say about a block.
+     *
+     * @return array{key: string, type: string, title: ?string, subtitle: ?string, link_url: ?string, link_label: string}
+     */
+    private function heading(HomepageBlock $block): array
+    {
+        return [
             'key' => $block->key,
             'type' => $block->type,
             'title' => $block->title,
             'subtitle' => $block->subtitle,
             'link_url' => $block->link_url,
             'link_label' => $block->config['link_label'] ?? 'Show all',
-            'content' => $data,
-        ]]);
+        ];
     }
 
     /**

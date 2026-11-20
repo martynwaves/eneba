@@ -27,7 +27,8 @@ const STANDALONE: Record<string, ComponentType<{ meta: HomepageBlockMeta }>> = {
  * Unknown types are skipped, so an older frontend survives new block types.
  */
 export function HomepageBlocks({ blocks }: { blocks: HomepageBlockMeta[] }) {
-  let sectionIndex = 0
+  // Product sections alternate light/dark, counting only the sections (not hero, shortcuts...).
+  const sections = blocks.filter((meta) => !STANDALONE[meta.type] && SECTIONS[meta.type])
   return (
     <>
       {blocks.map((meta) => {
@@ -35,14 +36,9 @@ export function HomepageBlocks({ blocks }: { blocks: HomepageBlockMeta[] }) {
         if (Standalone) return <Standalone key={meta.key} meta={meta} />
         const Section = SECTIONS[meta.type]
         if (!Section) return null
-        const tone: Tone = sectionIndex++ % 2 === 0 ? 'light' : 'dark'
+        const tone: Tone = sections.indexOf(meta) % 2 === 0 ? 'light' : 'dark'
         return <Section key={meta.key} meta={meta} tone={tone} />
       })}
     </>
   )
-}
-
-/** Single-block renderer (kept for tests and ad-hoc use). */
-export function BlockRenderer({ meta }: { meta: HomepageBlockMeta }) {
-  return <HomepageBlocks blocks={[meta]} />
 }

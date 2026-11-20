@@ -23,19 +23,15 @@ const decode = (s) =>
 
 const stripTags = (html) => decode(html.replace(/<[^>]+>/g, '')).replace(/[ \t]+/g, ' ').trim();
 
+/** Steam's language list, without the "*" that marks full audio support. */
 function languages(html) {
-  if (!html) return { all: [], audio: [] };
-  const list = html.split(/<br\s*\/?>/i)[0];
-  const all = [];
-  const audio = [];
-  for (const raw of list.split(',')) {
-    const full = raw.includes('*');
-    const name = stripTags(raw).replace(/\*/g, '').trim();
-    if (!name || name.startsWith('[b]')) continue;
-    all.push(name);
-    if (full) audio.push(name);
-  }
-  return { all: [...new Set(all)].sort((a, b) => a.localeCompare(b)), audio };
+  if (!html) return [];
+  const names = html
+    .split(/<br\s*\/?>/i)[0]
+    .split(',')
+    .map((raw) => stripTags(raw).replace(/\*/g, '').trim())
+    .filter((name) => name && !name.startsWith('[b]'));
+  return [...new Set(names)].sort((a, b) => a.localeCompare(b));
 }
 
 function requirementText(html) {
@@ -88,13 +84,29 @@ function about(html) {
   return blocks.slice(0, 60);
 }
 
-function trailer(d) {
+async function headOk(url) {
+  try {
+    return (await fetch(url, { method: 'HEAD' })).ok;
+  } catch {
+    return false;
+  }
+}
+
+/** Older trailers also have a sharper 600x337 still; newer ones only the 293x165 one Steam lists. */
+async function trailerThumb(url) {
+  if (!url) return null;
+  const listed = url.split('?')[0];
+  const large = listed.replace('movie.293x165', 'movie_600x337');
+  return large !== listed && (await headOk(large)) ? large : listed;
+}
+
+async function trailer(d) {
   const movies = d.movies ?? [];
   const movie = movies.find((m) => m.highlight) ?? movies[0];
   if (!movie) return null;
   return {
     name: movie.name,
-    thumb: movie.thumbnail?.split('?')[0].replace('movie.293x165', 'movie_600x337') ?? null,
+    thumb: await trailerThumb(movie.thumbnail),
     hls: movie.hls_h264 ?? null,
   };
 }
@@ -120,8 +132,7 @@ for (const [i, game] of games.entries()) {
     console.log(`skip ${id} ${game.name}`);
     continue;
   }
-  const langs = languages(data.supported_languages);
-  out[id] = { languages: langs.all, full_audio: langs.audio, trailer: trailer(data), requirements: requirements(data), about: about(data.about_the_game) };
+  out[id] = { languages: languages(data.supported_languages), trailer: await trailer(data), requirements: requirements(data), about: about(data.about_the_game) };
   console.log(`${i + 1}/${games.length} ok ${id} ${game.name}`);
   await sleep(1600);
 }

@@ -1,15 +1,13 @@
-import { useMutation } from '@tanstack/react-query'
-import { BadgePercent, Globe, ShieldCheck, ShoppingCart } from 'lucide-react'
-import { useState } from 'react'
+import { Globe, ShieldCheck, ShoppingCart } from 'lucide-react'
 import { Link } from 'react-router'
-import { ApiError, api } from '../../lib/api'
 import { formatPrice } from '../../lib/format'
+import { TRUSTPILOT_URL, paymentLogo } from '../../lib/links'
 import type { Offer, ProductDetail } from '../../lib/types'
-import { useAuth } from '../../stores/auth'
-import { toast } from '../../stores/toast'
-import { InfoTooltip } from '../home/Section'
 import { Button } from '../ui/Button'
-import { Cashback } from './OfferList'
+import { StarIcon } from '../ui/Stars'
+import { InfoTooltip } from '../ui/Tooltip'
+import { TrustpilotStars } from '../ui/TrustpilotStars'
+import { Cashback, SellerAvatar } from './OfferList'
 
 const PAYMENT_LOGOS = [
   ['wallet', 'Eneba Wallet'],
@@ -20,22 +18,26 @@ const PAYMENT_LOGOS = [
   ['nuvei_crypto', 'Crypto'],
 ] as const
 
-/** Right-hand column of the product page: Trustpilot, the featured offer, trust badges, newsletter. */
+/** Right-hand column of the product page: Trustpilot, the featured offer, trust badges. */
 export function BuySidebar({
   product,
   featured,
-  cheapest,
-  availableCount,
+  cheapestOther,
+  otherCount,
   pending,
+  adding,
   onBuy,
   onAdd,
   onMore,
 }: {
   product: ProductDetail
   featured: Offer | null
-  cheapest: Offer | null
-  availableCount: number
+  /** The cheapest in-stock offer besides the featured one, and how many such offers there are. */
+  cheapestOther: Offer | null
+  otherCount: number
   pending: boolean
+  /** An "Add to cart" request is on its way; a second click would add the key twice. */
+  adding: boolean
   onBuy: (o: Offer) => void
   onAdd: (o: Offer) => void
   onMore: () => void
@@ -43,7 +45,7 @@ export function BuySidebar({
   return (
     <div className="space-y-2.5">
       <a
-        href="https://www.trustpilot.com/review/eneba.com"
+        href={TRUSTPILOT_URL}
         target="_blank"
         rel="noreferrer"
         className="flex items-center justify-center gap-3 py-3 text-[19px] font-semibold"
@@ -51,9 +53,7 @@ export function BuySidebar({
         <span className="underline">Excellent</span>
         <TrustpilotStars />
         <span className="flex items-center gap-1 text-sm font-semibold">
-          <svg viewBox="0 0 24 24" className="size-5 text-[#00b67a]" fill="currentColor" aria-hidden="true">
-            <path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
-          </svg>
+          <StarIcon className="size-5 text-[#00b67a]" />
           Trustpilot
         </span>
       </a>
@@ -62,6 +62,12 @@ export function BuySidebar({
         <div className="bg-brand-panel">
           <div className="px-6 pt-6 pb-6">
             <div className="text-[11px] font-extrabold tracking-wide text-cta uppercase">Featured offer</div>
+            <div className="mt-2 flex items-center gap-2 text-sm text-white/80">
+              <SellerAvatar seller={featured.seller} size="sm" />
+              <span className="min-w-0 truncate">
+                Sold by <span className="font-extrabold text-white">{featured.seller.name}</span>
+              </span>
+            </div>
             <div className="mt-3 flex items-center gap-3">
               <span className="text-[38px] leading-10 font-extrabold">{formatPrice(featured.price)}</span>
               <span className="flex items-center gap-1.5 text-sm text-white/80">
@@ -76,27 +82,19 @@ export function BuySidebar({
             )}
             {featured.cashback_percent > 0 && <Cashback offer={featured} />}
 
-            <button
-              type="button"
-              onClick={() => onBuy(featured)}
-              aria-label="Pay with PayPal"
-              className="mt-5 flex h-[42px] w-full items-center justify-center bg-white transition-opacity hover:opacity-90"
-            >
-              <img src="https://assets.eneba.games/payments/v1/color/braintree_paypal.svg" alt="PayPal" className="h-6" />
-            </button>
-            <div className="mt-4 flex gap-4">
+            <div className="mt-5 flex gap-4">
               <Button block size="lg" loading={pending} onClick={() => onBuy(featured)}>
                 Buy now
               </Button>
-              <Button variant="outline" size="lg" onClick={() => onAdd(featured)} aria-label="Add to cart" className="px-3.5">
+              <Button variant="outline" size="lg" onClick={() => onAdd(featured)} disabled={adding} aria-label="Add to cart" className="px-3.5">
                 <ShoppingCart className="size-5" />
                 <span className="-ml-1 text-lg leading-none font-extrabold">+</span>
               </Button>
             </div>
           </div>
-          {availableCount > 1 && cheapest && (
+          {cheapestOther && (
             <button type="button" onClick={onMore} className="w-full border-t border-white/15 py-4 text-center text-[15px] text-mint hover:underline">
-              +{availableCount - 1} offers from {formatPrice(cheapest.price)}
+              +{otherCount} {otherCount === 1 ? 'offer' : 'offers'} from {formatPrice(cheapestOther.price)}
             </button>
           )}
         </div>
@@ -116,14 +114,14 @@ export function BuySidebar({
         <div className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(52px,1fr))] gap-1.5">
           {PAYMENT_LOGOS.map(([file, label]) => (
             <span key={file} className="grid h-8 place-items-center rounded-sm bg-white px-1.5" title={label}>
-              <img src={`https://assets.eneba.games/payments/v1/color/${file}.svg`} alt={label} className="max-h-5 max-w-full" />
+              <img src={paymentLogo(file)} alt={label} className="max-h-5 max-w-full" />
             </span>
           ))}
         </div>
 
         <div className="mt-6 border-t border-white/15 pt-6">
           <div className="text-[15px] text-white/80">Data Encryption & Protection</div>
-          <div className="mt-3 flex items-center gap-2 text-[19px] font-black tracking-tight">
+          <div className="mt-3 flex items-center gap-2 text-[19px] font-extrabold tracking-tight">
             <ShieldCheck className="size-7 fill-[#e8212b] text-white" />
             SCAMADVISER
           </div>
@@ -140,7 +138,7 @@ export function BuySidebar({
             </span>
           </div>
           <div className="flex items-center bg-[#e8212b] py-1.5 pr-4 pl-2 text-[11px] leading-3 font-extrabold tracking-[0.15em] uppercase [clip-path:polygon(0_0,92%_0,100%_50%,92%_100%,0_100%)]">
-            <span className="mr-2 border-r border-white/60 pr-2 text-center text-lg leading-4 font-black tracking-normal">
+            <span className="mr-2 border-r border-white/60 pr-2 text-center text-lg leading-4 font-extrabold tracking-normal">
               PC
               <br />
               <span className="text-[8px]">MAG</span>
@@ -149,76 +147,6 @@ export function BuySidebar({
             <br />
             choice
           </div>
-        </div>
-      </div>
-
-      <NewsletterBox />
-    </div>
-  )
-}
-
-function TrustpilotStars() {
-  return (
-    <span className="flex gap-[2px]" aria-label="Rated 4.4 out of 5 on Trustpilot">
-      {[1, 1, 1, 1, 0.5].map((fill, i) => (
-        <span key={i} className="relative grid size-[22px] place-items-center bg-[#dcdce6]">
-          <span className="absolute inset-y-0 left-0 bg-[#00b67a]" style={{ width: `${fill * 100}%` }} />
-          <svg viewBox="0 0 24 24" className="relative size-4" fill="white" aria-hidden="true">
-            <path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
-          </svg>
-        </span>
-      ))}
-    </span>
-  )
-}
-
-/** "Looking for good deals?": signed-in buyers subscribe in one click, guests type an email. */
-function NewsletterBox() {
-  const user = useAuth((s) => s.user)
-  const [email, setEmail] = useState('')
-  const [done, setDone] = useState(false)
-  const subscribe = useMutation({
-    mutationFn: (address: string) => api('/newsletter', { method: 'POST', body: { email: address } }),
-    onSuccess: () => {
-      setDone(true)
-      toast.success('You are subscribed to the best deals!')
-    },
-    onError: (e) => toast.error(e instanceof ApiError ? e.message : 'Could not subscribe right now.'),
-  })
-
-  return (
-    <div className="bg-brand-panel px-6 py-6">
-      <div className="flex gap-3">
-        <BadgePercent className="size-7 shrink-0 text-mint" strokeWidth={1.4} />
-        <div className="min-w-0 flex-1">
-          <div className="text-[15px] font-extrabold">Looking for good deals?</div>
-          <div className="mt-1 text-[15px] text-white/80">Get them delivered to your inbox</div>
-          {done ? (
-            <p className="mt-4 text-sm font-extrabold text-mint">Subscribed. Watch your inbox!</p>
-          ) : (
-            <form
-              className="mt-4 flex flex-col gap-2"
-              onSubmit={(e) => {
-                e.preventDefault()
-                subscribe.mutate(user?.email ?? email)
-              }}
-            >
-              {!user && (
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email"
-                  aria-label="Email for deals newsletter"
-                  className="h-10 bg-black/30 px-3 text-sm placeholder:text-white/50 focus:outline-2 focus:outline-cta"
-                />
-              )}
-              <Button type="submit" loading={subscribe.isPending} className="self-start px-8">
-                Subscribe
-              </Button>
-            </form>
-          )}
         </div>
       </div>
     </div>

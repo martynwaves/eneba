@@ -1,48 +1,25 @@
 import clsx from 'clsx'
-import { AlertTriangle, Ban, CircleHelp, Heart, Trash2 } from 'lucide-react'
+import { AlertTriangle, Ban, Heart, Trash2 } from 'lucide-react'
 import { Link } from 'react-router'
-import { useSettingsOptions } from '../../api/queries'
 import { useCart } from '../../hooks/useCart'
+import { useRegionCheck } from '../../hooks/useRegionCheck'
 import { useWishlistToggle } from '../../hooks/useWishlistToggle'
-import { formatPrice } from '../../lib/format'
+import { cashbackCents, formatPrice } from '../../lib/format'
 import type { CartLine } from '../../lib/types'
-import { useSettings } from '../../stores/settings'
 import { SellerAvatar } from '../product/OfferList'
 import { ProductArt } from '../product/ProductArt'
-
-/** Whether a key's region can be redeemed in the visitor's chosen country. */
-export function useRegionCheck() {
-  const region = useSettings((s) => s.region)
-  const { data: options } = useSettingsOptions()
-  const country = options?.regions.find((r) => r.code === region)
-  return (productRegion: string) => ({
-    ok: !country || country.product_regions.includes(productRegion),
-    country: country?.name ?? '',
-  })
-}
-
-/** Small "?" tooltip used for "Digital product" and "Service fee". */
-export function HelpTip({ text }: { text: string }) {
-  return (
-    <span className="group/tip relative inline-flex align-middle">
-      <CircleHelp className="size-4 text-white/70" aria-label={text} />
-      <span className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden w-56 -translate-x-1/2 bg-[#221f2e] px-3 py-2 text-xs leading-5 font-normal text-white shadow-xl group-hover/tip:block">
-        {text}
-      </span>
-    </span>
-  )
-}
+import { HelpTip } from '../ui/Tooltip'
 
 /**
  * One cart line: seller, title, region warning, quantity stepper, price and cashback.
- * `compact` is the header dropdown; `full` is the cart and checkout pages.
+ * `compact` is the header dropdown; `full` is the cart page.
  */
 export function CartLineItem({ line, variant }: { line: CartLine; variant: 'compact' | 'full' }) {
   const { update, remove } = useCart()
   const wishlist = useWishlistToggle(line.product.id)
   const regionCheck = useRegionCheck()(line.product.region.slug)
   const full = variant === 'full'
-  const cashback = Math.floor((line.line_total * (line.cashback_percent ?? 0)) / 100)
+  const cashback = cashbackCents(line.line_total, line.cashback_percent)
   const max = Math.min(10, Math.max(line.available_stock, 1))
 
   return (
@@ -115,9 +92,4 @@ export function CartLineItem({ line, variant }: { line: CartLine; variant: 'comp
       </div>
     </div>
   )
-}
-
-/** Total cashback across the cart's lines. */
-export function cartCashback(lines: CartLine[]): number {
-  return lines.reduce((sum, l) => sum + Math.floor((l.line_total * (l.cashback_percent ?? 0)) / 100), 0)
 }

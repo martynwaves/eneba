@@ -50,7 +50,8 @@ return [
     |
     */
 
-    'expiration' => null,
+    // Sign-in tokens last 30 days; the frontend treats the resulting 401 as signed out.
+    'expiration' => (int) env('SANCTUM_EXPIRATION', 60 * 24 * 30),
 
     /*
     |--------------------------------------------------------------------------

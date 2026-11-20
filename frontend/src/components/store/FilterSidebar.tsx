@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { ChevronDown, ChevronUp, Search } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import type { CatalogFilters, Facets, FilterOption } from '../../lib/types'
@@ -71,8 +70,8 @@ export function FilterSidebar({ filters, facets, state, onToggle, onPrice, onInS
   )
 }
 
-function Panel({ title, children, defaultOpen = true }: { title: string; children: ReactNode; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen)
+function Panel({ title, children }: { title: string; children: ReactNode }) {
+  const [open, setOpen] = useState(true)
   return (
     <div className="bg-brand-panel pb-5">
       <button
@@ -123,7 +122,7 @@ function OptionGroup({
     )
   }
 
-  // Options with results first, then selected ones that currently have none.
+  // Only options that have results, plus selected ones that currently have none.
   const visible = options
     .filter((o) => (counts?.[o.slug] ?? 0) > 0 || selected.includes(o.slug))
     .filter((o) => o.name.toLowerCase().includes(query.toLowerCase()))
@@ -162,7 +161,7 @@ function OptionGroup({
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
-          className={clsx('mt-1 flex items-center gap-1 text-sm font-extrabold text-cta')}
+          className="mt-1 flex items-center gap-1 text-sm font-extrabold text-cta"
         >
           {expanded ? 'Show less' : `${hidden} more`}
           {expanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
@@ -176,10 +175,13 @@ function PriceRange({ min, max, onApply }: { min: string; max: string; onApply: 
   const [lo, setLo] = useState(min)
   const [hi, setHi] = useState(max)
 
-  useEffect(() => {
+  // Follow the URL when it changes elsewhere (chip removed, "Clear all", back button).
+  const [synced, setSynced] = useState({ min, max })
+  if (synced.min !== min || synced.max !== max) {
+    setSynced({ min, max })
     setLo(min)
     setHi(max)
-  }, [min, max])
+  }
 
   // Apply shortly after typing stops, so the list does not jump on every keystroke.
   useEffect(() => {

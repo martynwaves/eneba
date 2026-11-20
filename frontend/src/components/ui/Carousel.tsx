@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
  * dimmed rather than removed. Dragging or clicking the scrollbar slides the row smoothly.
  * Touch screens keep native swipe scrolling with card snapping.
  */
-export function Carousel({ children, arrowTop = '40%', itemClassName }: { children: ReactNode[]; arrowTop?: string; itemClassName?: string }) {
+export function Carousel({ children, arrowTop = '40%' }: { children: ReactNode[]; arrowTop?: string }) {
   const track = useRef<HTMLDivElement>(null)
   const bar = useRef<HTMLDivElement>(null)
   const [state, setState] = useState({ start: true, end: false, thumb: 1, offset: 0 })
@@ -91,7 +91,7 @@ export function Carousel({ children, arrowTop = '40%', itemClassName }: { childr
           className="scrollbar-none -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 md:mx-0 md:snap-none md:gap-5 md:px-0"
         >
           {children.map((child, i) => (
-            <div key={i} className={clsx('shrink-0 snap-start', itemClassName ?? 'w-[45%] sm:w-[30%] md:w-[calc((100%-60px)/4)] lg:w-[calc((100%-80px)/5)] xl:w-[calc((100%-100px)/6)]')}>
+            <div key={i} className="w-[45%] shrink-0 snap-start sm:w-[30%] md:w-[calc((100%-60px)/4)] lg:w-[calc((100%-80px)/5)] xl:w-[calc((100%-100px)/6)]">
               {child}
             </div>
           ))}

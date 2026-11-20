@@ -3,28 +3,27 @@ import { Ban, ChevronRight, CircleCheck, Heart, Home, KeyRound, ReceiptEuro } fr
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { useProduct } from '../api/queries'
-import { useRegionCheck } from '../components/cart/CartLineItem'
 import { BuySidebar } from '../components/product/BuySidebar'
 import { Gallery } from '../components/product/Gallery'
 import { OfferList } from '../components/product/OfferList'
 import { ProductArt } from '../components/product/ProductArt'
-import { WishRibbon } from '../components/product/WishRibbon'
 import { ProductGrid } from '../components/product/ProductRow'
 import { OtherDetails, ProductDetailsSection, SystemRequirements } from '../components/product/ProductSections'
 import { Reviews } from '../components/product/Reviews'
+import { WishRibbon } from '../components/product/WishRibbon'
 import { PlatformIcon } from '../components/ui/BrandIcon'
 import { Button } from '../components/ui/Button'
 import { PageSpinner } from '../components/ui/Spinner'
 import { useCart } from '../hooks/useCart'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useRegionCheck } from '../hooks/useRegionCheck'
 import { useWishlistToggle } from '../hooks/useWishlistToggle'
 import { ApiError } from '../lib/api'
-import { TYPE_LABELS, formatCount, formatPrice } from '../lib/format'
+import { TYPE_LABELS, formatCount, formatPrice, osLabel } from '../lib/format'
 import type { Offer, ProductDetail } from '../lib/types'
 import { useAuth } from '../stores/auth'
 import { NotFoundPage } from './NotFoundPage'
 
-const OS_NAMES: Record<string, string> = { windows: 'Windows', mac: 'Mac', linux: 'Linux' }
 const ALSO_VIEWED_STEP = 5
 
 export function ProductPage() {
@@ -49,17 +48,20 @@ function ProductView({ product }: { product: ProductDetail }) {
   const [alsoViewed, setAlsoViewed] = useState(ALSO_VIEWED_STEP)
 
   const featured = product.offers.find((o) => o.id === product.featured_offer_id) ?? null
-  const available = product.offers.filter((o) => o.in_stock)
-  const cheapest = available.reduce<Offer | null>((min, o) => (!min || o.price < min.price ? o : min), null)
+  // The buy box's "+N offers from €X" is about the other offers, so X is the cheapest of those.
+  const others = product.offers.filter((o) => o.in_stock && o.id !== featured?.id)
+  const cheapestOther = others.reduce<Offer | null>((min, o) => (!min || o.price < min.price ? o : min), null)
 
-  const addToCart = (offer: Offer) => add.mutate({ offerId: offer.id, title: product.base_title })
+  const addToCart = (offer: Offer) => add.mutate({ offerId: offer.id })
 
   // "Buy now" = add to cart and go straight on: checkout if signed in, cart (then sign-in) if not.
   const buyNow = async (offer: Offer) => {
     setBuyingId(offer.id)
     try {
-      await add.mutateAsync({ offerId: offer.id, title: product.base_title, silent: true })
+      await add.mutateAsync({ offerId: offer.id, silent: true })
       navigate(signedIn ? '/checkout' : '/cart')
+    } catch {
+      // Already shown as a toast by the cart hook; stay on the page.
     } finally {
       setBuyingId(null)
     }
@@ -114,9 +116,10 @@ function ProductView({ product }: { product: ProductDetail }) {
           <BuySidebar
             product={product}
             featured={featured}
-            cheapest={cheapest}
-            availableCount={available.length}
+            cheapestOther={cheapestOther}
+            otherCount={others.length}
             pending={buyingId !== null && buyingId === featured?.id}
+            adding={add.isPending}
             onBuy={buyNow}
             onAdd={addToCart}
             onMore={() => scrollTo('offers')}
@@ -136,7 +139,7 @@ function Breadcrumbs({ product }: { product: ProductDetail }) {
     [`${product.platform.name} ${product.type === 'game' ? 'Games' : typeLabel}`, `/store?type=${product.type}&platform=${product.platform.slug}`],
   ]
   return (
-    <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-[15px] text-white/80">
+    <nav aria-label="Breadcrumb" className="scrollbar-none flex min-w-0 items-center gap-2 overflow-x-auto text-[15px] whitespace-nowrap text-white/80">
       <Link to="/" aria-label="Home" className="shrink-0 text-white/50 hover:text-white">
         <Home className="size-[18px]" />
       </Link>
@@ -155,12 +158,10 @@ function Breadcrumbs({ product }: { product: ProductDetail }) {
 }
 
 function ProductSummary({ product, featured, onActivationGuide }: { product: ProductDetail; featured: Offer | null; onActivationGuide: () => void }) {
-  const signedIn = useAuth((s) => s.token !== null)
   const wishlist = useWishlistToggle(product.id)
-  const [savedAtLoad] = useState(wishlist.saved)
   const region = useRegionCheck()(product.region.slug)
-  // Signed-in wishes are counted by the server; a guest's wish lives only in this browser.
-  const wishes = signedIn ? product.wishlist_count - Number(savedAtLoad) + Number(wishlist.saved) : product.wishlist_count + Number(wishlist.saved)
+  // The server counts everyone else's wishes; the viewer's own (account or browser) is added live.
+  const wishes = product.wishlist_count + Number(wishlist.saved)
   const dealBadge = featured && featured.cashback_percent > 0 ? 'Cashback deal' : product.discount_percent && product.discount_percent >= 40 ? `-${product.discount_percent}% deal` : null
 
   return (
@@ -246,7 +247,7 @@ function ProductSummary({ product, featured, onActivationGuide }: { product: Pro
 
         {product.operating_systems.length > 0 && (
           <p className="mt-5 border-t border-white/15 pt-4 text-[15px] text-white/70">
-            Works on: <span className="text-white">{product.operating_systems.map((o) => OS_NAMES[o] ?? o).join(', ')}</span>
+            Works on: <span className="text-white">{product.operating_systems.map(osLabel).join(', ')}</span>
           </p>
         )}
 

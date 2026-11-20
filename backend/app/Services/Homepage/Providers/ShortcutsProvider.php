@@ -15,7 +15,7 @@ class ShortcutsProvider implements BlockProvider
         return [
             'items' => Shortcut::where('is_active', true)
                 ->orderBy('sort')
-                ->get(['id', 'label', 'icon', 'icon_svg', 'link_url'])
+                ->get(['id', 'label', 'icon_svg', 'link_url'])
                 ->toArray(),
         ];
     }

@@ -30,8 +30,9 @@ class OrderItem extends Model
         return $this->belongsTo(Seller::class);
     }
 
+    /** In a fixed order: revealing a key updates its row, and it must keep its place ("Key 1", "Key 2"). */
     public function keys(): HasMany
     {
-        return $this->hasMany(ProductKey::class);
+        return $this->hasMany(ProductKey::class)->orderBy('id');
     }
 }

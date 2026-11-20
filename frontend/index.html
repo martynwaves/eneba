@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#4618ac" />
     <meta name="description" content="Buy games, gift cards, top-ups and software cheaper. Compare offers from verified sellers and get your key instantly." />
-    <link rel="preconnect" href="https://shared.akamai.steamstatic.com" crossorigin />
+    <!-- Open connections early: the API (CORS fetches, hence crossorigin) and the image hosts
+         (plain image requests, so no crossorigin, or the connection wouldn't be reused). -->
+    <link rel="preconnect" href="%VITE_API_URL%" crossorigin />
+    <link rel="preconnect" href="https://imgproxy.eneba.games" />
+    <link rel="preconnect" href="https://static.eneba.games" />
+    <link rel="preconnect" href="https://shared.akamai.steamstatic.com" />
     <title>Eneba | Buy Games, Gift Cards & Top Ups Cheaper</title>
   </head>
   <body>

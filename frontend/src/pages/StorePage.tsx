@@ -8,6 +8,7 @@ import { Button } from '../components/ui/Button'
 import { Pagination } from '../components/ui/Pagination'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { formatCount } from '../lib/format'
+import type { CatalogFilters } from '../lib/types'
 
 const LIST_KEYS = ['platform', 'region', 'type', 'genre'] as const
 
@@ -73,7 +74,20 @@ export function StorePage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const chips = buildChips(state, filters)
+  // Brand and pre-order filters come from links (shortcuts, brand tiles), not the sidebar, so a
+  // chip is the only sign that they are narrowing the results.
+  const brands = split(params.get('brand'))
+  const chips: ChipData[] = [
+    ...LIST_KEYS.flatMap((group) =>
+      state[group].map((slug) => ({ key: `${group}-${slug}`, label: optionName(filters, group, slug), remove: () => toggle(group, slug, false) })),
+    ),
+    ...brands.map((slug) => ({ key: `brand-${slug}`, label: brandName(slug), remove: () => update({ brand: brands.filter((b) => b !== slug).join(',') || null }) })),
+  ]
+  if (params.get('preorder') === '1') chips.push({ key: 'preorder', label: 'Pre-orders', remove: () => update({ preorder: null }) })
+  if (state.price_min || state.price_max) {
+    chips.push({ key: 'price', label: `€${state.price_min || '0'} – ${state.price_max ? `€${state.price_max}` : '∞'}`, remove: () => update({ price_min: null, price_max: null }) })
+  }
+  if (state.in_stock) chips.push({ key: 'stock', label: 'In stock', remove: () => update({ in_stock: null }) })
   const hasFilters = chips.length > 0 || q
 
   const sidebar = (
@@ -143,7 +157,7 @@ export function StorePage() {
             <div className="mb-4 flex flex-wrap items-center gap-2">
               {q && <Chip label={`“${q}”`} onRemove={() => update({ q: null, sort: null })} />}
               {chips.map((c) => (
-                <Chip key={c.key} label={c.label} onRemove={() => (c.group === 'price' ? update({ price_min: null, price_max: null }) : c.group === 'in_stock' ? update({ in_stock: null }) : toggle(c.group, c.slug, false))} />
+                <Chip key={c.key} label={c.label} onRemove={c.remove} />
               ))}
               <button type="button" onClick={() => setParams(new URLSearchParams())} className="px-2 text-sm font-extrabold text-cta hover:underline">
                 Clear all
@@ -200,19 +214,19 @@ function split(v: string | null): string[] {
   return v ? v.split(',').filter(Boolean) : []
 }
 
-type ChipData = { key: string; label: string; group: (typeof LIST_KEYS)[number] | 'price' | 'in_stock'; slug: string }
+type ChipData = { key: string; label: string; remove: () => void }
 
-function buildChips(state: StoreFilterState, filters: ReturnType<typeof useCatalogFilters>['data']): ChipData[] {
-  const name = (group: string, slug: string) => {
-    const list = group === 'platform' ? filters?.platforms : group === 'region' ? filters?.regions : group === 'type' ? filters?.types : filters?.genres
-    return list?.find((o) => o.slug === slug)?.name ?? slug
-  }
-  const chips: ChipData[] = LIST_KEYS.flatMap((group) => state[group].map((slug) => ({ key: `${group}-${slug}`, label: name(group, slug), group, slug })))
-  if (state.price_min || state.price_max) {
-    chips.push({ key: 'price', label: `€${state.price_min || '0'} – ${state.price_max ? `€${state.price_max}` : '∞'}`, group: 'price', slug: '' })
-  }
-  if (state.in_stock) chips.push({ key: 'stock', label: 'In stock', group: 'in_stock', slug: '' })
-  return chips
+function optionName(filters: CatalogFilters | undefined, group: (typeof LIST_KEYS)[number], slug: string): string {
+  const list = group === 'platform' ? filters?.platforms : group === 'region' ? filters?.regions : group === 'type' ? filters?.types : filters?.genres
+  return list?.find((o) => o.slug === slug)?.name ?? slug
+}
+
+/** "ea-sports-fc" -> "EA Sports FC". */
+function brandName(slug: string): string {
+  return slug
+    .split('-')
+    .map((word) => (word.length <= 2 ? word.toUpperCase() : word.charAt(0).toUpperCase() + word.slice(1)))
+    .join(' ')
 }
 
 function Chip({ label, onRemove }: { label: string; onRemove: () => void }) {

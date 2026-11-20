@@ -3,9 +3,8 @@ import { BadgeCheck, CirclePlus, Star } from 'lucide-react'
 import { useState } from 'react'
 import { formatPrice } from '../../lib/format'
 import type { Offer, Seller } from '../../lib/types'
-import { HelpTip } from '../cart/CartLineItem'
-import { InfoTooltip } from '../home/Section'
 import { Button } from '../ui/Button'
+import { HelpTip, InfoTooltip } from '../ui/Tooltip'
 
 const PRICE_NOTE = 'Price is not final. Taxes and payment fees, if any, are shown at checkout.'
 const OTHERS_STEP = 3
@@ -22,17 +21,17 @@ export function SellerAvatar({ seller, size = 'md' }: { seller: Seller; size?: '
   )
 }
 
-export function SellerLine({ seller }: { seller: Seller }) {
+function SellerLine({ seller }: { seller: Seller }) {
   return (
     <div className="min-w-0">
       <div className="flex items-center gap-1.5 text-[17px] font-semibold">
         <span className="truncate">{seller.name}</span>
         {seller.is_verified && <BadgeCheck className="size-5 shrink-0 fill-green text-brand-ink" aria-label="Verified seller" />}
       </div>
-      <div className="mt-1 flex items-center gap-1 text-[13px] font-extrabold">
+      <div className="mt-1 flex flex-wrap items-center gap-1 text-[13px] font-extrabold">
         <Star className="size-4 fill-cta text-cta" aria-hidden="true" />
         <span>{seller.rating.toFixed(2)}</span>
-        <span>{seller.rating_label}</span>
+        <span className="whitespace-nowrap">{seller.rating_label}</span>
         <span className="font-semibold">rating</span>
         <HelpTip text={`Based on ${seller.rating_count.toLocaleString('en')} buyer ratings of ${seller.name}.`} />
       </div>
@@ -40,11 +39,14 @@ export function SellerLine({ seller }: { seller: Seller }) {
   )
 }
 
-/** "€35.79 ⓘ" with the pills and cashback line Eneba shows under each price. */
+/**
+ * "€35.79 ⓘ" with the pills and cashback line Eneba shows under each price. On phones it takes
+ * its own full-width line under the seller, so neither has to squeeze next to the other.
+ */
 function OfferPrice({ offer }: { offer: Offer }) {
   return (
-    <div className="text-right">
-      <div className="flex items-center justify-end gap-1.5 text-[22px] leading-7 font-extrabold">
+    <div className="w-full md:w-auto md:text-right">
+      <div className="flex items-center gap-1.5 text-[22px] leading-7 font-extrabold md:justify-end">
         {formatPrice(offer.price)}
         <InfoTooltip text={PRICE_NOTE} />
       </div>
@@ -54,7 +56,7 @@ function OfferPrice({ offer }: { offer: Offer }) {
         </div>
       )}
       {offer.cashback_percent > 0 && (
-        <div className="flex justify-end">
+        <div className="flex md:justify-end">
           <Cashback offer={offer} />
         </div>
       )}
@@ -103,7 +105,7 @@ export function OfferList({
   return (
     <div className="space-y-10">
       {recommended.length > 0 && (
-        <OfferGroup title="Recommended offers" info="Picked by balancing price, seller rating and cashback.">
+        <OfferGroup title="Recommended offers" info="The featured offer balances price and seller rating; next to it is the best-rated other seller.">
           {recommended.map((o) => (
             <OfferRow key={o.id} offer={o} featured={o === featured} coverUrl={coverUrl} onBuy={onBuy} pending={pendingId === o.id} />
           ))}
@@ -176,9 +178,16 @@ function OfferRow({
             </span>
             <div>
               <div className="text-[17px] font-semibold">Featured offer</div>
-              <div className="mt-0.5 flex items-center gap-1.5 text-[15px] text-white/80">
-                <BadgeCheck className="size-4 text-mint" /> Verified by Eneba
-                <InfoTooltip text={`Sold by ${offer.seller.name}, a seller Eneba has verified.`} />
+              <div className="mt-0.5 text-[15px] text-white/80">
+                {/* The featured offer isn't always from a verified seller, so only claim it when true. */}
+                {offer.seller.is_verified && (
+                  <div className="flex items-center gap-1.5 whitespace-nowrap">
+                    <BadgeCheck className="size-4 shrink-0 text-mint" /> Verified by Eneba
+                  </div>
+                )}
+                <div>
+                  Sold by <span className="font-semibold text-white">{offer.seller.name}</span>
+                </div>
               </div>
             </div>
           </>
@@ -199,7 +208,7 @@ function OfferRow({
   )
 }
 
-export function Badge({ children, tone = 'white' }: { children: React.ReactNode; tone?: 'white' | 'lime' }) {
+function Badge({ children, tone = 'white' }: { children: React.ReactNode; tone?: 'white' | 'lime' }) {
   return (
     <span
       className={clsx(

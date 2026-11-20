@@ -3,13 +3,14 @@
 namespace App\Services\Commerce;
 
 use App\Models\DiscountCode;
+use App\Services\Payments\PaymentGateway;
 
-/** Validates discount codes and works out what they take off an order. */
+/**
+ * Validates discount codes and works out what they take off an order. A discount never brings
+ * a total below the smallest amount a card can be charged.
+ */
 class DiscountService
 {
-    /** Stripe can't charge less than this, so a discount never brings a total below it. */
-    public const MIN_CHARGE_CENTS = 50;
-
     /**
      * @return array{code: ?string, discount: int, error: ?string}
      */
@@ -25,14 +26,14 @@ class DiscountService
             return ['code' => null, 'discount' => 0, 'error' => 'This discount code is not valid.'];
         }
 
-        $discount = $discountCode->discountFor($subtotalCents);
-        if ($discount === 0) {
+        if ($subtotalCents < $discountCode->min_subtotal_cents) {
             $minimum = number_format($discountCode->min_subtotal_cents / 100, 2);
 
             return ['code' => null, 'discount' => 0, 'error' => "This code needs an order of at least €{$minimum}."];
         }
 
-        $discount = min($discount, max(0, $subtotalCents + $feeCents - self::MIN_CHARGE_CENTS));
+        // Nothing purchasable in the cart (every line sold out) leaves the code applied at €0.
+        $discount = min($discountCode->discountFor($subtotalCents), max(0, $subtotalCents + $feeCents - PaymentGateway::MIN_CHARGE_CENTS));
 
         return ['code' => $discountCode->code, 'discount' => $discount, 'error' => null];
     }

@@ -32,5 +32,3 @@ export const useAuth = create<AuthState>()(
     },
   ),
 )
-
-export const useIsSignedIn = () => useAuth((s) => s.token !== null)

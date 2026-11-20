@@ -18,7 +18,6 @@ class ReviewResource extends JsonResource
             'aspects' => $this->aspects,
             'body' => $this->body,
             'is_verified_purchase' => $this->is_verified_purchase,
-            'is_mine' => $request->user() !== null && $this->user_id === $request->user()->id,
             'created_at' => $this->created_at?->toIso8601String(),
         ];
     }

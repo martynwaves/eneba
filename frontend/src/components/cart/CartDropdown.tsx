@@ -2,10 +2,11 @@ import { Info, X } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useCart } from '../../hooks/useCart'
-import { formatPrice } from '../../lib/format'
+import { cartCashback, formatPrice } from '../../lib/format'
 import { useAuth } from '../../stores/auth'
 import { useUi } from '../../stores/ui'
-import { CartLineItem, HelpTip, cartCashback } from './CartLineItem'
+import { HelpTip } from '../ui/Tooltip'
+import { CartLineItem } from './CartLineItem'
 import { DiscountRow } from './DiscountBox'
 
 /** "My shopping cart" panel that opens from the header cart icon. */
@@ -13,6 +14,7 @@ export function CartDropdown({ onClose }: { onClose: () => void }) {
   const { cart } = useCart()
   const navigate = useNavigate()
   const signedIn = useAuth((s) => s.token !== null)
+  const cashback = cartCashback(cart.lines)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
@@ -64,13 +66,13 @@ export function CartDropdown({ onClose }: { onClose: () => void }) {
               </span>
             </div>
             <div className="text-[15px]">
-              <DiscountRow code={cart.summary.discount_code} amount={cart.summary.discount} format={formatPrice} />
+              <DiscountRow code={cart.summary.discount_code} amount={cart.summary.discount} />
             </div>
             <div className="mt-1 flex items-start justify-between">
               <span className="pt-1.5 text-xl font-extrabold">Total</span>
               <div className="text-right">
                 <div className="text-[34px] leading-tight font-extrabold">{formatPrice(cart.summary.total)}</div>
-                {cartCashback(cart.lines) > 0 && <div className="text-base font-extrabold text-lime">Cashback: {formatPrice(cartCashback(cart.lines))}</div>}
+                {cashback > 0 && <div className="text-base font-extrabold text-lime">Cashback: {formatPrice(cashback)}</div>}
               </div>
             </div>
             <button type="button" onClick={() => go('/cart')} className="mt-5 flex h-[45px] w-full items-center justify-center bg-cta text-lg font-extrabold text-black transition-colors hover:bg-cta-hover">

@@ -1,32 +1,27 @@
-# React + TypeScript + Vite
+# Eneba Marketplace – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React 19 + TypeScript storefront, built with Vite. See the [root README](../README.md) for features, local setup and deployment.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+cp .env.example .env       # VITE_API_URL points at the Laravel API, including /api
+npm run dev                # http://localhost:5173
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+| Script | What it does |
+|---|---|
+| `npm run build` | Type-checks and builds to `dist/` (what Vercel runs) |
+| `npm test` | Vitest component and unit tests |
+| `npm run lint` | Oxlint |
+| `npm run typecheck` | TypeScript only |
+
+`VITE_API_URL` is baked in at build time, so changing it on Vercel needs a redeploy.
+
+Layout:
+
+- `src/pages/` – one component per route (`src/router.tsx`)
+- `src/components/` – home blocks, product page, cart, checkout, layout and shared UI
+- `src/api/queries.ts` – TanStack Query hooks for every API call
+- `src/stores/` – Zustand stores (auth token, guest cart and wishlist, settings, discount code, toasts)
+- `src/hooks/useCart.ts` – one cart API for guests (local) and signed-in users (server)
+- `src/lib/` – API client, price formatting, Stripe loader, brand icons and link constants

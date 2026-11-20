@@ -1,10 +1,7 @@
 <?php
 
-use App\Models\Order;
 use App\Models\Product;
-use App\Models\User;
 use App\Services\Commerce\StockService;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schedule;
@@ -23,19 +20,10 @@ Schedule::command('shop:sweep')->everyFiveMinutes();
 Artisan::command('app:bootstrap', function () {
     $this->call('migrate', ['--force' => true]);
 
-    // A first-boot seed that was cut off leaves products behind but never reaches its last step
-    // (the demo account). With no orders yet there is nothing to lose, so start that database over.
-    $interrupted = Product::query()->exists()
-        && User::where('email', DatabaseSeeder::DEMO_EMAIL)->doesntExist()
-        && Order::query()->doesntExist();
-    if ($interrupted) {
-        $this->warn('Found an interrupted demo seed - resetting the database...');
-        $this->call('migrate:fresh', ['--force' => true]);
-    }
-
     if (Product::query()->doesntExist()) {
         $this->info('Empty catalog - seeding demo data...');
-        // All or nothing: a restart mid-seed rolls back instead of leaving half a catalog.
+        // All or nothing: a restart mid-seed rolls back, so the next boot finds an empty catalog
+        // and simply seeds again.
         DB::transaction(fn () => $this->call('db:seed', ['--force' => true]));
         $this->info('Demo data ready.');
     }

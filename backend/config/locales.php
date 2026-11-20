@@ -5,8 +5,6 @@
  * https://static.eneba.games/flags/lang/v2/{flag}.svg
  */
 return [
-    'default_region' => 'lithuania',
-
     // `regions` lists the product regions a key must have to be redeemable there.
     'regions' => array_map(
         fn (array $r) => ['code' => $r[0], 'name' => $r[1], 'flag' => $r[0], 'product_regions' => $r[2]],

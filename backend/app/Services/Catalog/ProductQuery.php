@@ -11,7 +11,11 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class ProductQuery
 {
-    public const SORTS = ['relevance', 'popular', 'bestselling', 'price_asc', 'price_desc', 'newest', 'discount', 'rating'];
+    public const SORTS = ['relevance', 'popular', 'price_asc', 'price_desc', 'newest', 'discount', 'rating'];
+
+    /** SQL for a product's current discount in percent (also used by deal blocks). */
+    public const DISCOUNT_SQL = 'case when products.msrp_cents > 0 and products.min_price_cents is not null
+        then round(100 - products.min_price_cents::numeric * 100 / products.msrp_cents) else 0 end';
 
     /** @var array{platform: string[], region: string[], type: string[], genre: string[], brand: string[], ids: int[], preorder: bool, price_min: ?int, price_max: ?int, in_stock: bool, q: string, sort: string} */
     public array $filters;
@@ -118,6 +122,21 @@ class ProductQuery
     }
 
     /**
+     * "Showing results for ...": when nothing contains the literal query but fuzzy matches were
+     * found, the title of the best match, so the visitor knows what was searched for instead.
+     */
+    public function correctedTo(?Product $topMatch): ?string
+    {
+        if (! $topMatch || ! $this->match || $this->match->isEmpty()) {
+            return null;
+        }
+
+        $literalExists = Product::active()->where(fn (Builder $q) => $this->match->allTokens($q))->exists();
+
+        return $literalExists ? null : $topMatch->base_title;
+    }
+
+    /**
      * Counts for each sidebar option, computed with every *other* filter applied so the
      * numbers tell the visitor what they would get by ticking that option.
      */
@@ -149,8 +168,4 @@ class ProductQuery
             ],
         ];
     }
-
-    /** SQL for a product's current discount in percent (used by deal blocks). */
-    public const DISCOUNT_SQL = 'case when products.msrp_cents > 0 and products.min_price_cents is not null
-        then round(100 - products.min_price_cents::numeric * 100 / products.msrp_cents) else 0 end';
 }

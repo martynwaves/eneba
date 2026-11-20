@@ -6,8 +6,11 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** Compact product shape used by listings, carousels and search suggestions. */
-/** @mixin Product */
+/**
+ * Compact product shape used by listings, carousels and search suggestions.
+ *
+ * @mixin Product
+ */
 class ProductCardResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -34,15 +37,12 @@ class ProductCardResource extends JsonResource
             'min_price' => $this->min_price_cents,
             'msrp' => $this->msrp_cents,
             'discount_percent' => $this->discountPercent(),
-            'offers_count' => $this->offers_count,
             'best_offer_id' => $this->best_offer_id ?? null,
             'cashback_percent' => $this->cashback_percent,
-            'brand' => $this->brand,
             'in_stock' => $this->stock > 0,
             'rating_avg' => $this->rating_avg,
             'rating_count' => $this->rating_count,
             'release_date' => $this->release_date?->toDateString(),
-            'release_label' => $this->release_label,
             'is_preorder' => $this->isPreorder(),
         ];
     }

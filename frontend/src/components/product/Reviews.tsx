@@ -162,7 +162,7 @@ function ReviewForm({ slug, onDone }: { slug: string; onDone: () => void }) {
         <Button type="submit" loading={submit.isPending}>
           Submit review
         </Button>
-        <Button type="button" variant="ghost" onClick={onDone}>
+        <Button variant="ghost" onClick={onDone}>
           Cancel
         </Button>
       </div>

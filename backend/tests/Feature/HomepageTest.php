@@ -5,14 +5,13 @@ use App\Models\Brand;
 use App\Models\Genre;
 use App\Models\HomepageBlock;
 use App\Models\Shortcut;
-use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
     product('Bestselling Game', ['PixelVault' => [999, 3]], ['msrp_cents' => 1099, 'sales_count' => 9000, 'release_date' => now()->subDays(20)]);
     product('Deal Game', ['PixelVault' => [1000, 3]], ['msrp_cents' => 6000, 'sales_count' => 10]);
     Banner::create(['placement' => 'hero', 'title' => 'Big launch', 'image_url' => 'https://example.test/a.jpg', 'link_url' => '/store']);
     Banner::create(['placement' => 'hero', 'title' => 'Expired', 'image_url' => 'https://example.test/b.jpg', 'link_url' => '/store', 'ends_at' => now()->subDay()]);
-    Shortcut::create(['label' => 'Games', 'icon' => 'gamepad', 'link_url' => '/store?type=game']);
+    Shortcut::create(['label' => 'Games', 'link_url' => '/store?type=game']);
 
     foreach ([
         ['hero', 'hero', 'banners'],
@@ -46,10 +45,7 @@ it('serves each block from its own provider', function () {
 });
 
 it('returns lists, not objects, when a block is served from cache', function () {
-    // The array store keeps PHP objects in memory; use a store that really serializes.
-    config(['cache.default' => 'file']);
-    Cache::flush();
-
+    // The test cache serializes values like production (CACHE_ARRAY_SERIALIZE in phpunit.xml).
     foreach ([1, 2] as $attempt) {
         $content = $this->getJson('/api/homepage/blocks/hero')->assertOk()->json('data.content');
         expect($content['slides'])->toBeArray()->toHaveKey(0)
@@ -61,7 +57,7 @@ it('serves upcoming games, brand tiles and categories from their own sources', f
     $genre = Genre::create(['slug' => 'rpg', 'name' => 'RPG', 'icon_url' => 'https://example.test/rpg.svg', 'sort' => 1]);
     product('Released Game')->genres()->attach($genre);
     product('Future Game', attributes: ['release_date' => now()->addMonths(3)]);
-    product('Announced Game', attributes: ['coming_soon' => true, 'release_label' => 'To be announced']);
+    product('Announced Game', attributes: ['coming_soon' => true]);
     Brand::create(['slug' => 'netflix', 'name' => 'Netflix', 'image_url' => 'https://example.test/n.jpg', 'link_url' => '/store?brand=netflix', 'is_featured' => true]);
 
     foreach ([['upcoming', 'upcoming'], ['brands', 'brands'], ['genres', 'genres']] as $i => [$key, $source]) {

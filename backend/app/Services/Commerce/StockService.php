@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 /** Keeps offer/product stock counters in sync with the key pool and releases stale holds. */
 class StockService
 {
+    public function __construct(private PaymentGateway $gateway) {}
+
     /** @param iterable<int> $offerIds */
     public function refreshOffers(iterable $offerIds): void
     {
@@ -26,20 +28,22 @@ class StockService
     /** Return an order's reserved keys to the pool. */
     public function releaseOrder(Order $order): void
     {
-        $itemIds = $order->items()->pluck('id');
-        $offerIds = $order->items()->pluck('offer_id')->filter();
+        $items = $order->items()->get(['id', 'offer_id']);
 
-        ProductKey::whereIn('order_item_id', $itemIds)
+        ProductKey::whereIn('order_item_id', $items->pluck('id'))
             ->where('status', ProductKey::RESERVED)
             ->update(['status' => ProductKey::AVAILABLE, 'order_item_id' => null, 'reserved_until' => null]);
 
-        $this->refreshOffers($offerIds);
+        $this->refreshOffers($items->pluck('offer_id')->filter());
     }
 
-    /** Expire pending orders whose reservation window has passed. Safe to run any time. */
-    public function sweepExpired(): int
+    /** Expire pending orders (all, or one buyer's) whose reservation window has passed. Safe to run any time. */
+    public function sweepExpired(?int $userId = null): int
     {
-        $expired = Order::where('status', Order::PENDING)->where('expires_at', '<', now())->get();
+        $expired = Order::where('status', Order::PENDING)
+            ->where('expires_at', '<', now())
+            ->when($userId, fn ($query) => $query->where('user_id', $userId))
+            ->get();
 
         foreach ($expired as $order) {
             $this->close($order, Order::EXPIRED);
@@ -62,9 +66,10 @@ class StockService
             return true;
         });
 
-        if ($closed && $order->payment_reference) {
+        // A wallet-only order has no card payment left to cancel.
+        if ($closed && $order->payment_reference && $order->payment_provider !== 'wallet') {
             try {
-                app(PaymentGateway::class)->cancel($order);
+                $this->gateway->cancel($order);
             } catch (\Throwable $e) {
                 report($e); // a late payment is still handled by fulfilment (re-acquire or refund)
             }

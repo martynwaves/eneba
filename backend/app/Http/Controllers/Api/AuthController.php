@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\NewsletterSubscriber;
-use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\Commerce\CartService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -18,7 +15,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    private const WISHLIST_RULES = [
+    /** The guest cart and wishlist that register and login carry along (see mergeGuestState). */
+    private const GUEST_STATE_RULES = [
+        'cart' => ['sometimes', 'array', 'max:50'],
+        'cart.*.offer_id' => ['required_with:cart', 'integer'],
+        'cart.*.quantity' => ['required_with:cart', 'integer', 'min:1', 'max:10'],
         'wishlist' => ['sometimes', 'array', 'max:200'],
         'wishlist.*' => ['integer'],
     ];
@@ -45,11 +46,7 @@ class AuthController extends Controller
             'name' => ['nullable', 'string', 'max:60'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', Password::min(8)->letters()->numbers()],
-            'newsletter' => ['sometimes', 'boolean'],
-            'cart' => ['sometimes', 'array', 'max:50'],
-            'cart.*.offer_id' => ['required_with:cart', 'integer'],
-            'cart.*.quantity' => ['required_with:cart', 'integer', 'min:1', 'max:10'],
-            ...self::WISHLIST_RULES,
+            ...self::GUEST_STATE_RULES,
         ]);
 
         $email = strtolower($data['email']);
@@ -59,9 +56,6 @@ class AuthController extends Controller
             'email' => $email,
             'password' => $data['password'],
         ]);
-        if ($data['newsletter'] ?? false) {
-            NewsletterSubscriber::firstOrCreate(['email' => $email]);
-        }
         $this->mergeGuestState($user, $data);
 
         return $this->tokenResponse($user, 201);
@@ -72,10 +66,7 @@ class AuthController extends Controller
         $data = $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
-            'cart' => ['sometimes', 'array', 'max:50'],
-            'cart.*.offer_id' => ['required_with:cart', 'integer'],
-            'cart.*.quantity' => ['required_with:cart', 'integer', 'min:1', 'max:10'],
-            ...self::WISHLIST_RULES,
+            ...self::GUEST_STATE_RULES,
         ]);
 
         $user = User::where('email', strtolower($data['email']))->first();
@@ -119,6 +110,8 @@ class AuthController extends Controller
 
     private function tokenResponse(User $user, int $status = 200): JsonResponse
     {
+        // Every sign-in issues a token; clear this user's lapsed ones instead of keeping them forever.
+        $user->tokens()->where('created_at', '<', now()->subMinutes(config('sanctum.expiration')))->delete();
         $token = $user->createToken('web')->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $this->present($user)], $status);
@@ -130,11 +123,8 @@ class AuthController extends Controller
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            // The Eneba Wallet: seller cashback and refunds land here, and checkout can spend it.
             'cashback_balance' => (int) $user->cashback_balance_cents,
-            // Loyalty points: one Enebium per euro spent on paid orders.
-            'enebium' => intdiv((int) $user->orders()->where('status', Order::PAID)->sum('total_cents'), 100),
-            'cashback_earned' => (int) $user->orders()->where('status', Order::PAID)->join('order_items', 'order_items.order_id', '=', 'orders.id')
-                ->sum(DB::raw('order_items.unit_price_cents * order_items.quantity * order_items.cashback_percent / 100')),
             'wishlist_count' => $user->wishlist()->count(),
             'created_at' => $user->created_at?->toIso8601String(),
         ];

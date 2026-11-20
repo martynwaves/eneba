@@ -1,10 +1,10 @@
 import { Check, ChevronDown } from 'lucide-react'
 import { useId, useState } from 'react'
 import { useAppConfig } from '../../api/queries'
+import { formatPrice } from '../../lib/format'
+import { ENEBA_URL } from '../../lib/links'
 import type { CartSummary } from '../../lib/types'
 import { useDiscount } from '../../stores/discount'
-
-const ENEBA = 'https://www.eneba.com'
 
 /**
  * "Got discount code?" on the cart page. The code is stored client-side and priced by the
@@ -99,7 +99,7 @@ export function DiscountBox({ summary, settled }: { summary: CartSummary; settle
             </p>
           )}
           <p className="mt-2.5 text-[13px] text-soft">
-            <a href={`${ENEBA}/coupon-terms-and-conditions`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
+            <a href={`${ENEBA_URL}/coupon-terms-and-conditions`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
               ENEBA Coupon Terms and Conditions
             </a>{' '}
             apply to the use of coupons
@@ -131,12 +131,12 @@ export function DiscountBox({ summary, settled }: { summary: CartSummary; settle
 }
 
 /** "Discount (CODE)  −€X" row shared by the cart, cart dropdown and checkout summaries. */
-export function DiscountRow({ code, amount, format }: { code: string | null; amount: number; format: (cents: number) => string }) {
+export function DiscountRow({ code, amount }: { code: string | null; amount: number }) {
   if (amount <= 0) return null
   return (
     <div className="flex justify-between text-green">
       <span>Discount{code ? ` (${code})` : ''}</span>
-      <span className="font-extrabold">−{format(amount)}</span>
+      <span className="font-extrabold">−{formatPrice(amount)}</span>
     </div>
   )
 }

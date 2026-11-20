@@ -38,6 +38,10 @@ class ReviewSeeder extends Seeder
             DB::table('reviews')->insert($chunk);
         }
 
-        Product::query()->each(fn (Product $p) => $p->refreshRating());
+        // Same result as Product::refreshRating() for every product, in one statement instead of
+        // two queries per product (the first-boot seed runs over the network).
+        DB::statement('update products set rating_avg = r.avg, rating_count = r.cnt
+            from (select product_id, round(avg(rating), 2) as avg, count(*) as cnt from reviews group by product_id) r
+            where r.product_id = products.id');
     }
 }

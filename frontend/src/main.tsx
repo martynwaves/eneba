@@ -11,8 +11,9 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 30_000,
       refetchOnWindowFocus: false,
-      // Don't hammer the API on 4xx; do retry network blips (free-tier backend may be waking up).
-      retry: (count, error) => (error instanceof ApiError && error.status >= 400 && error.status < 500 ? false : count < 3),
+      // Don't retry 4xx. Do retry network errors and 5xx for about 40 seconds (3, 6, then 10s
+      // apart): a sleeping free-tier API takes 30-50 seconds to wake up.
+      retry: (count, error) => (error instanceof ApiError && error.status >= 400 && error.status < 500 ? false : count < 5),
       retryDelay: (attempt) => Math.min(1500 * 2 ** attempt, 10_000),
     },
   },

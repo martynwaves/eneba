@@ -13,15 +13,20 @@ use Illuminate\Support\Facades\Cache;
 
 class CatalogController extends Controller
 {
-    /** Everything the store sidebar needs to render its filter groups. */
+    /**
+     * Everything the store sidebar needs to render its filter groups. Cached as plain arrays:
+     * the cache refuses to unserialize objects (`cache.serializable_classes` is false), so a
+     * cached Collection would come back as `{}` and break the store page.
+     */
     public function filters(): JsonResponse
     {
         $data = Cache::remember('catalog:filters', 300, fn () => [
-            'platforms' => Platform::orderBy('sort')->get(['slug', 'name', 'family']),
-            'regions' => Region::orderBy('sort')->get(['slug', 'name', 'description']),
+            'platforms' => Platform::orderBy('sort')->get(['slug', 'name', 'family'])->toArray(),
+            'regions' => Region::orderBy('sort')->get(['slug', 'name', 'description'])->toArray(),
             'genres' => Genre::withCount('products')->orderByDesc('products_count')->get(['id', 'slug', 'name'])
-                ->map(fn ($g) => ['slug' => $g->slug, 'name' => $g->name]),
-            'types' => collect(Product::TYPES)->map(fn ($label, $slug) => ['slug' => $slug, 'name' => $label])->values(),
+                ->map(fn ($g) => ['slug' => $g->slug, 'name' => $g->name])
+                ->all(),
+            'types' => collect(Product::TYPES)->map(fn ($label, $slug) => ['slug' => $slug, 'name' => $label])->values()->all(),
             'sorts' => [
                 ['value' => 'popular', 'label' => 'Popularity: Most popular'],
                 ['value' => 'price_asc', 'label' => 'Price: Low to high'],
@@ -35,12 +40,10 @@ class CatalogController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    /** Public runtime settings for the frontend (which payment UI to show, fees). */
+    /** Public runtime settings for the frontend: which payment UI to show, and the demo discount codes. */
     public function config(): JsonResponse
     {
         return response()->json(['data' => [
-            'currency' => config('shop.currency'),
-            'service_fee' => config('shop.service_fee_cents'),
             'payment' => [
                 'driver' => config('shop.payment_driver'),
                 'stripe_publishable_key' => config('shop.payment_driver') === 'stripe' ? config('services.stripe.key') : null,

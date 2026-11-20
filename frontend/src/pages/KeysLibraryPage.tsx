@@ -3,19 +3,21 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import { useKeysLibrary } from '../api/queries'
 import { AccountNav } from '../components/orders/AccountNav'
+import { KeyRow } from '../components/orders/KeyRow'
 import { ProductArt } from '../components/product/ProductArt'
 import { ButtonLink } from '../components/ui/Button'
 import { Pagination } from '../components/ui/Pagination'
 import { PageSpinner } from '../components/ui/Spinner'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { formatDate } from '../lib/format'
-import { KeyRow } from './OrderPage'
 
 /** Every key the user has bought, across all orders. */
 export function KeysLibraryPage() {
   useDocumentTitle('Keys library')
   const [page, setPage] = useState(1)
   const { data, isLoading } = useKeysLibrary(page)
+  // Refunding the last key on a later page empties it: step back instead of showing "No keys yet".
+  if (data && page > 1 && page > data.meta.last_page) setPage(Math.max(1, data.meta.last_page))
 
   return (
     <div className="page-container pt-6 md:pt-8">
@@ -52,7 +54,7 @@ export function KeysLibraryPage() {
                     </Link>
                   </div>
                   <div className="mt-3">
-                    <KeyRow keyId={key.id} index={1} revealed={key.revealed} initialCode={key.code} orderNumber={key.order_number} />
+                    <KeyRow keyId={key.id} revealed={key.revealed} initialCode={key.code} refundAmount={key.refund_amount} orderNumber={key.order_number} />
                   </div>
                 </div>
               </li>

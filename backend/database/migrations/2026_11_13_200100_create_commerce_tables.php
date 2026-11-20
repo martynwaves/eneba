@@ -21,12 +21,12 @@ return new class extends Migration
             $table->id();
             $table->string('number')->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('status')->default('pending')->index(); // pending | paid | failed | expired
+            $table->string('status')->default('pending')->index(); // pending | paid | failed | expired | cancelled | refunded
             $table->string('currency', 3)->default('EUR');
             $table->unsignedInteger('subtotal_cents');
             $table->unsignedInteger('service_fee_cents')->default(0);
             $table->unsignedInteger('total_cents');
-            $table->string('payment_provider');               // stripe | simulated
+            $table->string('payment_provider');               // stripe | simulated | wallet
             $table->string('payment_reference')->nullable()->index();
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('expires_at')->nullable();

@@ -20,6 +20,7 @@ abstract class ProductListProvider implements BlockProvider
         $limit = (int) ($block->config['limit'] ?? 12);
 
         $products = $this->query($block, $user)
+            ->orderBy('products.id') // last tie-breaker, so the row is the same on every load
             ->with(['platform', 'region'])
             ->limit($limit * 4)
             ->get();

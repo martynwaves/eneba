@@ -5,16 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
-use App\Models\User;
 use App\Services\Commerce\CheckoutService;
-use App\Services\Commerce\DiscountService;
 use App\Services\Commerce\OrderFulfillment;
 use App\Services\Commerce\StockService;
 use App\Services\Payments\PaymentGateway;
 use App\Services\Payments\SimulatedGateway;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class CheckoutController extends Controller
@@ -33,7 +30,7 @@ class CheckoutController extends Controller
         [$order, $intent] = $this->checkout->start($request->user(), $data['code'] ?? null);
 
         return response()->json([
-            'order' => new OrderResource($order->load('items.product.region', 'items.seller')),
+            'order' => new OrderResource($order->load(OrderResource::RELATIONS)),
             'payment' => [
                 'driver' => $this->gateway->driver(),
                 'client_secret' => $intent->clientSecret,
@@ -60,7 +57,7 @@ class CheckoutController extends Controller
             if ($status === PaymentGateway::SUCCEEDED) {
                 $order = $this->fulfillment->fulfill($order);
             } elseif ($status === PaymentGateway::PROCESSING) {
-                return response()->json(['order' => new OrderResource($order->load('items.keys', 'items.product.region', 'items.seller')), 'payment_status' => $status], 202);
+                return response()->json(['order' => new OrderResource($order->load(OrderResource::RELATIONS)), 'payment_status' => $status], 202);
             } else {
                 return response()->json([
                     'message' => $status === PaymentGateway::CANCELED
@@ -72,28 +69,29 @@ class CheckoutController extends Controller
         }
 
         return response()->json([
-            'order' => new OrderResource($order->load('items.keys', 'items.product.region', 'items.seller')),
+            'order' => new OrderResource($order->load(OrderResource::RELATIONS)),
             'payment_status' => PaymentGateway::SUCCEEDED,
         ]);
     }
 
-    /** Pay a pending order from the Eneba Wallet (the cashback balance). */
+    /**
+     * Pay a pending order entirely from the Eneba Wallet (the cashback balance). The balance is
+     * taken by OrderFulfillment in the same transaction that delivers the keys.
+     */
     public function payWithWallet(Request $request, Order $order): JsonResponse
     {
         $this->authorizeOrder($request, $order);
         abort_unless($order->status === Order::PENDING, 422, 'This order can no longer be paid.');
+        $this->ensureCardNotCharged($order);
 
+        if ($request->user()->fresh()->cashback_balance_cents < $order->total_cents) {
+            throw ValidationException::withMessages(['wallet' => 'Your Eneba Wallet balance is too low for this order.']);
+        }
+
+        // Detach the card payment opened at checkout first, so its "canceled" webhook no longer
+        // matches this order, then cancel it.
         $cardPayment = clone $order;
-        DB::transaction(function () use ($order) {
-            $user = User::whereKey($order->user_id)->lockForUpdate()->first();
-            if ($user->cashback_balance_cents < $order->total_cents) {
-                throw ValidationException::withMessages(['wallet' => 'Your Eneba Wallet balance is too low for this order.']);
-            }
-            $user->decrement('cashback_balance_cents', $order->total_cents);
-            $order->update(['payment_provider' => 'wallet', 'payment_reference' => 'wallet-'.$order->number, 'wallet_cents' => $order->total_cents]);
-        });
-
-        // The card payment opened at checkout is no longer needed.
+        $order->update(['payment_provider' => 'wallet', 'payment_reference' => 'wallet-'.$order->number, 'wallet_cents' => $order->total_cents]);
         if ($cardPayment->payment_reference) {
             try {
                 $this->gateway->cancel($cardPayment);
@@ -102,10 +100,10 @@ class CheckoutController extends Controller
             }
         }
 
-        $order = $this->fulfillment->fulfill($order->fresh());
+        $order = $this->fulfillment->fulfill($order);
 
         return response()->json([
-            'order' => new OrderResource($order->load('items.keys', 'items.product.region', 'items.seller')),
+            'order' => new OrderResource($order->load(OrderResource::RELATIONS)),
             'payment_status' => $order->status === Order::PAID ? PaymentGateway::SUCCEEDED : $order->status,
         ]);
     }
@@ -120,17 +118,13 @@ class CheckoutController extends Controller
         $this->authorizeOrder($request, $order);
         $data = $request->validate(['use' => ['required', 'boolean']]);
         abort_unless($order->status === Order::PENDING, 422, 'This order can no longer be paid.');
-
-        // Once the card has been charged, the split can't change any more.
-        if ($this->gateway->status($order) !== PaymentGateway::REQUIRES_PAYMENT_METHOD) {
-            throw ValidationException::withMessages(['wallet' => 'This payment is already being processed.']);
-        }
+        $this->ensureCardNotCharged($order);
 
         $walletCents = 0;
         if ($data['use']) {
             $balance = $request->user()->fresh()->cashback_balance_cents;
             // The card must still charge Stripe's minimum.
-            $walletCents = min($balance, $order->total_cents - DiscountService::MIN_CHARGE_CENTS);
+            $walletCents = min($balance, $order->total_cents - PaymentGateway::MIN_CHARGE_CENTS);
             if ($walletCents <= 0) {
                 throw ValidationException::withMessages(['wallet' => 'Your Eneba Wallet balance is empty.']);
             }
@@ -139,7 +133,7 @@ class CheckoutController extends Controller
         $this->gateway->updateAmount($order, $order->total_cents - $walletCents);
         $order->update(['wallet_cents' => $walletCents]);
 
-        return response()->json(['order' => new OrderResource($order->load('items.product.region', 'items.seller'))]);
+        return response()->json(['order' => new OrderResource($order->load(OrderResource::RELATIONS))]);
     }
 
     public function cancel(Request $request, Order $order): JsonResponse
@@ -147,11 +141,19 @@ class CheckoutController extends Controller
         $this->authorizeOrder($request, $order);
         $this->stock->close($order, Order::CANCELLED);
 
-        return response()->json(['order' => new OrderResource($order->fresh()->load('items.product.region', 'items.seller'))]);
+        return response()->json(['order' => new OrderResource($order->fresh()->load(OrderResource::RELATIONS))]);
     }
 
     private function authorizeOrder(Request $request, Order $order): void
     {
         abort_unless($order->user_id === $request->user()->id, 404);
+    }
+
+    /** Once the card has been charged, or is being charged, how the order is paid can't change. */
+    private function ensureCardNotCharged(Order $order): void
+    {
+        if ($this->gateway->status($order) !== PaymentGateway::REQUIRES_PAYMENT_METHOD) {
+            throw ValidationException::withMessages(['wallet' => 'This payment is already being processed.']);
+        }
     }
 }

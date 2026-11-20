@@ -17,16 +17,20 @@ export function SearchBox({ className }: { className?: string }) {
   const wrapper = useRef<HTMLFormElement>(null)
   const input = useRef<HTMLInputElement>(null)
 
-  const [value, setValue] = useState(() => (location.pathname === '/store' ? (params.get('q') ?? '') : ''))
+  // On the store page the box shows the current search; elsewhere it starts empty.
+  const storeQuery = location.pathname === '/store' ? (params.get('q') ?? '') : null
+  const [value, setValue] = useState(storeQuery ?? '')
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(-1)
   const debounced = useDebounced(value.trim(), 220)
   const { data, isFetching } = useSearchSuggestions(debounced)
 
   // Keep the box in sync when the store's query changes (back button, "did you mean" links).
-  useEffect(() => {
-    if (location.pathname === '/store') setValue(params.get('q') ?? '')
-  }, [location.pathname, params])
+  const [syncedQuery, setSyncedQuery] = useState(storeQuery)
+  if (storeQuery !== syncedQuery) {
+    setSyncedQuery(storeQuery)
+    if (storeQuery !== null) setValue(storeQuery)
+  }
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {

@@ -38,6 +38,7 @@ jobs:
           coverage: none
       - run: composer install --prefer-dist --no-interaction --no-progress
       - run: cp .env.example .env && php artisan key:generate
+      - run: vendor/bin/pint --test
       - run: php vendor/bin/pest
 
   frontend:

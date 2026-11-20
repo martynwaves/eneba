@@ -2,7 +2,7 @@ import type { ProductCard as Product } from '../../lib/types'
 import { Carousel } from '../ui/Carousel'
 import { ProductCard, ProductCardSkeleton } from './ProductCard'
 
-/** Scrolling card row with arrows and scrollbar (product page "You might also like"). */
+/** Scrolling card row with arrows and scrollbar (homepage carousels, the cart page's "Inspired by your picks"). */
 export function ProductRow({ products, loading }: { products?: Product[]; loading?: boolean }) {
   return (
     <Carousel>
@@ -13,6 +13,7 @@ export function ProductRow({ products, loading }: { products?: Product[]; loadin
   )
 }
 
+/** A plain grid of cards, with skeletons while loading (wishlist, "Gamers also viewed"). */
 export function ProductGrid({ products, loading, count = 10 }: { products?: Product[]; loading?: boolean; count?: number }) {
   const items = loading || !products ? Array.from({ length: count }, () => null) : products
   return (

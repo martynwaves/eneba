@@ -26,14 +26,15 @@ const sizes: Record<Size, string> = {
 interface CommonProps {
   variant?: Variant
   size?: Size
-  loading?: boolean
   icon?: ReactNode
   block?: boolean
 }
 
+/** A plain button unless `type="submit"` is passed, so it never submits a surrounding form by accident. */
 export function Button({
   variant = 'primary',
   size = 'md',
+  type = 'button',
   loading,
   icon,
   block,
@@ -41,9 +42,10 @@ export function Button({
   children,
   disabled,
   ...rest
-}: CommonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
+}: CommonProps & { loading?: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
+      type={type}
       className={clsx(base, variants[variant], sizes[size], block && 'w-full', className)}
       disabled={disabled || loading}
       {...rest}

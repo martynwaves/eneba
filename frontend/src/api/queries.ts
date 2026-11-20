@@ -18,7 +18,7 @@ import type {
   User,
 } from '../lib/types'
 import { useAuth } from '../stores/auth'
-import { useGuestWishlist } from '../stores/guestWishlist'
+import { GUEST_WISHLIST_LIMIT, useGuestWishlist } from '../stores/guestWishlist'
 
 export const useAppConfig = () =>
   useQuery({
@@ -36,11 +36,12 @@ export const useCatalogFilters = () =>
 
 export type StoreParams = Record<string, string | undefined>
 
-export const useProducts = (params: StoreParams) =>
+export const useProducts = (params: StoreParams, enabled = true) =>
   useQuery({
     queryKey: ['products', params],
     queryFn: ({ signal }) => api<ProductListResponse>('/products', { query: params, signal }),
     placeholderData: keepPreviousData,
+    enabled,
   })
 
 export const useProduct = (slug: string | undefined) =>
@@ -95,6 +96,10 @@ export const useOrder = (number: string | undefined) =>
     queryKey: ['order', number],
     queryFn: () => api<{ data: Order }>(`/orders/${number}`).then((r) => r.data),
     enabled: Boolean(number),
+    // A payment still processing at Stripe is completed by the webhook; pick that up by itself
+    // while the reservation is open.
+    refetchInterval: ({ state: { data } }) =>
+      data?.status === 'pending' && data.expires_at && Date.parse(data.expires_at) > Date.now() ? 5000 : false,
   })
 
 /** Signed-in wishlists live on the server; guest wishlists are product ids kept in the browser. */
@@ -113,7 +118,7 @@ export const useWishlist = () => {
     queryFn: () =>
       guestIds.length === 0
         ? Promise.resolve({ data: [] as ProductCard[], ids: [] as number[] })
-        : api<ProductListResponse>('/products', { query: { ids: guestIds.join(','), per_page: 60 } }).then((r) => ({
+        : api<ProductListResponse>('/products', { query: { ids: guestIds.join(','), per_page: GUEST_WISHLIST_LIMIT } }).then((r) => ({
             // Keep the order in which the guest saved them.
             data: [...r.data].sort((a, b) => guestIds.indexOf(a.id) - guestIds.indexOf(b.id)),
             ids: guestIds,
@@ -127,7 +132,7 @@ export const useWishlist = () => {
   return { ...guest, data: guest.data ? { ...guest.data, ids: guestIds } : { data: undefined, ids: guestIds } }
 }
 
-/** Fresh profile stats (balance, Enebium, favourites) for the account dropdown. */
+/** Fresh profile stats (wallet balance, favourites) for the account dropdown. */
 export const useMe = (enabled: boolean) => {
   const setUser = useAuth((s) => s.setUser)
   return useQuery({

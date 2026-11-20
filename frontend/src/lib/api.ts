@@ -1,6 +1,6 @@
 import { useAuth } from '../stores/auth'
 
-export const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') ?? 'http://localhost:8000/api'
+const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') ?? 'http://localhost:8000/api'
 
 export class ApiError extends Error {
   status: number
@@ -62,10 +62,17 @@ export async function api<T>(path: string, { method = 'GET', body, query, signal
   }
 
   const text = await response.text()
-  const data = text ? JSON.parse(text) : null
+  let data: { message?: string; errors?: Record<string, string[]> } | null = null
+  try {
+    data = text ? JSON.parse(text) : null
+  } catch {
+    // Not JSON: e.g. the host's HTML error page while the API is starting up.
+  }
 
   if (!response.ok) {
-    throw new ApiError(response.status, data?.message ?? `Request failed (${response.status})`, data?.errors ?? {})
+    const fallback = response.status >= 500 ? 'The server is having trouble right now. Please try again in a moment.' : `Request failed (${response.status})`
+    throw new ApiError(response.status, data?.message ?? fallback, data?.errors ?? {})
   }
+  if (text && data === null) throw new ApiError(502, 'The server sent an unexpected response. Please try again.')
   return data as T
 }

@@ -11,3 +11,9 @@ storage/framework/views/*
 bootstrap/cache/*.php
 database/*.sqlite
 .phpunit.result.cache
+phpunit.xml
+.claude
+.ai
+CLAUDE.md
+boost.json
+README.md

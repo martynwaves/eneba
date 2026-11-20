@@ -5,9 +5,12 @@ namespace App\Services\Payments;
 use App\Models\Order;
 use Stripe\StripeClient;
 
-/** Stripe in test mode: PaymentIntents confirmed by Stripe's Payment Element in the browser. */
+/** Stripe in test mode: PaymentIntents confirmed by Stripe's card field in the browser. */
 class StripeGateway implements PaymentGateway
 {
+    /** PaymentIntent statuses that can still be paid, or cancelled. */
+    private const OPEN_STATUSES = ['requires_payment_method', 'requires_confirmation', 'requires_action'];
+
     public function __construct(private StripeClient $stripe) {}
 
     public function driver(): string
@@ -36,7 +39,7 @@ class StripeGateway implements PaymentGateway
     {
         $intent = $this->stripe->paymentIntents->retrieve($order->payment_reference);
 
-        return in_array($intent->status, ['requires_payment_method', 'requires_confirmation', 'requires_action'], true)
+        return in_array($intent->status, self::OPEN_STATUSES, true)
             ? new PaymentIntentData($intent->id, $intent->client_secret)
             : null;
     }
@@ -62,13 +65,23 @@ class StripeGateway implements PaymentGateway
     public function cancel(Order $order): void
     {
         $intent = $this->stripe->paymentIntents->retrieve($order->payment_reference);
-        if (in_array($intent->status, ['requires_payment_method', 'requires_confirmation', 'requires_action'], true)) {
+        if (in_array($intent->status, self::OPEN_STATUSES, true)) {
             $this->stripe->paymentIntents->cancel($order->payment_reference);
         }
     }
 
-    public function refund(Order $order): void
+    public function refund(Order $order, ?int $amountCents = null, ?string $idempotencyKey = null): void
     {
-        $this->stripe->refunds->create(['payment_intent' => $order->payment_reference]);
+        // Without an amount Stripe refunds everything, so a zero must never be dropped silently.
+        if ($amountCents !== null && $amountCents <= 0) {
+            throw new \InvalidArgumentException('A partial refund needs a positive amount.');
+        }
+
+        $params = ['payment_intent' => $order->payment_reference];
+        if ($amountCents !== null) {
+            $params['amount'] = $amountCents;
+        }
+
+        $this->stripe->refunds->create($params, $idempotencyKey ? ['idempotency_key' => $idempotencyKey] : []);
     }
 }

@@ -1,11 +1,9 @@
 import clsx from 'clsx'
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { formatDate } from '../../lib/format'
+import { OS_LABELS, formatDate, osLabel } from '../../lib/format'
 import type { OperatingSystem, ProductDetail } from '../../lib/types'
 import { Stars } from '../ui/Stars'
-
-const OS_LABELS: Record<OperatingSystem, string> = { windows: 'Windows', mac: 'Mac', linux: 'Linux' }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="mb-5 text-[21px] font-extrabold">{children}</h2>
@@ -99,7 +97,7 @@ function Description({ product }: { product: ProductDetail }) {
             ),
           )}
         </div>
-        {!expanded && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#371a7c] to-transparent" />}
+        {!expanded && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-[#371a7c] to-transparent" />}
       </div>
       <div className="mt-4 text-center">
         <button type="button" onClick={() => setExpanded((e) => !e)} className="text-[15px] text-cta hover:underline">
@@ -113,9 +111,14 @@ function Description({ product }: { product: ProductDetail }) {
 function ActivationGuide({ product }: { product: ProductDetail }) {
   const { platform, url } = product.activation
   const pc = product.platform.family === 'pc'
+  const region = product.region.name
   const steps = [
     pc ? `Download and install the ${platform} client, if you don't have it yet.` : `Sign in to your ${platform} account on your console or in the web store.`,
-    pc ? `Log in to your ${platform} account (or create a new one).` : 'Make sure the account region matches the key region shown on this page.',
+    ...(pc ? [`Log in to your ${platform} account (or create a new one).`] : []),
+    // The product page's "region restrictions" link lands here.
+    region === 'GLOBAL'
+      ? 'Region: this is a GLOBAL key, so it can be activated from any country.'
+      : `Region: ${region}. Your ${platform} account must be registered in this region, or the key won't activate.`,
     'Open your Eneba order (Account → Orders) and reveal the key.',
     `Choose the option to redeem or activate a code in ${platform} and enter the key.`,
     'Confirm, and the product is added to your library, ready to download.',
@@ -195,7 +198,7 @@ export function OtherDetails({ product }: { product: ProductDetail }) {
     ['Release date', product.release_date ? formatDate(product.release_date) : null],
     ['Publisher', product.publisher],
     ['Developers', product.developer],
-    ['Works on', product.operating_systems.length ? product.operating_systems.map((o) => <div key={o}>{OS_LABELS[o as OperatingSystem] ?? o}</div>) : null],
+    ['Works on', product.operating_systems.length ? product.operating_systems.map((o) => <div key={o}>{osLabel(o)}</div>) : null],
   ]
   const shown = rows.filter(([, v]) => v !== null && v !== '')
   if (shown.length === 0) return null

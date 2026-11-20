@@ -38,7 +38,7 @@ class CartController extends Controller
             'quantity' => ['sometimes', 'integer', 'min:1', 'max:10'],
         ]);
         $offer = Offer::findOrFail($data['offer_id']);
-        abort_unless($offer->is_active && $offer->stock > 0, 422, 'This offer is out of stock.');
+        abort_unless($offer->is_active && $offer->stock > 0 && $offer->product->is_active, 422, 'This offer is out of stock.');
 
         $this->cart->add($request->user(), $offer, $data['quantity'] ?? 1);
 
@@ -56,13 +56,6 @@ class CartController extends Controller
     public function remove(Request $request, Offer $offer): JsonResponse
     {
         $this->cart->set($request->user(), $offer, 0);
-
-        return $this->show($request);
-    }
-
-    public function clear(Request $request): JsonResponse
-    {
-        $request->user()->cartItems()->delete();
 
         return $this->show($request);
     }

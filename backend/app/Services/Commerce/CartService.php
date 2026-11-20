@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Builds priced cart lines. Signed-in carts live in `cart_items`; guest carts live in the
@@ -42,11 +43,16 @@ class CartService
             ->values(), $code);
     }
 
+    /** Add to the offer's line, or start one. A single statement, so two quick clicks can't both insert it. */
     public function add(User $user, Offer $offer, int $quantity): void
     {
-        $item = CartItem::firstOrNew(['user_id' => $user->id, 'offer_id' => $offer->id]);
-        $item->quantity = min(config('shop.max_quantity_per_item'), ($item->exists ? $item->quantity : 0) + $quantity);
-        $item->save();
+        $max = (int) config('shop.max_quantity_per_item');
+
+        CartItem::upsert(
+            [['user_id' => $user->id, 'offer_id' => $offer->id, 'quantity' => min($max, $quantity)]],
+            ['user_id', 'offer_id'],
+            ['quantity' => DB::raw("least({$max}, cart_items.quantity + excluded.quantity)")],
+        );
     }
 
     public function set(User $user, Offer $offer, int $quantity): void
@@ -116,7 +122,6 @@ class CartService
                 'discount_code' => $discount['code'],
                 'discount_error' => $discount['error'],
                 'total' => $subtotal + $fee - $discount['discount'],
-                'currency' => config('shop.currency'),
                 'has_problems' => $lines->whereNotNull('problem')->isNotEmpty(),
             ],
         ];

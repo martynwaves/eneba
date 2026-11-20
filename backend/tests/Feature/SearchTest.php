@@ -56,10 +56,10 @@ it('returns nothing for gibberish', function () {
     expect(suggest('qqqzzzxx')['total'])->toBe(0);
 });
 
-it('powers the full store search with relevance ordering', function () {
+it('powers the full store search, with no correction when the words exist', function () {
     $this->getJson('/api/products?q=witcher')
         ->assertOk()
         ->assertJsonPath('meta.total', 1)
         ->assertJsonPath('data.0.base_title', 'The Witcher 3: Wild Hunt')
-        ->assertJsonPath('applied.sort', 'relevance');
+        ->assertJsonPath('search.corrected_to', null);
 });

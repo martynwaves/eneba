@@ -2,7 +2,6 @@
 
 use App\Models\Currency;
 use App\Models\NavLink;
-use App\Models\NewsletterSubscriber;
 
 it('serves the navigation bar in order without inactive links', function () {
     NavLink::create(['label' => 'GTA 6', 'link_url' => '/store?q=gta', 'style' => 'highlight', 'sort' => 2]);
@@ -24,12 +23,4 @@ it('serves region, language and currency options', function () {
     expect($data['currencies'][0])->toMatchArray(['code' => 'USD', 'rate' => 1.16])
         ->and(collect($data['regions'])->firstWhere('code', 'lithuania')['flag'])->toBe('lithuania')
         ->and($data['charge_currency'])->toBe('EUR');
-});
-
-it('subscribes to the newsletter once per email', function () {
-    $this->postJson('/api/newsletter', ['email' => 'Gamer@Example.com'])->assertCreated();
-    $this->postJson('/api/newsletter', ['email' => 'gamer@example.com'])->assertOk();
-    $this->postJson('/api/newsletter', ['email' => 'not-an-email'])->assertUnprocessable();
-
-    expect(NewsletterSubscriber::count())->toBe(1);
 });

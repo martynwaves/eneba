@@ -57,9 +57,12 @@ class SimulatedGateway implements PaymentGateway
         Cache::put($this->key($order->payment_reference), self::CANCELED, now()->addDay());
     }
 
-    public function refund(Order $order): void
+    public function refund(Order $order, ?int $amountCents = null, ?string $idempotencyKey = null): void
     {
-        Cache::forget($this->key($order->payment_reference));
+        // No money moves in the simulator; a full refund just forgets the payment.
+        if ($amountCents === null) {
+            Cache::forget($this->key($order->payment_reference));
+        }
     }
 
     private function key(string $reference): string

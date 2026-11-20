@@ -11,6 +11,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /** @mixin Order */
 class OrderResource extends JsonResource
 {
+    /** Relations this resource reads; eager-load them to avoid one query per item. */
+    public const RELATIONS = ['items.keys', 'items.product.region', 'items.seller'];
+
     public function toArray(Request $request): array
     {
         $paid = $this->status === Order::PAID;
@@ -18,7 +21,6 @@ class OrderResource extends JsonResource
         return [
             'number' => $this->number,
             'status' => $this->status,
-            'currency' => $this->currency,
             'subtotal' => $this->subtotal_cents,
             'service_fee' => $this->service_fee_cents,
             'discount' => $this->discount_cents,
@@ -26,6 +28,7 @@ class OrderResource extends JsonResource
             'total' => $this->total_cents,
             'wallet_amount' => $this->wallet_cents,
             'card_amount' => $this->cardAmountCents(),
+            'refunded' => $this->refunded_cents,
             'payment_provider' => $this->payment_provider,
             'created_at' => $this->created_at?->toIso8601String(),
             'paid_at' => $this->paid_at?->toIso8601String(),
@@ -45,14 +48,15 @@ class OrderResource extends JsonResource
                 'cashback_percent' => $item->cashback_percent,
                 'unit_price' => $item->unit_price_cents,
                 'quantity' => $item->quantity,
-                // Unrevealed codes are never sent; the buyer reveals each one explicitly.
+                'refunded_quantity' => $item->refunded_quantity,
+                // Unrevealed codes are never sent; the buyer reveals each one explicitly, and until
+                // then can refund it instead.
                 'keys' => $paid
                     ? $item->keys->where('status', ProductKey::SOLD)->values()->map(fn (ProductKey $key) => [
                         'id' => $key->id,
                         'revealed' => $key->revealed_at !== null,
-                        'revealed_at' => $key->revealed_at?->toIso8601String(),
-                        // Only keys the buyer has already chosen to reveal are sent back.
                         'code' => $key->revealed_at ? $key->code : null,
+                        'refund_amount' => $key->revealed_at ? null : $this->keyRefundCents($item),
                     ])
                     : [],
             ])->values(),

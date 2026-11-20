@@ -1,6 +1,7 @@
 import { ChevronDown, X } from 'lucide-react'
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { useSettingsOptions } from '../../api/queries'
+import { useLocaleLabels } from '../../hooks/useLocaleLabels'
 import { flagUrl, useSettings } from '../../stores/settings'
 import { toast } from '../../stores/toast'
 import { Spinner } from '../ui/Spinner'
@@ -31,7 +32,7 @@ export function SettingsModal({ onClose }: { onClose: () => void }) {
     if (!currency) return
     settings.save({ region, language, currency })
     if (currency.code !== options?.charge_currency) {
-      toast.info(`Prices are now shown in ${currency.code}. Payments are still charged in ${options?.charge_currency}.`)
+      toast.info(`Prices are now shown in ${currencyCode}. Payments are still charged in ${options?.charge_currency}.`)
     }
     onClose()
   }
@@ -138,22 +139,19 @@ function SelectField({
 
 /** The "flag English EU | EUR" button used in the header and footer. */
 export function LocaleButton({ onClick, className = '' }: { onClick: () => void; className?: string }) {
-  const { region, language, currency } = useSettings()
-  const { data: options } = useSettingsOptions()
-  const languageName = options?.languages.find((l) => l.code === language)?.name ?? 'English EU'
-  const flag = options?.regions.find((r) => r.code === region)?.flag ?? region
+  const { languageName, flag, currencyCode } = useLocaleLabels()
 
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={`Region, language and currency: ${languageName}, ${currency.code}`}
+      aria-label={`Region, language and currency: ${languageName}, ${currencyCode}`}
       className={`group/locale flex items-center gap-2 text-sm font-semibold transition-colors hover:text-cta ${className}`}
     >
       <img src={flagUrl(flag)} alt="" className="size-4 rounded-full" />
       <span>{languageName}</span>
       <span className="text-white/50 group-hover/locale:text-cta/60">|</span>
-      <span>{currency.code}</span>
+      <span>{currencyCode}</span>
     </button>
   )
 }

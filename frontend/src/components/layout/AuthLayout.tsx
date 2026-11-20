@@ -1,21 +1,18 @@
 import { Globe } from 'lucide-react'
 import { Link, Outlet, ScrollRestoration } from 'react-router'
-import { useSettingsOptions } from '../../api/queries'
-import { useSettings } from '../../stores/settings'
+import { useLocaleLabels } from '../../hooks/useLocaleLabels'
+import { ENEBA_URL, LOGO_URL } from '../../lib/links'
 import { toast } from '../../stores/toast'
 import { useUi } from '../../stores/ui'
-import { LOGO_URL } from './Header'
 import { SettingsModal } from './SettingsModal'
 import { Toaster } from './Toaster'
 
-const ENEBA = 'https://www.eneba.com'
+const YEAR = new Date().getFullYear()
 
 /** Eneba's standalone sign-in layout: logo, greeting on the left, form card on the right. */
 export function AuthLayout() {
   const { settingsOpen, openSettings, closeSettings } = useUi()
-  const language = useSettings((s) => s.language)
-  const { data: options } = useSettingsOptions()
-  const languageName = options?.languages.find((l) => l.code === language)?.name ?? 'English EU'
+  const { languageName } = useLocaleLabels()
 
   return (
     <div className="flex min-h-screen flex-col bg-[#210b54]">
@@ -43,19 +40,19 @@ export function AuthLayout() {
           <Globe className="size-4" />
           {languageName}
         </button>
-        <a href={`${ENEBA}/terms-and-conditions`} target="_blank" rel="noreferrer" className="font-extrabold hover:text-cta">
+        <a href={`${ENEBA_URL}/terms-and-conditions`} target="_blank" rel="noreferrer" className="font-extrabold hover:text-cta">
           Terms &amp; Conditions
         </a>
-        <a href={`${ENEBA}/privacy-policy`} target="_blank" rel="noreferrer" className="font-extrabold hover:text-cta">
+        <a href={`${ENEBA_URL}/privacy-policy`} target="_blank" rel="noreferrer" className="font-extrabold hover:text-cta">
           Privacy notice
         </a>
-        <button type="button" onClick={() => toast.info('Only essential cookies are used in this demo.')} className="font-extrabold hover:text-cta">
+        <button type="button" onClick={() => toast.info('Only essential cookies are used.')} className="font-extrabold hover:text-cta">
           Cookie preferences
         </button>
-        <a href={`${ENEBA}/support`} target="_blank" rel="noreferrer" className="font-extrabold hover:text-cta">
+        <a href={`${ENEBA_URL}/support`} target="_blank" rel="noreferrer" className="font-extrabold hover:text-cta">
           Support
         </a>
-        <span>Copyright © {new Date().getFullYear()} Eneba. All Rights Reserved.</span>
+        <span>Copyright © {YEAR} Eneba. All Rights Reserved.</span>
       </footer>
 
       <Toaster />

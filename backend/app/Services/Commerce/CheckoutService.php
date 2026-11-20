@@ -118,12 +118,17 @@ class CheckoutService
             if ($discount['error']) {
                 throw ValidationException::withMessages(['discount' => $discount['error']]);
             }
+            $total = $subtotal + $fee - $discount['discount'];
+            // Stripe can't charge less; say so instead of failing later as "provider unavailable".
+            if ($total < PaymentGateway::MIN_CHARGE_CENTS) {
+                throw ValidationException::withMessages(['cart' => 'The minimum order is €'.number_format(PaymentGateway::MIN_CHARGE_CENTS / 100, 2).'.']);
+            }
             $order->update([
                 'subtotal_cents' => $subtotal,
                 'service_fee_cents' => $fee,
                 'discount_code' => $discount['code'],
                 'discount_cents' => $discount['discount'],
-                'total_cents' => $subtotal + $fee - $discount['discount'],
+                'total_cents' => $total,
             ]);
 
             return $order;

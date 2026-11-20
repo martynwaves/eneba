@@ -36,7 +36,8 @@ return [
 
         'array' => [
             'driver' => 'array',
-            'serialize' => false,
+            // Tests turn this on so cached values go through serialize() like in production (file/database stores).
+            'serialize' => (bool) env('CACHE_ARRAY_SERIALIZE', false),
         ],
 
         'database' => [

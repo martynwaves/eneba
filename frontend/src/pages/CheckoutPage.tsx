@@ -2,20 +2,23 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { AlertTriangle, Ban, Clock } from 'lucide-react'
-import { useEffect, useRef, useState, type MutableRefObject } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useAppConfig, useMe } from '../api/queries'
-import { HelpTip, useRegionCheck } from '../components/cart/CartLineItem'
-import { DEFAULT_TEST_CARD, SimulatedCardFields, simulatedOutcome, type SimulatedCard } from '../components/checkout/SimulatedPaymentForm'
-import { getStripe, stripeAppearance } from '../components/checkout/StripePaymentForm'
+import { DiscountRow } from '../components/cart/DiscountBox'
+import { SimulatedCardFields } from '../components/checkout/SimulatedCardFields'
 import { ProductArt } from '../components/product/ProductArt'
 import { ButtonLink } from '../components/ui/Button'
 import { PageSpinner, Spinner } from '../components/ui/Spinner'
+import { HelpTip } from '../components/ui/Tooltip'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useRegionCheck } from '../hooks/useRegionCheck'
 import { ApiError, api } from '../lib/api'
-import { formatPrice } from '../lib/format'
+import { cashbackCents, formatPrice } from '../lib/format'
+import { ENEBA_URL, paymentLogo } from '../lib/links'
+import { DEFAULT_TEST_CARD, simulatedOutcome, type SimulatedCard } from '../lib/simulatedPayment'
+import { cardElementStyle, getStripe } from '../lib/stripe'
 import type { Order, OrderItem } from '../lib/types'
-import { DiscountRow } from '../components/cart/DiscountBox'
 import { useDiscount } from '../stores/discount'
 
 type CheckoutResponse = { order: Order; payment: { driver: 'stripe' | 'simulated'; client_secret: string } }
@@ -23,8 +26,8 @@ type MethodId = 'wallet' | 'card' | 'paypal' | 'apple_pay' | 'google_pay' | 'cry
 /** Card step registered by the card panel: resolves to an error, or (for the simulator) the outcome. */
 type CardPayer = () => Promise<{ error?: string; simulate?: 'success' | 'decline' }>
 
-const ENEBA = 'https://www.eneba.com'
-const logo = (file: string) => `https://assets.eneba.games/payments/v1/color/${file}.svg`
+/** Stripe can't charge less than this, so the wallet always leaves at least this much for the card. */
+const MIN_CARD_CHARGE = 50
 
 /**
  * Starting checkout reserves the cart's keys and opens a payment. The buyer picks a method:
@@ -83,7 +86,7 @@ export function CheckoutPage() {
   const content = <CheckoutContent key={order.number} order={order} stripe={Boolean(stripeKey)} clientSecret={payment.client_secret} onRestart={() => start.mutate()} restarting={start.isPending} />
 
   return stripeKey ? (
-    <Elements stripe={getStripe(stripeKey)} options={{ appearance: stripeAppearance }}>
+    <Elements stripe={getStripe(stripeKey)}>
       {content}
     </Elements>
   ) : (
@@ -149,6 +152,7 @@ function CheckoutContent({
     useDiscount.getState().clear()
     qc.invalidateQueries({ queryKey: ['cart'] })
     qc.invalidateQueries({ queryKey: ['orders'] })
+    qc.invalidateQueries({ queryKey: ['keys'] })
     qc.invalidateQueries({ queryKey: ['me'] })
     qc.invalidateQueries({ queryKey: ['homepage-block'] })
     navigate(`/account/orders/${order.number}?new=1`, { replace: true })
@@ -184,7 +188,7 @@ function CheckoutContent({
   }
 
   const sellers = [...new Set(order.items.map((i) => i.seller_name))].join(', ')
-  const cashback = order.items.reduce((sum, i) => sum + Math.floor((i.unit_price * i.quantity * (i.cashback_percent ?? 0)) / 100), 0)
+  const cashback = order.items.reduce((sum, i) => sum + cashbackCents(i.unit_price * i.quantity, i.cashback_percent), 0)
 
   return (
     <div className="mx-auto max-w-[1184px] px-4 pt-8 md:pt-12">
@@ -195,9 +199,9 @@ function CheckoutContent({
               return (
                 <WalletSplitRow
                   key={m.id}
-                  logoUrl={logo(m.file)}
+                  logoUrl={paymentLogo(m.file)}
                   balance={balance}
-                  remainder={order.total - Math.min(balance, order.total - 50)}
+                  remainder={order.total - Math.min(balance, order.total - MIN_CARD_CHARGE)}
                   checked={usingWallet}
                   pending={walletSplit.isPending}
                   disabled={busy}
@@ -210,7 +214,7 @@ function CheckoutContent({
               <div key={m.id} className={clsx('bg-black/25 transition-colors', selected && 'outline-2 -outline-offset-2 outline-cta')}>
                 <label className={clsx('flex items-center gap-6 px-6 py-4', m.unavailable ? 'cursor-not-allowed opacity-55' : 'cursor-pointer hover:bg-white/5')}>
                   <span className="grid h-[58px] w-[128px] shrink-0 place-items-center bg-white px-3">
-                    <img src={logo(m.file)} alt="" className="max-h-9 max-w-full" />
+                    <img src={paymentLogo(m.file)} alt="" className="max-h-9 max-w-full" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[15px] font-extrabold">{m.title}</span>
@@ -252,11 +256,9 @@ function CheckoutContent({
               <span className="flex items-center gap-1.5">
                 Service fee <HelpTip text="Eneba doesn't charge a service fee on this order." />
               </span>
-              <span className="flex items-center gap-1.5">
-                {order.service_fee > 0 ? formatPrice(order.service_fee) : '--'} <HelpTip text="No extra fees are added at checkout." />
-              </span>
+              <span>{order.service_fee > 0 ? formatPrice(order.service_fee) : '--'}</span>
             </div>
-            <DiscountRow code={order.discount_code} amount={order.discount} format={formatPrice} />
+            <DiscountRow code={order.discount_code} amount={order.discount} />
             {usingWallet && (
               <div className="flex justify-between text-lime">
                 <span>Eneba Wallet</span>
@@ -286,7 +288,7 @@ function CheckoutContent({
             <p className="mt-2 flex items-center gap-2 border border-white/70 px-3 py-1.5 text-[13px]">
               <AlertTriangle className="size-4 shrink-0 fill-cta text-brand-deep" />
               Know more about online gift card fraud{' '}
-              <a href={`${ENEBA}/support/article/gift-card-scams`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
+              <a href={`${ENEBA_URL}/support/article/gift-card-scams`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
                 here
               </a>
             </p>
@@ -312,26 +314,26 @@ function CheckoutContent({
                 </button>
               </div>
             ) : (
-            <button
-              type="button"
-              onClick={pay}
-              disabled={!method || busy || walletSplit.isPending}
-              className="mt-4 flex h-[42px] w-full items-center justify-center gap-2 bg-cta text-[17px] font-extrabold text-black transition-colors hover:bg-cta-hover disabled:cursor-not-allowed disabled:opacity-45"
-            >
-              {busy && <Spinner className="size-4" />}
-              Continue
-            </button>
+              <button
+                type="button"
+                onClick={pay}
+                disabled={!method || busy || walletSplit.isPending}
+                className="mt-4 flex h-[42px] w-full items-center justify-center gap-2 bg-cta text-[17px] font-extrabold text-black transition-colors hover:bg-cta-hover disabled:cursor-not-allowed disabled:opacity-45"
+              >
+                {busy && <Spinner className="size-4" />}
+                Continue
+              </button>
             )}
             {!expired && !method && <p className="mt-2 text-center text-xs text-soft">Choose a payment method to continue.</p>}
             {!expired && order.expires_at && <Countdown until={order.expires_at} onExpire={() => setExpired(true)} />}
 
             <p className="mt-5 text-[13px] leading-5 text-soft">
               By clicking "Continue" I acknowledge I have read and accepted the{' '}
-              <a href={`${ENEBA}/terms-and-conditions`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
+              <a href={`${ENEBA_URL}/terms-and-conditions`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
                 Terms and Conditions
               </a>{' '}
               including the{' '}
-              <a href={`${ENEBA}/privacy-policy`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
+              <a href={`${ENEBA_URL}/privacy-policy`} target="_blank" rel="noreferrer" className="text-cta hover:underline">
                 Privacy Notice
               </a>{' '}
               and Cookies. I also have read and accepted the sellers' terms and refund policies.
@@ -344,7 +346,7 @@ function CheckoutContent({
 }
 
 /** Stripe's card field (cards only); registers a confirm step for the page's "Continue" button. */
-function StripeCardPanel({ payRef, clientSecret }: { payRef: MutableRefObject<CardPayer | null>; clientSecret: string }) {
+function StripeCardPanel({ payRef, clientSecret }: { payRef: RefObject<CardPayer | null>; clientSecret: string }) {
   const stripe = useStripe()
   const elements = useElements()
   const [ready, setReady] = useState(false)
@@ -369,13 +371,7 @@ function StripeCardPanel({ payRef, clientSecret }: { payRef: MutableRefObject<Ca
       <div className="border border-white/25 bg-[#2a0d6b] px-3 py-3.5 focus-within:border-cta">
         <CardElement
           onReady={() => setReady(true)}
-          options={{
-            hidePostalCode: true,
-            style: {
-              base: { color: '#ffffff', fontSize: '16px', fontFamily: 'Metropolis, Arial, sans-serif', '::placeholder': { color: '#b3aac9' }, iconColor: '#ffffff' },
-              invalid: { color: '#ff5c7a', iconColor: '#ff5c7a' },
-            },
-          }}
+          options={{ hidePostalCode: true, style: cardElementStyle }}
         />
       </div>
       {!ready && <div className="skeleton mt-2 h-4 w-1/2" />}
@@ -383,7 +379,7 @@ function StripeCardPanel({ payRef, clientSecret }: { payRef: MutableRefObject<Ca
   )
 }
 
-function SimulatedCardPanel({ payRef }: { payRef: MutableRefObject<CardPayer | null> }) {
+function SimulatedCardPanel({ payRef }: { payRef: RefObject<CardPayer | null> }) {
   const [card, setCard] = useState<SimulatedCard>(DEFAULT_TEST_CARD)
   useEffect(() => {
     const confirmSimulated: CardPayer = async () => {
@@ -397,7 +393,7 @@ function SimulatedCardPanel({ payRef }: { payRef: MutableRefObject<CardPayer | n
 
 function SummaryItem({ item }: { item: OrderItem }) {
   const region = useRegionCheck()(item.region_slug ?? '')
-  const cashback = Math.floor((item.unit_price * item.quantity * (item.cashback_percent ?? 0)) / 100)
+  const cashback = cashbackCents(item.unit_price * item.quantity, item.cashback_percent)
   return (
     <div className="flex gap-3">
       <Link to={`/${item.product_slug}`} className="aspect-[60/84] w-[60px] shrink-0 self-start overflow-hidden">
